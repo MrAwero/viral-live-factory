@@ -153,28 +153,30 @@
     .stat b{display:block;font-family:'Space Grotesk';font-size:20px;font-weight:700}
     .stat span{font-size:12px;color:var(--text-faint)}
 
-    .hero-visual{position:relative;aspect-ratio:1;max-width:400px;margin:0 auto;display:flex;align-items:center;justify-content:center}
-    .orb-ring{position:absolute;border-radius:50%;border:1px solid var(--border)}
-    .orb-ring.r1{inset:0}
-    .orb-ring.r2{inset:14%;border-color:rgba(122,33,201,.3)}
-    .orb-ring.r3{inset:28%;border-color:rgba(245,185,66,.3)}
-    .orb-core{
-      position:relative;width:38%;height:38%;border-radius:50%;
-      background:radial-gradient(circle at 35% 30%,#2a1a3e,#0d0d0e 70%);
+    .hero-card{
+      position:relative;background:var(--bg-card);border:1px solid var(--border);
+      border-radius:20px;padding:28px 26px;max-width:400px;margin:0 auto;
+      box-shadow:0 20px 60px rgba(122,33,201,.15);
+    }
+    .hero-card::before{
+      content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:20px 20px 0 0;
+      background:linear-gradient(90deg,var(--primary),var(--gold));
+    }
+    .hero-card-top{display:flex;align-items:center;gap:12px;margin-bottom:22px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+    .hero-card-orb{
+      width:44px;height:44px;border-radius:50%;flex-shrink:0;
+      background:radial-gradient(circle at 35% 30%,#3a1f5c,#0d0d0e 70%);
       border:1px solid var(--border);display:flex;align-items:center;justify-content:center;
-      box-shadow:0 0 60px rgba(122,33,201,.28);
+      box-shadow:0 0 24px rgba(122,33,201,.35);
     }
-    .orb-core span{font-family:'Space Grotesk';font-weight:700;font-size:13px;letter-spacing:.04em}
-    .orb-badge{
-      position:absolute;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;
-      padding:8px 12px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px;
-      animation:float 5s ease-in-out infinite;
-    }
-    @media(prefers-reduced-motion:reduce){.orb-badge{animation:none}}
-    .orb-badge.b1{top:4%;left:-6%;color:var(--gold)}
-    .orb-badge.b2{bottom:8%;right:-8%;color:var(--primary);animation-delay:1.2s}
-    .orb-badge.b3{bottom:26%;left:-14%;animation-delay:2.4s}
-    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    .hero-card-orb span{font-family:'Space Grotesk';font-weight:700;font-size:9.5px;letter-spacing:.03em}
+    .hero-card-top b{display:block;font-family:'Space Grotesk';font-size:14.5px}
+    .hero-card-top span.sub{font-size:12.5px;color:var(--text-faint)}
+    .hero-feature{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px}
+    .hero-feature:last-child{margin-bottom:0}
+    .hero-feature .card-icon{margin:0;flex-shrink:0}
+    .hero-feature b{display:block;font-size:13.5px;margin-bottom:2px}
+    .hero-feature span{font-size:12px;color:var(--text-faint)}
 
     section{padding:68px 0}
     .section-head{max-width:620px;margin-bottom:44px}
@@ -392,14 +394,26 @@
           <div class="stat"><b>15 días</b><span>de prueba sin compromiso</span></div>
         </div>
       </div>
-      <div class="hero-visual" aria-hidden="true">
-        <div class="orb-ring r1"></div>
-        <div class="orb-ring r2"></div>
-        <div class="orb-ring r3"></div>
-        <div class="orb-core"><span>LIVE</span></div>
-        <div class="orb-badge b1">📈 Promoción de LIVE</div>
-        <div class="orb-badge b2">🎓 Formación real</div>
-        <div class="orb-badge b3">🤝 Soporte de agencia</div>
+      <div class="hero-card" aria-hidden="true">
+        <div class="hero-card-top">
+          <div class="hero-card-orb"><span>LIVE</span></div>
+          <div>
+            <b>Viral Live Factory</b>
+            <span class="sub">Agencia oficial · España</span>
+          </div>
+        </div>
+        <div class="hero-feature">
+          <div class="card-icon primary" style="width:32px;height:32px;font-size:14px">📈</div>
+          <div><b>Promoción de LIVE</b><span>Más visibilidad en cada directo</span></div>
+        </div>
+        <div class="hero-feature">
+          <div class="card-icon gold" style="width:32px;height:32px;font-size:14px">🎓</div>
+          <div><b>Formación real</b><span>Sesiones semanales + asesoría 1:1</span></div>
+        </div>
+        <div class="hero-feature">
+          <div class="card-icon primary" style="width:32px;height:32px;font-size:14px">🛡️</div>
+          <div><b>Soporte de agencia</b><span>Ante hackeo, baneo o restricciones</span></div>
+        </div>
       </div>
     </div>
   </section>
@@ -470,7 +484,7 @@
   <section>
     <div class="wrap">
       <div class="section-head">
-        <div class="eyebrow">Tabla de bonos</div>
+        <div class="eyebrow">Campañas</div>
         <h2>Cumple objetivos, gana extra</h2>
         <p>Al alcanzar las metas asignadas, recibes diamantes adicionales. Si lo prefieres, podemos transferirte el equivalente por PayPal.</p>
       </div>
@@ -739,7 +753,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script>
   // ========== PEGA AQUÍ TU CONFIG DE FIREBASE ==========
-  const viral-live-factory = {
+  const firebaseConfig = {
     apiKey: "TU_API_KEY",
     authDomain: "TU_PROYECTO.firebaseapp.com",
     projectId: "TU_PROYECTO",
@@ -749,7 +763,7 @@
   };
   // ====================================================
 
-  firebase.initializeApp(viral-live-factory);
+  firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
 
   const videos = [
