@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Viral Live Factory — Agencia TikTok LIVE España</title>
   <meta name="description" content="Agencia oficial TikTok LIVE en España. Promoción de directos, formación semanal, asesoría 1:1 y soporte. 15 días de prueba gratis. 100% de tus diamantes son tuyos.">
-  <meta name="theme-color" content="#0C0713">
+  <meta name="theme-color" content="#08080D">
   <meta property="og:title" content="Viral Live Factory — Agencia TikTok LIVE">
   <meta property="og:description" content="Convierte tus LIVE en ingresos reales. Formación, promoción y soporte de agencia. Sin comisión sobre tus diamantes.">
   <meta property="og:type" content="website">
@@ -15,18 +15,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#0C0713;
-      --bg-elevated:#160F22;
-      --bg-card:#1C1329;
-      --primary:#7A21C9;
-      --primary-hover:#8B2FE0;
-      --primary-dim:rgba(122,33,201,.16);
-      --gold:#F5B942;
-      --gold-dim:rgba(245,185,66,.16);
-      --text:#F5F5F3;
-      --text-muted:#A79BB5;
-      --text-faint:#6B5F7A;
-      --border:#2A1F3A;
+      --bg:#08080D;
+      --bg-elevated:#0D0D12;
+      --bg-card:#0D0D12;
+      --primary:#FF2D55;
+      --primary-hover:#8A2BE2;
+      --primary-dim:rgba(255,45,85,.16);
+      --gold:#5B5BFF;
+      --gold-dim:rgba(91,91,255,.16);
+      --text:#FFFFFF;
+      --text-muted:#B8B8C2;
+      --text-faint:#6E6E7A;
+      --border:#1A1A24;
+      --purple:#8A2BE2;
+      --blue:#5B5BFF;
+      --cyan:#00E5FF;
+      --gradient-brand:linear-gradient(90deg,#FF2D55,#8A2BE2,#5B5BFF);
+      --gradient-accent:linear-gradient(90deg,#FF2D55,#8A2BE2);
       --radius:14px;
       --maxw:1180px;
       --success:#3DDC97;
@@ -51,7 +56,7 @@
     a{color:inherit;text-decoration:none}
     button{font-family:inherit;cursor:pointer}
     ::selection{background:var(--primary);color:#fff}
-    :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+    :focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
     .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
     .hidden{display:none!important}
 
@@ -80,16 +85,16 @@
     .nav-link:hover,.nav-link.active{color:var(--text)}
     .nav-link.active::after{
       content:'';position:absolute;left:0;right:0;bottom:-15px;height:2px;
-      background:linear-gradient(90deg,var(--primary),var(--gold));
+      background:var(--gradient-brand);
     }
     .nav-actions{display:flex;align-items:center;gap:10px}
     .btn{
       border-radius:999px;padding:9px 18px;font-size:14px;font-weight:600;
-      border:1px solid var(--border);background:transparent;color:var(--text);
+      border:1px solid var(--purple);background:transparent;color:var(--text);
       transition:transform .15s,border-color .15s,background .15s;white-space:nowrap;
       display:inline-flex;align-items:center;gap:6px;
     }
-    .btn:hover{border-color:var(--text-muted);transform:translateY(-1px)}
+    .btn:hover{border-color:var(--purple);background:rgba(138,43,226,.1);transform:translateY(-1px)}
     .btn-primary{background:var(--primary);border-color:var(--primary);color:#fff}
     .btn-primary:hover{background:var(--primary-hover);border-color:var(--primary-hover)}
     .btn-lg{padding:13px 26px;font-size:15px}
@@ -126,7 +131,7 @@
     .eyebrow{
       display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;
       letter-spacing:.06em;text-transform:uppercase;color:var(--gold);
-      background:var(--gold-dim);border:1px solid rgba(245,185,66,.35);
+      background:var(--gold-dim);border:1px solid rgba(91,91,255,.35);
       padding:6px 12px;border-radius:999px;margin-bottom:22px;
     }
     .live-dot{width:7px;height:7px;border-radius:50%;background:var(--primary);position:relative}
@@ -138,7 +143,7 @@
     @media(prefers-reduced-motion:reduce){.live-dot::before{animation:none}}
     .hero h1{font-size:clamp(34px,5vw,52px);line-height:1.08;margin-bottom:20px}
     .hero h1 .accent{
-      background:linear-gradient(90deg,var(--primary),var(--gold));
+      background:var(--gradient-accent);
       -webkit-background-clip:text;background-clip:text;color:transparent;
     }
     .hero p{font-size:16.5px;color:var(--text-muted);max-width:480px;margin:0 0 22px}
@@ -156,18 +161,18 @@
     .hero-card{
       position:relative;background:var(--bg-card);border:1px solid var(--border);
       border-radius:20px;padding:28px 26px;max-width:400px;margin:0 auto;
-      box-shadow:0 20px 60px rgba(122,33,201,.15);
+      box-shadow:0 20px 60px rgba(138,43,226,.18);
     }
     .hero-card::before{
       content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:20px 20px 0 0;
-      background:linear-gradient(90deg,var(--primary),var(--gold));
+      background:var(--gradient-brand);
     }
     .hero-card-top{display:flex;align-items:center;gap:12px;margin-bottom:22px;padding-bottom:20px;border-bottom:1px solid var(--border)}
     .hero-card-orb{
       width:44px;height:44px;border-radius:50%;flex-shrink:0;
       background:radial-gradient(circle at 35% 30%,#3a1f5c,#0d0d0e 70%);
       border:1px solid var(--border);display:flex;align-items:center;justify-content:center;
-      box-shadow:0 0 24px rgba(122,33,201,.35);
+      box-shadow:0 0 24px rgba(255,45,85,.35);
     }
     .hero-card-orb span{font-family:'Space Grotesk';font-weight:700;font-size:9.5px;letter-spacing:.03em}
     .hero-card-top b{display:block;font-family:'Space Grotesk';font-size:14.5px}
@@ -240,7 +245,7 @@
       width:100%;max-width:420px;background:var(--bg-card);border:1px solid var(--border);
       border-radius:18px;padding:36px 32px;position:relative;overflow:hidden;
     }
-    .auth-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--primary),var(--gold))}
+    .auth-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gradient-brand)}
     .auth-card h2{font-size:23px;margin-bottom:6px}
     .auth-card .sub{color:var(--text-muted);font-size:14px;margin-bottom:26px}
     .field{margin-bottom:16px}
@@ -278,7 +283,7 @@
     .tab.active{color:var(--text)}
     .tab.active::after{
       content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;
-      background:linear-gradient(90deg,var(--primary),var(--gold));
+      background:var(--gradient-brand);
     }
 
     .video-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
@@ -298,7 +303,7 @@
       text-transform:uppercase;background:rgba(0,0,0,.55);padding:4px 8px;border-radius:6px;color:var(--gold);
     }
     .play-btn{
-      width:46px;height:46px;border-radius:50%;background:rgba(122,33,201,.92);
+      width:46px;height:46px;border-radius:50%;background:rgba(255,45,85,.92);
       display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;
     }
     .video-thumb .dur{
