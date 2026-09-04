@@ -170,7 +170,7 @@
     .hero-card-top{display:flex;align-items:center;gap:12px;margin-bottom:22px;padding-bottom:20px;border-bottom:1px solid var(--border)}
     .hero-card-orb{
       width:44px;height:44px;border-radius:50%;flex-shrink:0;
-      background:radial-gradient(circle at 35% 30%,#3a1f5c,#0d0d0e 70%);
+      background:radial-gradient(circle at 35% 30%,#2a1030,#08080D 70%);
       border:1px solid var(--border);display:flex;align-items:center;justify-content:center;
       box-shadow:0 0 24px rgba(255,45,85,.35);
     }
@@ -295,9 +295,14 @@
     }
     .video-card:hover{border-color:var(--text-faint);transform:translateY(-2px)}
     .video-thumb{
-      aspect-ratio:16/9;background:linear-gradient(135deg,#1c1329,#0e0e10);
-      display:flex;align-items:center;justify-content:center;position:relative;
+      aspect-ratio:16/9;background:linear-gradient(135deg,#1A1A24,#08080D);
+      display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
     }
+    .video-thumb::after{
+      content:'';position:absolute;inset:0;pointer-events:none;
+      background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.6) 100%);
+    }
+    .video-thumb .cat-tag,.video-thumb .play-btn,.video-thumb .dur{position:relative;z-index:1}
     .video-thumb .cat-tag{
       position:absolute;top:10px;left:10px;font-size:10.5px;font-weight:700;letter-spacing:.04em;
       text-transform:uppercase;background:rgba(0,0,0,.55);padding:4px 8px;border-radius:6px;color:var(--gold);
@@ -326,7 +331,7 @@
 
     .player-modal{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;display:flex;align-items:center;justify-content:center;padding:24px}
     .player-box{width:100%;max-width:720px;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
-    .player-frame{aspect-ratio:16/9;background:linear-gradient(135deg,#1c1329,#0d0d0e);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:var(--text-muted);font-size:13.5px}
+    .player-frame{aspect-ratio:16/9;background:linear-gradient(135deg,#1A1A24,#08080D);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:var(--text-muted);font-size:13.5px}
     .player-frame iframe,.player-frame video{width:100%;height:100%;border:0}
     .player-meta{padding:18px 22px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
     .player-meta h3{font-size:16.5px;margin-bottom:4px}
@@ -772,12 +777,11 @@
   const auth = firebase.auth();
 
   const videos = [
-    { title:'Cómo maximizar tus diamantes en cada directo', cat:'Monetización', dur:'8:12', desc:'Estrategias de dinámica y ritmo para aumentar donaciones durante tu LIVE.', embed:null },
-    { title:'Configura OBS con tu Stream Key', cat:'Técnico', dur:'11:04', desc:'Paso a paso para transmitir desde tu ordenador con overlays profesionales.', embed:null },
-    { title:'Cómo planificar tu primera LIVE Battle', cat:'Estrategia', dur:'6:40', desc:'La dinámica que más incentiva la interacción y las donaciones en directo.', embed:null },
-    { title:'Evita las infracciones más comunes', cat:'Cumplimiento', dur:'5:58', desc:'Qué evitar para mantener tu cuenta sana y el Health Score de la agencia.', embed:null },
-    { title:'Go LIVE Rate y PK Rate: qué son y por qué importan', cat:'Métricas', dur:'4:50', desc:'Los indicadores que usamos para medir la salud de tu actividad en LIVE.', embed:null },
-    { title:'De 0 a tus primeros 400K diamantes', cat:'Crecimiento', dur:'9:15', desc:'El camino del Mes 0 al Mes 1 según el plan de crecimiento de la agencia.', embed:null },
+    { title:'Optimización del LIVE: efectos de sonido y música de fondo', cat:'Audio', dur:'', desc:'Cómo usar efectos de sonido y música de fondo para hacer tu LIVE más envolvente.', embed:{ type:'youtube', id:'LIBIs_ygNhs' } },
+    { title:'Optimización del LIVE: configuración visual', cat:'Visual', dur:'', desc:'Ajustes de imagen y encuadre para que tu directo se vea más profesional.', embed:{ type:'youtube', id:'daesERwNvt0' } },
+    { title:'Configuración de la iluminación para LIVE individual', cat:'Iluminación', dur:'', desc:'Cómo iluminar correctamente tus transmisiones en solitario.', embed:{ type:'youtube', id:'fT7DVAALn78' } },
+    { title:'Cómo desarrollar un estilo propio como creador', cat:'Estilo', dur:'', desc:'Encuentra y define tu identidad como creador para diferenciarte.', embed:{ type:'youtube', id:'rmFlwY6iEe4' } },
+    { title:'4 habilidades clave para una interacción sólida', cat:'Interacción', dur:'', desc:'Las habilidades que más ayudan a conectar con tu audiencia en directo.', embed:{ type:'youtube', id:'t0rLJ5GvVcE' } },
   ];
 
   const articles = [
@@ -835,15 +839,20 @@
     ).join('');
   }
   function renderVideos(){
-    document.getElementById('tab-videos').innerHTML = videos.map((v,i) => `
+    document.getElementById('tab-videos').innerHTML = videos.map((v,i) => {
+      const thumbStyle = (v.embed && v.embed.type === 'youtube')
+        ? `style="background-image:url('https://img.youtube.com/vi/${v.embed.id}/hqdefault.jpg');background-size:cover;background-position:center;"`
+        : '';
+      return `
       <div class="video-card" onclick="openPlayer(${i})">
-        <div class="video-thumb">
+        <div class="video-thumb" ${thumbStyle}>
           <span class="cat-tag">${v.cat}</span>
           <div class="play-btn">▶</div>
-          <span class="dur">${v.dur}</span>
+          ${v.dur ? `<span class="dur">${v.dur}</span>` : ''}
         </div>
         <div class="video-info"><h4>${v.title}</h4><p>${v.cat}</p></div>
-      </div>`).join('');
+      </div>`;
+    }).join('');
   }
   function renderArticles(){
     document.getElementById('tab-articulos').innerHTML = articles.map(a => `
