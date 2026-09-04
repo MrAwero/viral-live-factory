@@ -626,11 +626,12 @@
       <div id="panelContent" class="hidden">
         <div class="tabs" id="panelTabs">
           <button class="tab active" data-ptab="formacion" onclick="setPanelTab('formacion')" type="button">Formación</button>
-          <button class="tab" data-ptab="campanas" onclick="setPanelTab('campanas')" type="button">Campañas</button>
-          <button class="tab" data-ptab="batallas" onclick="setPanelTab('batallas')" type="button">Batallas</button>
-          <button class="tab" data-ptab="calendario" onclick="setPanelTab('calendario')" type="button">Calendario</button>
-          <button class="tab" data-ptab="eventos" onclick="setPanelTab('eventos')" type="button">Eventos exclusivos</button>
-          <button class="tab" data-ptab="sugerencias" onclick="setPanelTab('sugerencias')" type="button">Sugerencias</button>
+          <!-- Ocultos temporalmente, se revisarán más adelante. Basta con quitar class="hidden" para reactivarlos. -->
+          <button class="tab hidden" data-ptab="campanas" onclick="setPanelTab('campanas')" type="button">Campañas</button>
+          <button class="tab hidden" data-ptab="batallas" onclick="setPanelTab('batallas')" type="button">Batallas</button>
+          <button class="tab hidden" data-ptab="calendario" onclick="setPanelTab('calendario')" type="button">Calendario</button>
+          <button class="tab hidden" data-ptab="eventos" onclick="setPanelTab('eventos')" type="button">Eventos exclusivos</button>
+          <button class="tab hidden" data-ptab="sugerencias" onclick="setPanelTab('sugerencias')" type="button">Sugerencias</button>
         </div>
 
         <div id="ptab-formacion">
@@ -764,6 +765,7 @@
 <!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script>
   // ========== CONFIG DE FIREBASE — Viral Live Factory ==========
   const firebaseConfig = {
@@ -779,6 +781,12 @@
 
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  // ========== TU CORREO DE ADMINISTRADOR ==========
+  // Solo esta cuenta verá el formulario para publicar batallas nuevas.
+  const ADMIN_EMAIL = "TU_CORREO_ADMIN@ejemplo.com";
+  // ==================================================
 
   const videos = [
     { title:'Optimización del LIVE: efectos de sonido y música de fondo', cat:'Audio', dur:'', desc:'Cómo usar efectos de sonido y música de fondo para hacer tu LIVE más envolvente.', embed:{ type:'youtube', id:'LIBIs_ygNhs' } },
@@ -801,11 +809,7 @@
     { title:'Start Game', dates:'26 jul – 31 jul', desc:'Campaña de bienvenida para creadores recién incorporados.' },
   ];
 
-  const batallas = [
-    { title:'Grupo de partidas — Liga Bronce', info:'5 rondas · 20:00–00:00', desc:'Batallas para creadores principiantes.' },
-    { title:'Grupo de partidas — Liga Plata', info:'5 rondas · 20:00–00:00', desc:'Batallas para creadores con actividad constante.' },
-    { title:'Grupo de partidas — Liga Oro', info:'3 rondas · 21:00–00:00', desc:'Batallas para los creadores más avanzados.' },
-  ];
+  // Las batallas ya no son un array fijo: se leen en tiempo real desde Firestore (ver renderBatallas más abajo).
 
   const calendario = [
     { title:'Formación semanal', excerpt:'Sesión grupal en directo con el equipo de la agencia.', read:'Martes 19:00' },
@@ -827,10 +831,80 @@
       `<div class="card"><h3 style="font-size:15.5px">${c.title}</h3><p style="color:var(--gold);font-size:12.5px;margin-bottom:6px">${c.dates}</p><p>${c.desc}</p></div>`
     ).join('');
   }
+  let unsubBatallas = null;
   function renderBatallas(){
-    document.getElementById('batallasList').innerHTML = batallas.map(b =>
-      `<div class="card"><h3 style="font-size:15.5px">${b.title}</h3><p style="color:var(--gold);font-size:12.5px;margin-bottom:6px">${b.info}</p><p>${b.desc}</p></div>`
-    ).join('');
+    const list = document.getElementById('batallasList');
+    if(unsubBatallas) unsubBatallas(); // evita listeners duplicados
+    unsubBatallas = db.collection('batallas').orderBy('createdAt','desc')
+      .onSnapshot((snapshot) => {
+        if(snapshot.empty){
+          list.innerHTML = '<p style="color:var(--text-faint);grid-column:1/-1">Todavía no hay batallas publicadas.</p>';
+          return;
+        }
+        list.innerHTML = snapshot.docs.map(doc => {
+          const b = doc.data();
+          const canDelete = state.loggedIn && state.user && state.user.email === ADMIN_EMAIL;
+          return `<div class="card">
+            <h3 style="font-size:15.5px">${b.title}</h3>
+            <p style="color:var(--gold);font-size:12.5px;margin-bottom:6px">${b.info || ''}</p>
+            <p>${b.desc || ''}</p>
+            ${canDelete ? `<button type="button" class="btn" style="margin-top:12px;padding:5px 12px;font-size:12px" onclick="deleteBatalla('${doc.id}')">Eliminar</button>` : ''}
+          </div>`;
+        }).join('');
+        renderBatallaAdminForm();
+      }, (err) => {
+        list.innerHTML = '<p style="color:var(--danger)">No se pudieron cargar las batallas. Revisa la configuración de Firestore.</p>';
+        console.error(err);
+      });
+  }
+
+  function renderBatallaAdminForm(){
+    const isAdmin = state.loggedIn && state.user && state.user.email === ADMIN_EMAIL;
+    const existing = document.getElementById('batallaAdminForm');
+    if(existing) existing.remove();
+    if(!isAdmin) return;
+
+    const wrap = document.createElement('div');
+    wrap.id = 'batallaAdminForm';
+    wrap.className = 'contact-form-card';
+    wrap.style.marginTop = '24px';
+    wrap.style.maxWidth = '520px';
+    wrap.innerHTML = `
+      <p style="color:var(--text-muted);font-size:13px;margin:0 0 14px">📢 Publicar nueva batalla (solo visible para ti como admin)</p>
+      <div class="field"><label>Título</label><input type="text" id="baTitle" placeholder="Ej: Grupo de partidas — Liga Bronce"></div>
+      <div class="field"><label>Horario / info corta</label><input type="text" id="baInfo" placeholder="Ej: 5 rondas · 20:00–00:00"></div>
+      <div class="field"><label>Descripción</label><textarea id="baDesc" placeholder="Ej: Batallas para creadores principiantes."></textarea></div>
+      <button type="button" class="btn btn-primary form-submit" onclick="publishBatalla()">Publicar batalla</button>
+      <div class="form-msg" id="baMsg"></div>
+    `;
+    document.getElementById('batallasList').insertAdjacentElement('afterend', wrap);
+  }
+
+  function publishBatalla(){
+    const title = document.getElementById('baTitle').value.trim();
+    const info = document.getElementById('baInfo').value.trim();
+    const desc = document.getElementById('baDesc').value.trim();
+    if(!title){
+      showMsg('baMsg', 'Ponle al menos un título.', false);
+      return;
+    }
+    db.collection('batallas').add({
+      title, info, desc,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+      document.getElementById('baTitle').value = '';
+      document.getElementById('baInfo').value = '';
+      document.getElementById('baDesc').value = '';
+      showMsg('baMsg', '¡Batalla publicada! Ya la ven todos los creadores.', true);
+    }).catch((err) => {
+      showMsg('baMsg', 'No se pudo publicar. Revisa las reglas de Firestore.', false);
+      console.error(err);
+    });
+  }
+
+  function deleteBatalla(id){
+    if(!confirm('¿Eliminar esta batalla?')) return;
+    db.collection('batallas').doc(id).delete().catch(err => console.error(err));
   }
   function renderCalendario(){
     document.getElementById('calendarioList').innerHTML = calendario.map(c =>
@@ -1038,6 +1112,7 @@
     }
     updateAuthUI();
     updatePanelGate();
+    renderBatallaAdminForm();
   });
 
   // Contacto: validación + envío real (FormSubmit)
