@@ -590,6 +590,9 @@
           <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password" required>
           <div class="field-error">La contraseña es obligatoria.</div>
         </div>
+        <div style="text-align:right;margin:-8px 0 16px">
+          <button type="button" id="forgotPassBtn" onclick="handleForgotPassword()" style="background:none;border:none;color:var(--gold);font-size:12.5px;font-weight:600;padding:0;cursor:pointer">¿Olvidaste tu contraseña?</button>
+        </div>
         <button type="submit" class="btn btn-primary form-submit" id="loginBtn">Entrar</button>
         <div class="form-msg" id="loginMsg"></div>
       </form>
@@ -946,6 +949,45 @@
     const el = document.getElementById(id);
     el.textContent = text;
     el.className = 'form-msg ' + (ok ? 'ok' : 'err');
+  }
+
+  // Olvidé mi contraseña — envía email de restablecimiento vía Firebase
+  function handleForgotPassword(){
+    const emailField = document.getElementById('loginEmail');
+    const email = emailField.value.trim();
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    if(!emailValid){
+      showFieldError('loginEmailField', true);
+      showMsg('loginMsg', 'Escribe tu correo arriba y vuelve a pulsar el enlace.', false);
+      return;
+    }
+    showFieldError('loginEmailField', false);
+
+    const btn = document.getElementById('forgotPassBtn');
+    btn.disabled = true;
+    const originalText = btn.textContent;
+    btn.textContent = 'Enviando...';
+
+    auth.sendPasswordResetEmail(email)
+      .then(() => {
+        showMsg('loginMsg', `Te hemos enviado un correo a ${email} para restablecer tu contraseña.`, true);
+      })
+      .catch((err) => {
+        let msg = 'No se pudo enviar el correo. Inténtalo de nuevo.';
+        if(err.code === 'auth/user-not-found'){
+          msg = 'No hay ninguna cuenta con ese correo.';
+        } else if(err.code === 'auth/invalid-email'){
+          msg = 'El correo no es válido.';
+        } else if(err.code === 'auth/too-many-requests'){
+          msg = 'Demasiados intentos. Espera un momento e inténtalo de nuevo.';
+        }
+        showMsg('loginMsg', msg, false);
+      })
+      .finally(() => {
+        btn.disabled = false;
+        btn.textContent = originalText;
+      });
   }
 
   // Login real con Firebase
