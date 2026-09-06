@@ -134,13 +134,6 @@
       background:var(--gold-dim);border:1px solid rgba(91,91,255,.35);
       padding:6px 12px;border-radius:999px;margin-bottom:22px;
     }
-    .live-dot{width:7px;height:7px;border-radius:50%;background:var(--primary);position:relative}
-    .live-dot::before{
-      content:'';position:absolute;inset:-5px;border-radius:50%;border:1.5px solid var(--primary);
-      animation:pulse-ring 1.8s ease-out infinite;
-    }
-    @keyframes pulse-ring{0%{transform:scale(.6);opacity:.9}100%{transform:scale(2.1);opacity:0}}
-    @media(prefers-reduced-motion:reduce){.live-dot::before{animation:none}}
     .hero h1{font-size:clamp(34px,5vw,52px);line-height:1.08;margin-bottom:20px}
     .hero h1 .accent{
       background:var(--gradient-accent);
@@ -153,35 +146,64 @@
       padding:7px 14px;margin-bottom:26px;
     }
     .trial-badge b{color:var(--gold)}
-    .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:36px}
-    .hero-stats{display:flex;gap:32px;flex-wrap:wrap}
-    .stat b{display:block;font-family:'Space Grotesk';font-size:20px;font-weight:700}
-    .stat span{font-size:12px;color:var(--text-faint)}
+    .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px}
 
-    .hero-card{
-      position:relative;background:var(--bg-card);border:1px solid var(--border);
-      border-radius:20px;padding:28px 26px;max-width:400px;margin:0 auto;
-      box-shadow:0 20px 60px rgba(138,43,226,.18);
+    /* Simulated LIVE stream — the hero's one deliberate moment of motion (the gift counter) */
+    .live-mock{
+      position:relative;max-width:300px;margin:0 auto;border-radius:26px;
+      background:#000;border:1px solid var(--border);padding:8px;
+      box-shadow:0 30px 70px rgba(138,43,226,.22),0 0 0 1px rgba(255,255,255,.03);
     }
-    .hero-card::before{
-      content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:20px 20px 0 0;
-      background:var(--gradient-brand);
+    .live-mock-screen{
+      position:relative;aspect-ratio:9/16;border-radius:20px;overflow:hidden;
+      background:
+        radial-gradient(circle at 30% 20%,rgba(255,45,85,.35),transparent 55%),
+        radial-gradient(circle at 75% 75%,rgba(91,91,255,.3),transparent 55%),
+        linear-gradient(160deg,#1A1A24,#08080D);
     }
-    .hero-card-top{display:flex;align-items:center;gap:12px;margin-bottom:22px;padding-bottom:20px;border-bottom:1px solid var(--border)}
-    .hero-card-orb{
-      width:44px;height:44px;border-radius:50%;flex-shrink:0;
-      background:radial-gradient(circle at 35% 30%,#2a1030,#08080D 70%);
-      border:1px solid var(--border);display:flex;align-items:center;justify-content:center;
-      box-shadow:0 0 24px rgba(255,45,85,.35);
+    .live-mock-top{
+      position:absolute;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;
+      align-items:center;z-index:2;
     }
-    .hero-card-orb span{font-family:'Space Grotesk';font-weight:700;font-size:9.5px;letter-spacing:.03em}
-    .hero-card-top b{display:block;font-family:'Space Grotesk';font-size:14.5px}
-    .hero-card-top span.sub{font-size:12.5px;color:var(--text-faint)}
-    .hero-feature{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px}
-    .hero-feature:last-child{margin-bottom:0}
-    .hero-feature .card-icon{margin:0;flex-shrink:0}
-    .hero-feature b{display:block;font-size:13.5px;margin-bottom:2px}
-    .hero-feature span{font-size:12px;color:var(--text-faint)}
+    .live-badge-pulse{
+      display:inline-flex;align-items:center;gap:5px;background:var(--primary);color:#fff;
+      font-size:11px;font-weight:700;letter-spacing:.03em;padding:4px 9px;border-radius:6px;
+    }
+    .live-badge-pulse::before{
+      content:'';width:6px;height:6px;border-radius:50%;background:#fff;
+      animation:live-blink 1.4s ease-in-out infinite;
+    }
+    @keyframes live-blink{0%,100%{opacity:1}50%{opacity:.25}}
+    @media(prefers-reduced-motion:reduce){.live-badge-pulse::before{animation:none}}
+    .live-viewers{
+      background:rgba(0,0,0,.5);color:#fff;font-size:11px;font-weight:600;
+      padding:4px 9px;border-radius:6px;
+    }
+    .live-chat{
+      position:absolute;left:12px;bottom:64px;right:70px;z-index:2;
+      display:flex;flex-direction:column;gap:6px;
+    }
+    .live-chat p{
+      margin:0;font-size:11px;color:#fff;background:rgba(0,0,0,.38);
+      padding:5px 9px;border-radius:8px;line-height:1.35;
+    }
+    .live-chat p b{font-weight:700;color:var(--gold)}
+    .live-gift-counter{
+      position:absolute;left:12px;bottom:14px;z-index:2;display:flex;align-items:center;gap:6px;
+      background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.08);
+      padding:6px 12px;border-radius:999px;
+    }
+    .live-gift-counter .gc-icon{font-size:14px}
+    .live-gift-counter .gc-number{
+      font-family:'Space Grotesk';font-weight:700;font-size:14px;color:var(--gold);
+      font-variant-numeric:tabular-nums;
+    }
+    .live-mock-brand{
+      position:absolute;bottom:0;left:0;right:0;padding:22px 12px 12px;z-index:1;
+      background:linear-gradient(180deg,transparent,rgba(0,0,0,.75));
+      display:flex;justify-content:flex-end;
+    }
+    .live-mock-brand span{font-size:10px;color:rgba(255,255,255,.55);font-weight:600}
 
     section{padding:68px 0}
     .section-head{max-width:620px;margin-bottom:44px}
@@ -195,9 +217,8 @@
     @media(max-width:620px){.grid-3{grid-template-columns:1fr}}
     .card{
       background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);
-      padding:24px;transition:border-color .2s,transform .2s;
+      padding:24px;
     }
-    .card:hover{border-color:var(--text-faint);transform:translateY(-2px)}
     .card-icon{
       width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;
       margin-bottom:16px;font-size:17px;
@@ -206,6 +227,58 @@
     .card-icon.gold{background:var(--gold-dim);color:var(--gold)}
     .card h3{font-size:16px;margin-bottom:8px}
     .card p{font-size:13.8px;color:var(--text-muted);margin:0}
+
+    .feature-list{display:grid;grid-template-columns:1fr 1fr;gap:0 40px}
+    @media(max-width:700px){.feature-list{grid-template-columns:1fr}}
+    .feature-row{
+      display:flex;gap:16px;align-items:flex-start;padding:20px 0;
+      border-bottom:1px solid var(--border);
+    }
+    .feature-emoji{font-size:20px;flex-shrink:0;line-height:1.3}
+    .feature-row b{display:block;font-size:15px;margin-bottom:4px}
+    .feature-row p{margin:0;font-size:13.5px;color:var(--text-muted)}
+
+    .league-ladder{display:flex;flex-direction:column;gap:12px}
+    .league-row{display:flex;align-items:center;gap:18px;border-radius:14px}
+    .league-row.gold{
+      padding:24px 26px;background:linear-gradient(90deg,rgba(245,185,66,.14),transparent);
+      border:1px solid rgba(245,185,66,.4);
+    }
+    .league-row.silver{padding:19px 26px;background:rgba(255,255,255,.03);border:1px solid var(--border)}
+    .league-row.bronze{padding:15px 26px;border:1px solid var(--border);opacity:.72}
+    .league-row.gold .league-medal{font-size:30px}
+    .league-row.silver .league-medal{font-size:23px}
+    .league-row.bronze .league-medal{font-size:18px}
+    .league-info{flex:1;min-width:0}
+    .league-row.gold .league-info b{font-size:18px}
+    .league-row.silver .league-info b{font-size:15.5px}
+    .league-row.bronze .league-info b{font-size:14px}
+    .league-info b{display:block;font-family:'Space Grotesk'}
+    .league-info span{font-size:13px;color:var(--text-muted)}
+    .league-prize{font-family:'Space Grotesk';font-weight:700;color:var(--gold);white-space:nowrap;flex-shrink:0}
+    .league-row.gold .league-prize{font-size:16px}
+    .league-row.silver .league-prize{font-size:14px}
+    .league-row.bronze .league-prize{font-size:12.5px}
+    @media(max-width:560px){
+      .league-row{flex-wrap:wrap}
+      .league-prize{margin-left:auto}
+    }
+
+    .checklist-panel{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;overflow:hidden;max-width:640px}
+    .check-row{display:flex;gap:14px;align-items:center;padding:16px 22px;border-bottom:1px solid var(--border)}
+    .check-row:last-child{border-bottom:none}
+    .check-ico{
+      width:22px;height:22px;border-radius:50%;background:var(--primary-dim);color:var(--primary);
+      display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;
+    }
+    .check-row b{display:block;font-size:14px}
+    .check-row span{font-size:12.5px;color:var(--text-muted)}
+
+    .trust-strip{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+    .trust-pill{
+      background:var(--bg-card);border:1px solid var(--border);border-radius:999px;
+      padding:10px 18px;font-size:13.5px;font-weight:600;color:var(--text);
+    }
 
     .timeline{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative;margin-top:12px}
     @media(max-width:900px){.timeline{grid-template-columns:1fr;gap:22px}}
@@ -390,7 +463,6 @@
   <section class="hero">
     <div class="wrap hero-inner">
       <div>
-        <div class="eyebrow"><span class="live-dot"></span> Agencia oficial TikTok LIVE · España</div>
         <h1>Convierte tus LIVE en <span class="accent">ingresos reales</span></h1>
         <p>Promoción de tus directos, formación semanal y soporte de agencia — sin coste para ti. Tus diamantes siguen siendo 100 % tuyos.</p>
         <div class="trial-badge">🎟️ Prueba la agencia <b>15 días gratis</b>, sin compromiso</div>
@@ -398,31 +470,23 @@
           <a class="btn btn-primary btn-lg" href="https://www.tiktok.com/t/ZS4ovyLpG" target="_blank" rel="noopener">Unirme a la agencia</a>
           <button class="btn btn-lg" onclick="setView('panel')" type="button">Ver panel de creador</button>
         </div>
-        <div class="hero-stats">
-          <div class="stat"><b>5M 💎</b><span>meta de diamantes al mes</span></div>
-          <div class="stat"><b>100%</b><span>de tus diamantes, siempre</span></div>
-          <div class="stat"><b>15 días</b><span>de prueba sin compromiso</span></div>
-        </div>
       </div>
-      <div class="hero-card" aria-hidden="true">
-        <div class="hero-card-top">
-          <div class="hero-card-orb"><span>LIVE</span></div>
-          <div>
-            <b>Viral Live Factory</b>
-            <span class="sub">Agencia oficial · España</span>
+      <div class="live-mock" aria-hidden="true">
+        <div class="live-mock-screen">
+          <div class="live-mock-top">
+            <span class="live-badge-pulse">LIVE</span>
+            <span class="live-viewers">👁 2.4K</span>
           </div>
-        </div>
-        <div class="hero-feature">
-          <div class="card-icon primary" style="width:32px;height:32px;font-size:14px">📈</div>
-          <div><b>Promoción de LIVE</b><span>Más visibilidad en cada directo</span></div>
-        </div>
-        <div class="hero-feature">
-          <div class="card-icon gold" style="width:32px;height:32px;font-size:14px">🎓</div>
-          <div><b>Formación real</b><span>Sesiones semanales + asesoría 1:1</span></div>
-        </div>
-        <div class="hero-feature">
-          <div class="card-icon primary" style="width:32px;height:32px;font-size:14px">🛡️</div>
-          <div><b>Soporte de agencia</b><span>Ante hackeo, baneo o restricciones</span></div>
+          <div class="live-chat">
+            <p><b>@ana_ro</b> se unió al LIVE</p>
+            <p><b>@marcos99</b> envió 🌹 x5</p>
+            <p><b>@lulu_tv</b> ¡vamos que se puede! 🔥</p>
+          </div>
+          <div class="live-gift-counter">
+            <span class="gc-icon">💎</span>
+            <span class="gc-number" id="giftCounter">12,480</span>
+          </div>
+          <div class="live-mock-brand"><span>Con Viral Live Factory detrás</span></div>
         </div>
       </div>
     </div>
@@ -433,40 +497,33 @@
   <section>
     <div class="wrap">
       <div class="section-head">
-        <div class="eyebrow">Al unirte</div>
         <h2>Esto es lo que recibes desde el primer día</h2>
         <p>Todo incluido, sin cuota de entrada y sin comisión sobre lo que ganas en tus directos.</p>
       </div>
-      <div class="grid-3">
-        <div class="card">
-          <div class="card-icon primary">📈</div>
-          <h3>Promoción de tus LIVE</h3>
-          <p>Te ayudamos a atraer más público a tus directos con visibilidad estratégica.</p>
+      <div class="feature-list">
+        <div class="feature-row">
+          <span class="feature-emoji">📈</span>
+          <div><b>Promoción de tus LIVE</b><p>Te ayudamos a atraer más público a tus directos con visibilidad estratégica.</p></div>
         </div>
-        <div class="card">
-          <div class="card-icon gold">🎓</div>
-          <h3>Formación semanal</h3>
-          <p>Formación grupal en directo, una vez a la semana, para mejorar tus dinámicas de LIVE.</p>
+        <div class="feature-row">
+          <span class="feature-emoji">🎓</span>
+          <div><b>Formación semanal</b><p>Formación grupal en directo, una vez a la semana, para mejorar tus dinámicas de LIVE.</p></div>
         </div>
-        <div class="card">
-          <div class="card-icon primary">🧑‍🏫</div>
-          <h3>Asesoría personalizada 1:1</h3>
-          <p>Reuniones individuales para trabajar tu estrategia según tu perfil y nivel.</p>
+        <div class="feature-row">
+          <span class="feature-emoji">🧑‍🏫</span>
+          <div><b>Asesoría personalizada 1:1</b><p>Reuniones individuales para trabajar tu estrategia según tu perfil y nivel.</p></div>
         </div>
-        <div class="card">
-          <div class="card-icon gold">🛡️</div>
-          <h3>Soporte ante incidencias</h3>
-          <p>Acompañamiento si sufres hackeo, baneo o restricciones en tu cuenta.</p>
+        <div class="feature-row">
+          <span class="feature-emoji">🛡️</span>
+          <div><b>Soporte ante incidencias</b><p>Acompañamiento si sufres hackeo, baneo o restricciones en tu cuenta.</p></div>
         </div>
-        <div class="card">
-          <div class="card-icon primary">🎛️</div>
-          <h3>Stream Key para OBS</h3>
-          <p>Mejora la calidad de tus directos, con opción de multistreaming a otras plataformas.</p>
+        <div class="feature-row">
+          <span class="feature-emoji">🎛️</span>
+          <div><b>Stream Key para OBS</b><p>Mejora la calidad de tus directos, con opción de multistreaming a otras plataformas.</p></div>
         </div>
-        <div class="card">
-          <div class="card-icon gold">💎</div>
-          <h3>100% de tus diamantes</h3>
-          <p>Tus ingresos no cambian. La agencia se financia con incentivos de TikTok, no con tu comisión.</p>
+        <div class="feature-row">
+          <span class="feature-emoji">💎</span>
+          <div><b>100% de tus diamantes</b><p>Tus ingresos no cambian. La agencia se financia con incentivos de TikTok, no con tu comisión.</p></div>
         </div>
       </div>
     </div>
@@ -477,14 +534,25 @@
   <section>
     <div class="wrap">
       <div class="section-head">
-        <div class="eyebrow">Eventos mensuales</div>
         <h2>Competencias por ligas, premios en diamantes</h2>
         <p>Cada mes organizamos eventos con premios de 1K a 30K diamantes, en 3 ligas para que la competencia sea justa.</p>
       </div>
-      <div class="grid-3">
-        <div class="card"><h3>🥉 Liga Bronce</h3><p>Para creadores principiantes que están empezando en LIVE.</p></div>
-        <div class="card"><h3>🥈 Liga Plata</h3><p>Para creadores intermedios con actividad constante.</p></div>
-        <div class="card"><h3>🥇 Liga Oro</h3><p>Para creadores avanzados con mayor monetización.</p></div>
+      <div class="league-ladder">
+        <div class="league-row gold">
+          <span class="league-medal">🥇</span>
+          <div class="league-info"><b>Liga Oro</b><span>Creadores avanzados con mayor monetización</span></div>
+          <span class="league-prize">15K–30K 💎</span>
+        </div>
+        <div class="league-row silver">
+          <span class="league-medal">🥈</span>
+          <div class="league-info"><b>Liga Plata</b><span>Creadores intermedios con actividad constante</span></div>
+          <span class="league-prize">5K–15K 💎</span>
+        </div>
+        <div class="league-row bronze">
+          <span class="league-medal">🥉</span>
+          <div class="league-info"><b>Liga Bronce</b><span>Creadores principiantes que están empezando en LIVE</span></div>
+          <span class="league-prize">1K–5K 💎</span>
+        </div>
       </div>
     </div>
   </section>
@@ -494,7 +562,6 @@
   <section>
     <div class="wrap">
       <div class="section-head">
-        <div class="eyebrow">Campañas</div>
         <h2>Cumple objetivos, gana extra</h2>
         <p>Al alcanzar las metas asignadas, recibes diamantes adicionales. Si lo prefieres, podemos transferirte el equivalente por PayPal.</p>
       </div>
@@ -506,16 +573,15 @@
   <section>
     <div class="wrap">
       <div class="section-head">
-        <div class="eyebrow">Requisitos</div>
         <h2>¿Puedes unirte a la agencia?</h2>
       </div>
-      <div class="grid-3">
-        <div class="card"><h3>✅ Mayor de edad</h3><p>18 años o más.</p></div>
-        <div class="card"><h3>✅ Menos de 200K seguidores</h3><p>Nos enfocamos en talento en crecimiento.</p></div>
-        <div class="card"><h3>✅ Menos de 80K diamantes acumulados</h3><p>En el histórico de la plataforma.</p></div>
-        <div class="card"><h3>✅ No estar en otra agencia</h3><p>Solo puedes pertenecer a una a la vez.</p></div>
-        <div class="card"><h3>✅ Actividad en LIVE</h3><p>Historial mínimo de transmisiones.</p></div>
-        <div class="card"><h3>✅ Mostrar el rostro (preferible)</h3><p>No es obligatorio, pero sí recomendable.</p></div>
+      <div class="checklist-panel">
+        <div class="check-row"><span class="check-ico">✓</span><div><b>Mayor de edad</b><span>18 años o más.</span></div></div>
+        <div class="check-row"><span class="check-ico">✓</span><div><b>Menos de 200K seguidores</b><span>Nos enfocamos en talento en crecimiento.</span></div></div>
+        <div class="check-row"><span class="check-ico">✓</span><div><b>Menos de 80K diamantes acumulados</b><span>En el histórico de la plataforma.</span></div></div>
+        <div class="check-row"><span class="check-ico">✓</span><div><b>No estar en otra agencia</b><span>Solo puedes pertenecer a una a la vez.</span></div></div>
+        <div class="check-row"><span class="check-ico">✓</span><div><b>Actividad en LIVE</b><span>Historial mínimo de transmisiones.</span></div></div>
+        <div class="check-row"><span class="check-ico">✓</span><div><b>Mostrar el rostro (preferible)</b><span>No es obligatorio, pero sí recomendable.</span></div></div>
       </div>
     </div>
   </section>
@@ -525,7 +591,6 @@
   <section>
     <div class="wrap">
       <div class="section-head">
-        <div class="eyebrow">Plan de crecimiento</div>
         <h2>Así puede evolucionar tu carrera como creador</h2>
         <p>Con formación semanal, asesoría personalizada y promoción constante, este es el camino que recorremos juntos.</p>
       </div>
@@ -544,7 +609,6 @@
   <section>
     <div class="wrap">
       <div class="section-head">
-        <div class="eyebrow">Cómo funciona</div>
         <h2>El proceso para unirte, paso a paso</h2>
       </div>
       <div class="steps-list">
@@ -559,15 +623,12 @@
   <hr class="divider">
 
   <section>
-    <div class="wrap">
-      <div class="section-head" style="margin-bottom:28px">
-        <div class="eyebrow">Nuestro compromiso</div>
-        <h2>Una agencia transparente, sin letra pequeña</h2>
-      </div>
-      <div class="grid-3">
-        <div class="card"><h3>✅ Sin cuota de inscripción</h3><p>Nunca te pediremos dinero para entrar.</p></div>
-        <div class="card"><h3>✅ Sin comisión sobre tus diamantes</h3><p>Lo que ganas en LIVE es 100% tuyo.</p></div>
-        <div class="card"><h3>✅ 15 días de prueba</h3><p>Pruebas la agencia sin compromiso y decides si continuar.</p></div>
+    <div class="wrap" style="text-align:center">
+      <h2 style="margin-bottom:26px">Una agencia transparente, sin letra pequeña</h2>
+      <div class="trust-strip">
+        <span class="trust-pill">✓ Sin cuota de inscripción</span>
+        <span class="trust-pill">✓ Sin comisión sobre tus diamantes</span>
+        <span class="trust-pill">✓ 15 días de prueba sin compromiso</span>
       </div>
     </div>
   </section>
@@ -1159,12 +1220,26 @@
     history.replaceState({}, '', location.pathname);
   }
 
+  // Contador de diamantes del mockup del hero — el único elemento animado de la página.
+  function startGiftCounter(){
+    const el = document.getElementById('giftCounter');
+    if(!el) return;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduceMotion) return; // se queda en el número fijo, sin animar
+    let value = 12480;
+    setInterval(() => {
+      value += Math.floor(Math.random() * 40) + 5;
+      el.textContent = value.toLocaleString('es-ES');
+    }, 2600);
+  }
+
   renderVideos();
   renderArticles();
   renderCampanas();
   renderBatallas();
   renderCalendario();
   renderEventos();
+  startGiftCounter();
   setView('home');
 </script>
 </body>
