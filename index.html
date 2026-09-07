@@ -402,6 +402,31 @@
     .article-row p{font-size:13px;color:var(--text-muted);margin:0}
     .article-meta{font-size:12px;color:var(--text-faint);white-space:nowrap}
 
+    .article-box{
+      width:100%;max-width:640px;max-height:88vh;overflow-y:auto;
+      background:var(--bg-card);border:1px solid var(--border);border-radius:16px;
+    }
+    .article-box-header{
+      position:sticky;top:0;z-index:2;background:var(--bg-card);
+      display:flex;justify-content:space-between;align-items:flex-start;gap:12px;
+      padding:22px 24px 16px;border-bottom:1px solid var(--border);
+    }
+    .article-box-header h3{font-size:19px;margin-bottom:4px}
+    .article-box-header span{font-size:12.5px;color:var(--text-faint)}
+    .article-body{padding:22px 24px 30px;font-size:14.5px;color:var(--text-muted);line-height:1.65}
+    .article-body h4{color:var(--text);font-size:15.5px;margin:26px 0 8px}
+    .article-body h4:first-child{margin-top:0}
+    .article-body h5{color:var(--gold);font-size:13.5px;margin:18px 0 6px}
+    .article-body p{margin:0 0 10px}
+    .article-body ul{margin:0 0 12px;padding-left:20px}
+    .article-body li{margin-bottom:4px}
+    .video-embed-short{
+      max-width:230px;margin:14px auto 22px;aspect-ratio:9/16;border-radius:14px;
+      overflow:hidden;border:1px solid var(--border);background:#000;
+    }
+    .video-embed-short iframe{width:100%;height:100%;border:0}
+    .article-meta{font-size:12px;color:var(--text-faint);white-space:nowrap}
+
     .player-modal{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;display:flex;align-items:center;justify-content:center;padding:24px}
     .player-box{width:100%;max-width:720px;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
     .player-frame{aspect-ratio:16/9;background:linear-gradient(135deg,#1A1A24,#08080D);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:var(--text-muted);font-size:13.5px}
@@ -754,6 +779,19 @@
   </div>
 </div>
 
+<div id="articleModal" class="player-modal hidden" onclick="closeArticleOnBackdrop(event)">
+  <div class="article-box" onclick="event.stopPropagation()">
+    <div class="article-box-header">
+      <div>
+        <h3 id="articleTitle"></h3>
+        <span id="articleMeta"></span>
+      </div>
+      <button class="close-x" onclick="closeArticle()" type="button" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="article-body" id="articleBody"></div>
+  </div>
+</div>
+
 <!-- CONTACTO -->
 <div id="view-contacto" class="hidden">
   <section>
@@ -857,11 +895,112 @@
     { title:'4 habilidades clave para una interacción sólida', cat:'Interacción', dur:'', desc:'Las habilidades que más ayudan a conectar con tu audiencia en directo.', embed:{ type:'youtube', id:'t0rLJ5GvVcE' } },
   ];
 
+  function ytShort(id){
+    return `<div class="video-embed-short"><iframe src="https://www.youtube.com/embed/${id}" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`;
+  }
+
   const articles = [
-    { title:'Guía completa: reparto de ingresos en TikTok LIVE', excerpt:'Por qué unirte a una agencia no afecta lo que ganas como creador.', read:'6 min' },
-    { title:'Cómo identificar una agencia fraudulenta', excerpt:'Las señales de alerta antes de firmar con cualquiera.', read:'4 min' },
-    { title:'Los 3 niveles de creador y cómo subir de nivel', excerpt:'Principiante, maduro y Pre Top & Top: qué cambia en cada etapa.', read:'5 min' },
-    { title:'Qué pasa si quiero salir de la agencia', excerpt:'Periodo de prueba, preaviso y periodo de enfriamiento.', read:'3 min' },
+    {
+      title:'Partidas LIVE: normas y tutoriales',
+      excerpt:'Qué es una partida, qué pasa durante ella y dos tutoriales prácticos para dominarla.',
+      read:'7 min',
+      body:`
+        <h4>¿Qué es una partida LIVE?</h4>
+        <p>Piensa en una partida LIVE como en una competición, un juego. En primer lugar, busca amigos con los que jugar como coanfitriones. A continuación, inicia la competición.</p>
+        ${ytShort('zV4I-nu_xjA')}
+        <h4>Durante la partida: la perspectiva del creador</h4>
+        <p>Así se vive una partida completa desde dentro, tal y como la experimenta el creador que participa.</p>
+        ${ytShort('uWBix47vB6g')}
+        ${ytShort('t8gziPRqix0')}
+        <h4>Tutoriales prácticos</h4>
+        <h5>Cómo ser coanfitrión</h5>
+        ${ytShort('b0i9Ok2_NDI')}
+        <h5>Cómo funcionan las partidas, paso a paso</h5>
+        ${ytShort('teJtz0Gc2yg')}
+      `
+    },
+    {
+      title:'Qué hacer y qué no hacer en partidas LIVE',
+      excerpt:'Las 5 categorías de conducta prohibida que pueden afectar tu cuenta y tu Health Score.',
+      read:'5 min',
+      body:`
+        <p>Durante una partida LIVE estás expuesto a una audiencia grande y activa. Evitar estas 5 conductas es clave para proteger tu cuenta y el cumplimiento de la agencia.</p>
+        <h4>1. Comportamiento de odio</h4>
+        ${ytShort('7iPZsf9XmLk')}
+        <h4>2. Acoso e intimidación</h4>
+        ${ytShort('eAnYpS3meQc')}
+        <h4>3. Acoso sexual</h4>
+        ${ytShort('LeoJ1K9vFF4')}
+        <h4>4. Información personal</h4>
+        ${ytShort('PTO_IOOuB3c')}
+        <h4>5. Actos peligrosos</h4>
+        ${ytShort('kFtf7thjTg8')}
+      `
+    },
+    {
+      title:'Ligas de creadores: sistema de clasificación',
+      excerpt:'18 ligas, de D5 a A1. Cómo se asciende y cuánto se tarda.',
+      read:'3 min',
+      body:`
+        <h4>Liga de creadores</h4>
+        <p>La Liga de creadores es una clasificación diaria con un componente a largo plazo. Todos los creadores participan en la clasificación diaria de la Liga a la que están asignados.</p>
+        <ul>
+          <li>Hay un total de 18 Ligas, de la D5 a la A1.</li>
+          <li>Se asciende y desciende según los fragmentos diarios que recopiles.</li>
+          <li>Se necesitan 4 fragmentos para ascender de Liga.</li>
+          <li>Lo más rápido que se puede ascender de Liga es en 2 días.</li>
+          <li>La Liga B1 es la más alta a la que se puede asignar de inicio a un creador.</li>
+        </ul>
+        ${ytShort('5Zx2AhxwqBI')}
+      `
+    },
+    {
+      title:'Galería de Regalos y Objetivo del LIVE',
+      excerpt:'Dos herramientas para incentivar donaciones dentro de tu directo.',
+      read:'4 min',
+      body:`
+        <h4>Galería de Regalos</h4>
+        <p>Es una misión semanal de recopilación de Regalos que se actualiza todos los lunes a las 00:00 (hora local). Cuando un LIVE recibe cierto número de unidades de un Regalo enviadas por un mismo espectador, el creador puede iluminar ese Regalo en su Galería. El espectador que más veces lo envíe se convierte en su donador principal.</p>
+        ${ytShort('V4ldRpgDMDg')}
+        <h4>Objetivo del LIVE</h4>
+        <p>Permite seleccionar hasta 3 Regalos concretos y sus cantidades como "objetivo" durante un LIVE, para animar y guiar a los espectadores a completarlo. Puedes completar y restablecer el objetivo varias veces durante el mismo LIVE — cada logro muestra una animación de celebración.</p>
+        ${ytShort('jxatH0qkMzg')}
+      `
+    },
+    {
+      title:'Partida y potenciadores: guante, neblina y cronómetro',
+      excerpt:'El formato de la partida 1 contra 1 y las recompensas virtuales que pueden ganar tus espectadores top.',
+      read:'4 min',
+      body:`
+        <h4>¿Qué es una partida?</h4>
+        <p>Una partida permite a dos creadores competir entre ellos en un LIVE para ver quién recibe más me gusta y Regalos durante 5 minutos, seguidos de una "vuelta de honor" de 3 minutos.</p>
+        ${ytShort('RCufLJqUEzg')}
+        <h4>Potenciadores de partidas</h4>
+        <p>Recompensas virtuales que generan efectos mágicos al activarse en una partida. Los espectadores entre los 3 donadores principales de un creador que gana la partida pueden recibir uno al azar. Aparece en su mochila y debe compartirse en un plazo de 5 días antes de caducar — son intransferibles fuera de esa sala LIVE.</p>
+        <h5>Guante potenciador</h5>
+        ${ytShort('85nZ2aYFL34')}
+        <h5>Neblina mágica</h5>
+        ${ytShort('IWrH7f7BeLc')}
+        <h5>Cronómetro</h5>
+        ${ytShort('FuV3SEq91Gk')}
+      `
+    },
+    {
+      title:'Equipo del creador: construye tu comunidad',
+      excerpt:'Cómo convertir espectadores puntuales en una comunidad fiel, por niveles.',
+      read:'4 min',
+      body:`
+        <h4>Equipo del creador</h4>
+        <p>Ayuda a crear una comunidad fiel y participativa, y a recompensar a los espectadores por interactuar contigo. Cualquiera puede unirse enviando un Regalo de Corazoncito (1 moneda). Al ver, regalar y comentar de forma continua, sube de nivel dentro de tu equipo y desbloquea insignias, apariciones estelares, celebraciones de subida de nivel y acceso a Regalos exclusivos.</p>
+        <p>Esta función ayuda a convertir consumo puntual en visualizaciones y donaciones a largo plazo, aumentando la retención de pago de tus LIVE.</p>
+        <ul>
+          <li>Empieza a formar tu equipo (0 miembros)</li>
+          <li>Crea tu equipo (1–10 miembros)</li>
+          <li>Mejora el nivel de tu equipo (11–50 / 51–500 / +500 miembros)</li>
+        </ul>
+        ${ytShort('4KJxvQJFQ74')}
+      `
+    },
   ];
 
   const campanas = [
@@ -994,12 +1133,25 @@
     }).join('');
   }
   function renderArticles(){
-    document.getElementById('tab-articulos').innerHTML = articles.map(a => `
-      <div class="article-row" tabindex="0">
+    document.getElementById('tab-articulos').innerHTML = articles.map((a,i) => `
+      <div class="article-row" tabindex="0" onclick="openArticle(${i})">
         <div><h4>${a.title}</h4><p>${a.excerpt}</p></div>
         <div class="article-meta">${a.read} de lectura</div>
       </div>`).join('');
   }
+
+  function openArticle(i){
+    const a = articles[i];
+    document.getElementById('articleTitle').textContent = a.title;
+    document.getElementById('articleMeta').textContent = a.read + ' de lectura';
+    document.getElementById('articleBody').innerHTML = a.body;
+    document.getElementById('articleModal').classList.remove('hidden');
+  }
+  function closeArticle(){
+    document.getElementById('articleModal').classList.add('hidden');
+    document.getElementById('articleBody').innerHTML = '';
+  }
+  function closeArticleOnBackdrop(e){ if(e.target.id === 'articleModal') closeArticle(); }
 
   function setPanelTab(tab){
     state.ptab = tab;
