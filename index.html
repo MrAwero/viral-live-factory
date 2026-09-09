@@ -148,7 +148,7 @@
     .trial-badge b{color:var(--gold)}
     .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px}
 
-    /* Simulated LIVE stream — the hero's one deliberate moment of motion (the gift counter) */
+    /* Simulated LIVE stream */
     .live-mock{
       position:relative;max-width:300px;margin:0 auto;border-radius:26px;
       background:#000;border:1px solid var(--border);padding:8px;
@@ -403,7 +403,7 @@
     .article-meta{font-size:12px;color:var(--text-faint);white-space:nowrap}
 
     .article-box{
-      width:100%;max-width:640px;max-height:88vh;overflow-y:auto;
+      width:100%;max-width:800px;max-height:88vh;overflow-y:auto;
       background:var(--bg-card);border:1px solid var(--border);border-radius:16px;
     }
     .article-box-header{
@@ -414,18 +414,22 @@
     .article-box-header h3{font-size:19px;margin-bottom:4px}
     .article-box-header span{font-size:12.5px;color:var(--text-faint)}
     .article-body{padding:22px 24px 30px;font-size:14.5px;color:var(--text-muted);line-height:1.65}
-    .article-body h4{color:var(--text);font-size:15.5px;margin:26px 0 8px}
+    .article-body h4{color:var(--text);font-size:16px;margin:24px 0 10px;border-bottom:1px solid var(--border);padding-bottom:6px}
     .article-body h4:first-child{margin-top:0}
-    .article-body h5{color:var(--gold);font-size:13.5px;margin:18px 0 6px}
-    .article-body p{margin:0 0 10px}
-    .article-body ul{margin:0 0 12px;padding-left:20px}
-    .article-body li{margin-bottom:4px}
+    .article-body h5{color:var(--gold);font-size:14px;margin:18px 0 6px}
+    .article-body p{margin:0 0 12px}
+    .article-body ul,.article-body ol{margin:0 0 14px;padding-left:22px}
+    .article-body li{margin-bottom:6px}
+    .article-body blockquote{border-left:3px solid var(--primary);margin:16px 0;padding:8px 16px;background:rgba(255,45,85,.05);border-radius:0 8px 8px 0}
+    .article-body details{background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin-bottom:12px}
+    .article-body summary{font-weight:600;color:var(--text);cursor:pointer;outline:none}
+    .article-body details[open] summary{margin-bottom:10px;color:var(--gold)}
+
     .video-embed-short{
       max-width:230px;margin:14px auto 22px;aspect-ratio:9/16;border-radius:14px;
       overflow:hidden;border:1px solid var(--border);background:#000;
     }
     .video-embed-short iframe{width:100%;height:100%;border:0}
-    .article-meta{font-size:12px;color:var(--text-faint);white-space:nowrap}
 
     .player-modal{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;display:flex;align-items:center;justify-content:center;padding:24px}
     .player-box{width:100%;max-width:720px;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
@@ -434,7 +438,7 @@
     .player-meta{padding:18px 22px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
     .player-meta h3{font-size:16.5px;margin-bottom:4px}
     .player-meta p{font-size:13px;color:var(--text-muted);margin:0}
-    .close-x{background:var(--bg-elevated);border:1px solid var(--border);color:var(--text);border-radius:50%;width:32px;height:32px;flex-shrink:0}
+    .close-x{background:var(--bg-elevated);border:1px solid var(--border);color:var(--text);border-radius:50%;width:32px;height:32px;flex-shrink:0;cursor:pointer}
 
     .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px}
     @media(max-width:820px){.contact-grid{grid-template-columns:1fr;gap:32px}}
@@ -712,7 +716,6 @@
       <div id="panelContent" class="hidden">
         <div class="tabs" id="panelTabs">
           <button class="tab active" data-ptab="formacion" onclick="setPanelTab('formacion')" type="button">Formación</button>
-          <!-- Ocultos temporalmente, se revisarán más adelante. Basta con quitar class="hidden" para reactivarlos. -->
           <button class="tab hidden" data-ptab="campanas" onclick="setPanelTab('campanas')" type="button">Campañas</button>
           <button class="tab hidden" data-ptab="batallas" onclick="setPanelTab('batallas')" type="button">Batallas</button>
           <button class="tab hidden" data-ptab="calendario" onclick="setPanelTab('calendario')" type="button">Calendario</button>
@@ -866,7 +869,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script>
-  // ========== CONFIG DE FIREBASE — Viral Live Factory ==========
+  // CONFIG DE FIREBASE — Viral Live Factory
   const firebaseConfig = {
     apiKey: "AIzaSyCUOPaJwRllETm-3Cq354py-5jV7f9VNtc",
     authDomain: "viral-live-factory.firebaseapp.com",
@@ -876,16 +879,12 @@
     appId: "1:47144282951:web:3bce1475d050779260ba62",
     measurementId: "G-20FLXX435P"
   };
-  // ====================================================
 
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
   const db = firebase.firestore();
 
-  // ========== TU CORREO DE ADMINISTRADOR ==========
-  // Solo esta cuenta verá el formulario para publicar batallas nuevas.
   const ADMIN_EMAIL = "TU_CORREO_ADMIN@ejemplo.com";
-  // ==================================================
 
   const videos = [
     { title:'Optimización del LIVE: efectos de sonido y música de fondo', cat:'Audio', dur:'', desc:'Cómo usar efectos de sonido y música de fondo para hacer tu LIVE más envolvente.', embed:{ type:'youtube', id:'LIBIs_ygNhs' } },
@@ -899,108 +898,172 @@
     return `<div class="video-embed-short"><iframe src="https://www.youtube.com/embed/${id}" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`;
   }
 
+  // ARTÍCULOS INTEGRADOS Y ORDENADOS DESDE FORMACION.HTM
   const articles = [
     {
-      title:'Partidas LIVE: normas y tutoriales',
-      excerpt:'Qué es una partida, qué pasa durante ella y dos tutoriales prácticos para dominarla.',
-      read:'7 min',
+      title:'1. Guía Completa de Monetización y Programas de Creadores',
+      excerpt:'Todo sobre regalos, monedas, suscripciones, Programa de Socios, Series y Programa Creador de Efectos.',
+      read:'15 min',
       body:`
+        <h4>Guía Completa de Monetización en TikTok LIVE</h4>
+        <p>TikTok ofrece múltiples vías para monetizar tu contenido en directo y vídeos. A continuación se desglosan los programas principales y sus requisitos.</p>
+        
+        <details>
+          <summary>1. Regalos de LIVE y Monedas</summary>
+          <p>Los espectadores compran Monedas virtuales para enviarte Regalos en tiempo real. Cada regalo se convierte en Diamantes en tu cuenta de creador, que posteriormente se pueden canjear por dinero real.</p>
+          <ul>
+            <li><strong>Mecanismo:</strong> Los espectadores compran paquetes de monedas en la app y las canjean por efectos visuales en tu directo.</li>
+            <li><strong>Conversion:</strong> TikTok convierte automáticamente el valor de los regalos recibidos en Diamantes.</li>
+            <li><strong>Retiro:</strong> Puedes retirar tus ingresos acumulados a través de PayPal o transferencia bancaria cuando alcances el mínimo requerido.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>2. Suscripciones de LIVE</summary>
+          <p>Permite a tus seguidores más fieles pagar una cuota mensual recurrente a cambio de ventajas exclusivas en tu canal.</p>
+          <ul>
+            <li><strong>Insignias de suscriptor:</strong> Iconos distintivos junto al nombre del usuario en el chat.</li>
+            <li><strong>Emotes personalizados:</strong> Emojis exclusivos utilizables en tus directos.</li>
+            <li><strong>Chat solo para suscriptores:</strong> Modo especial de chat para interactuar estrechamente con tu comunidad de pago.</li>
+            <li><strong>Directos exclusivos:</strong> Transmisiones privadas dedicadas únicamente a suscriptores.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>3. TikTok Rewards / Programa de Referidos</summary>
+          <p>Gana recompensas invitando a nuevos usuarios o creadores a unirse a la plataforma e interactuar diariamente.</p>
+        </details>
+
+        <details>
+          <summary>4. Programa de Socios de TikTok LIVE (Creator Network)</summary>
+          <p>Formar parte de una agencia oficial como <strong>Viral Live Factory</strong> te da acceso a formación, soporte prioritario, protección de cuenta y promociones exclusivas sin alterar el 100% de tus ingresos por diamantes.</p>
+        </details>
+
+        <details>
+          <summary>5. TikTok Series y Creadores de Efectos</summary>
+          <p><strong>Series:</strong> Vende colecciones de contenido exclusivo detrás de un muro de pago.</p>
+          <p><strong>Creador de Efectos:</strong> Recibe recompensas por diseñar filtros y efectos de realidad aumentada populares en Effect House.</p>
+        </details>
+      `
+    },
+    {
+      title:'2. Requisitos y Configuración Técnica para Emitir',
+      excerpt:'Condiciones de elegibilidad, uso de TikTok LIVE Studio, Stream Key para OBS y ajustes de calidad.',
+      read:'12 min',
+      body:`
+        <h4>Preparación Técnica y Requisitos para el Directo</h4>
+        <p>Para garantizar transmisiones de alta calidad y cumplir con las normativas de TikTok, revisa los siguientes puntos clave:</p>
+        
+        <details>
+          <summary>Requisitos de Elegibilidad para Emitir</summary>
+          <ul>
+            <li>Tener al menos 18 años cumplidos.</li>
+            <li>Contar con un número mínimo de seguidores (generalmente 1.000, ampliable o eximido al unirte a la agencia).</li>
+            <li>Mantener la cuenta en buen estado y cumplir las Normas de la Comunidad.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Emisión con TikTok LIVE Studio y OBS (Stream Key)</summary>
+          <p><strong>TikTok LIVE Studio:</strong> Software oficial para PC con escenas personalizadas, alertas, widgets de meta y soporte multi-pantalla.</p>
+          <p><strong>Clave de Transmisión (Stream Key):</strong> Al formar parte de la agencia, puedes solicitar acceso a la Stream Key para emitir directamente desde OBS Studio, Streamlabs o vMix, permitiendo producciones avanzadas y multistreaming.</p>
+        </details>
+
+        <details>
+          <summary>Ajustes Recomendados para OBS</summary>
+          <ul>
+            <li><strong>Resolución:</strong> 1080x1920 (Formato vertical 9:16).</li>
+            <li><strong>Bitrate de Vídeo:</strong> 4000 - 6000 kbps (CBR).</li>
+            <li><strong>Framerate:</strong> 30 FPS o 60 FPS según la capacidad de tu equipo y conexión.</li>
+            <li><strong>Audio:</strong> 160 kbps, 48kHz.</li>
+          </ul>
+        </details>
+      `
+    },
+    {
+      title:'3. Dinámicas de Partidas LIVE, PKs y Herramientas',
+      excerpt:'Guía sobre partidas 1v1, coanfitriones, potenciadores (guante, neblina, cronómetro) y Galería de Regalos.',
+      read:'10 min',
+      body:`
+        <h4>Partidas LIVE y Mecánicas de Competición</h4>
+        <p>Las partidas 1vs1 (PKs) son la herramienta principal para aumentar la interacción y acelerar la monetización en tus directos.</p>
+
         <h4>¿Qué es una partida LIVE?</h4>
-        <p>Piensa en una partida LIVE como en una competición, un juego. En primer lugar, busca amigos con los que jugar como coanfitriones. A continuación, inicia la competición.</p>
+        <p>Compite en directo con otro creador durante 5 minutos para ver quién acumula más puntos de regalos y me gustas, seguido de 3 minutos de victoria/derrota.</p>
         ${ytShort('zV4I-nu_xjA')}
-        <h4>Durante la partida: la perspectiva del creador</h4>
-        <p>Así se vive una partida completa desde dentro, tal y como la experimenta el creador que participa.</p>
         ${ytShort('uWBix47vB6g')}
-        ${ytShort('t8gziPRqix0')}
-        <h4>Tutoriales prácticos</h4>
-        <h5>Cómo ser coanfitrión</h5>
-        ${ytShort('b0i9Ok2_NDI')}
-        <h5>Cómo funcionan las partidas, paso a paso</h5>
-        ${ytShort('teJtz0Gc2yg')}
+
+        <h4>Potenciadores y Objetivos</h4>
+        <details>
+          <summary>Guante Potenciador, Neblina Mágica y Cronómetro</summary>
+          <p>Herramientas que activan multiplicadores de puntos o mitigan el progreso del rival durante momentos críticos de la partida.</p>
+          ${ytShort('85nZ2aYFL34')}
+          ${ytShort('IWrH7f7BeLc')}
+          ${ytShort('FuV3SEq91Gk')}
+        </details>
+
+        <details>
+          <summary>Galería de Regalos y Objetivo del LIVE</summary>
+          <p>Define metas visibles en pantalla para motivar a tus espectadores a completar insignias o lograr objetivos colectivos en tiempo real.</p>
+          ${ytShort('V4ldRpgDMDg')}
+          ${ytShort('jxatH0qkMzg')}
+        </details>
       `
     },
     {
-      title:'Qué hacer y qué no hacer en partidas LIVE',
-      excerpt:'Las 5 categorías de conducta prohibida que pueden afectar tu cuenta y tu Health Score.',
-      read:'5 min',
+      title:'4. Reglas de Comunidad, Seguridad e Identidad Visual',
+      excerpt:'Conductas prohibidas, infracciones de Health Score, moderación del chat e iluminación/sonido.',
+      read:'10 min',
       body:`
-        <p>Durante una partida LIVE estás expuesto a una audiencia grande y activa. Evitar estas 5 conductas es clave para proteger tu cuenta y el cumplimiento de la agencia.</p>
-        <h4>1. Comportamiento de odio</h4>
-        ${ytShort('7iPZsf9XmLk')}
-        <h4>2. Acoso e intimidación</h4>
-        ${ytShort('eAnYpS3meQc')}
-        <h4>3. Acoso sexual</h4>
-        ${ytShort('LeoJ1K9vFF4')}
-        <h4>4. Información personal</h4>
-        ${ytShort('PTO_IOOuB3c')}
-        <h4>5. Actos peligrosos</h4>
-        ${ytShort('kFtf7thjTg8')}
+        <h4>Seguridad, Cumplimiento Normativo y Formato del Creador</h4>
+        
+        <details>
+          <summary>Las 5 Conductas Prohibidas en LIVE</summary>
+          <p>Evita penalizaciones directas o baneos definitivos de cuenta cuidando estrictamente estos factores:</p>
+          <ol>
+            <li><strong>Comportamiento de odio:</strong> Comentarios discriminatorios, racistas o xenófobos.</li>
+            <li><strong>Acoso e intimidación:</strong> Ataques personales a otros creadores o espectadores.</li>
+            <li><strong>Acoso sexual:</strong> Lenguaje, vestimenta o insinuaciones inapropiadas.</li>
+            <li><strong>Información personal:</strong> Revelar datos privados propios o de terceros (DNI, teléfonos, direcciones).</li>
+            <li><strong>Actos peligrosos:</strong> Retos que pongan en riesgo la salud física o conducción imprudente.</li>
+          </ol>
+        </details>
+
+        <details>
+          <summary>Control del Health Score y Moderación</summary>
+          <p>Mantén un equipo de moderadores activos durante tus directos para silenciar, bloquear o filtrar palabras clave prohibidas en el chat.</p>
+        </details>
+
+        <details>
+          <summary>Optimización de Imagen, Audio e Iluminación</summary>
+          <ul>
+            <li><strong>Iluminación:</strong> Utiliza un aro de luz o foco frontal de luz suave a 45 grados. Evita contraluces marcados.</li>
+            <li><strong>Audio:</strong> Prioriza la claridad de voz utilizando micrófono de solapa o condensador USB. Evita ecos o ruidos ambientales.</li>
+            <li><strong>Encuadre:</strong> Mantén la mirada a la altura de la cámara y asegúrate de estar centrado.</li>
+          </ul>
+        </details>
       `
     },
     {
-      title:'Ligas de creadores: sistema de clasificación',
-      excerpt:'18 ligas, de D5 a A1. Cómo se asciende y cuánto se tarda.',
-      read:'3 min',
+      title:'5. Estrategias de Retención, Fidelización y Ligas',
+      excerpt:'Cómo crear un Equipo del Creador sólido y escalar a través del sistema de 18 Ligas (D5 a A1).',
+      read:'8 min',
       body:`
-        <h4>Liga de creadores</h4>
-        <p>La Liga de creadores es una clasificación diaria con un componente a largo plazo. Todos los creadores participan en la clasificación diaria de la Liga a la que están asignados.</p>
-        <ul>
-          <li>Hay un total de 18 Ligas, de la D5 a la A1.</li>
-          <li>Se asciende y desciende según los fragmentos diarios que recopiles.</li>
-          <li>Se necesitan 4 fragmentos para ascender de Liga.</li>
-          <li>Lo más rápido que se puede ascender de Liga es en 2 días.</li>
-          <li>La Liga B1 es la más alta a la que se puede asignar de inicio a un creador.</li>
-        </ul>
-        ${ytShort('5Zx2AhxwqBI')}
+        <h4>Crecimiento y Fidelización a Largo Plazo</h4>
+
+        <details>
+          <summary>El Equipo del Creador (Comunidad)</summary>
+          <p>Convierte visitantes ocasionales en fans recurrentes permitiendo que se unan a tu equipo con un regalo de bienvenida (Corazoncito). Fomenta el aumento de nivel dentro de la comunidad mediante beneficios exclusivos.</p>
+          ${ytShort('4KJxvQJFQ74')}
+        </details>
+
+        <details>
+          <summary>Sistema de Ligas de Creadores</summary>
+          <p>TikTok clasifica a los creadores en un ranking de 18 Ligas (desde D5 hasta A1). Cada día de emisión constante y recopilación de fragmentos te ayuda a ascender de categoría y ganar visibilidad adicional.</p>
+          ${ytShort('5Zx2AhxwqBI')}
+        </details>
       `
-    },
-    {
-      title:'Galería de Regalos y Objetivo del LIVE',
-      excerpt:'Dos herramientas para incentivar donaciones dentro de tu directo.',
-      read:'4 min',
-      body:`
-        <h4>Galería de Regalos</h4>
-        <p>Es una misión semanal de recopilación de Regalos que se actualiza todos los lunes a las 00:00 (hora local). Cuando un LIVE recibe cierto número de unidades de un Regalo enviadas por un mismo espectador, el creador puede iluminar ese Regalo en su Galería. El espectador que más veces lo envíe se convierte en su donador principal.</p>
-        ${ytShort('V4ldRpgDMDg')}
-        <h4>Objetivo del LIVE</h4>
-        <p>Permite seleccionar hasta 3 Regalos concretos y sus cantidades como "objetivo" durante un LIVE, para animar y guiar a los espectadores a completarlo. Puedes completar y restablecer el objetivo varias veces durante el mismo LIVE — cada logro muestra una animación de celebración.</p>
-        ${ytShort('jxatH0qkMzg')}
-      `
-    },
-    {
-      title:'Partida y potenciadores: guante, neblina y cronómetro',
-      excerpt:'El formato de la partida 1 contra 1 y las recompensas virtuales que pueden ganar tus espectadores top.',
-      read:'4 min',
-      body:`
-        <h4>¿Qué es una partida?</h4>
-        <p>Una partida permite a dos creadores competir entre ellos en un LIVE para ver quién recibe más me gusta y Regalos durante 5 minutos, seguidos de una "vuelta de honor" de 3 minutos.</p>
-        ${ytShort('RCufLJqUEzg')}
-        <h4>Potenciadores de partidas</h4>
-        <p>Recompensas virtuales que generan efectos mágicos al activarse en una partida. Los espectadores entre los 3 donadores principales de un creador que gana la partida pueden recibir uno al azar. Aparece en su mochila y debe compartirse en un plazo de 5 días antes de caducar — son intransferibles fuera de esa sala LIVE.</p>
-        <h5>Guante potenciador</h5>
-        ${ytShort('85nZ2aYFL34')}
-        <h5>Neblina mágica</h5>
-        ${ytShort('IWrH7f7BeLc')}
-        <h5>Cronómetro</h5>
-        ${ytShort('FuV3SEq91Gk')}
-      `
-    },
-    {
-      title:'Equipo del creador: construye tu comunidad',
-      excerpt:'Cómo convertir espectadores puntuales en una comunidad fiel, por niveles.',
-      read:'4 min',
-      body:`
-        <h4>Equipo del creador</h4>
-        <p>Ayuda a crear una comunidad fiel y participativa, y a recompensar a los espectadores por interactuar contigo. Cualquiera puede unirse enviando un Regalo de Corazoncito (1 moneda). Al ver, regalar y comentar de forma continua, sube de nivel dentro de tu equipo y desbloquea insignias, apariciones estelares, celebraciones de subida de nivel y acceso a Regalos exclusivos.</p>
-        <p>Esta función ayuda a convertir consumo puntual en visualizaciones y donaciones a largo plazo, aumentando la retención de pago de tus LIVE.</p>
-        <ul>
-          <li>Empieza a formar tu equipo (0 miembros)</li>
-          <li>Crea tu equipo (1–10 miembros)</li>
-          <li>Mejora el nivel de tu equipo (11–50 / 51–500 / +500 miembros)</li>
-        </ul>
-        ${ytShort('4KJxvQJFQ74')}
-      `
-    },
+    }
   ];
 
   const campanas = [
@@ -1008,8 +1071,6 @@
     { title:'Solo the Strong Survive', dates:'31 jul – 03 ago', desc:'Reto por fases: los mejores creadores pasan a la siguiente ronda.' },
     { title:'Start Game', dates:'26 jul – 31 jul', desc:'Campaña de bienvenida para creadores recién incorporados.' },
   ];
-
-  // Las batallas ya no son un array fijo: se leen en tiempo real desde Firestore (ver renderBatallas más abajo).
 
   const calendario = [
     { title:'Formación semanal', excerpt:'Sesión grupal en directo con el equipo de la agencia.', read:'Martes 19:00' },
@@ -1019,9 +1080,9 @@
   ];
 
   const eventos = [
-    { title:'🥉 Liga Bronce', info:'Premio: 1K – 5K 💎', desc:'Para creadores principiantes.' },
-    { title:'🥈 Liga Plata', info:'Premio: 5K – 15K 💎', desc:'Para creadores intermedios.' },
     { title:'🥇 Liga Oro', info:'Premio: 15K – 30K 💎', desc:'Para creadores avanzados.' },
+    { title:'🥈 Liga Plata', info:'Premio: 5K – 15K 💎', desc:'Para creadores intermedios.' },
+    { title:'🥉 Liga Bronce', info:'Premio: 1K – 5K 💎', desc:'Para creadores principiantes.' },
   ];
 
   const state = { view:'home', loggedIn:false, user:null, tab:'videos', ptab:'formacion' };
@@ -1031,10 +1092,11 @@
       `<div class="card"><h3 style="font-size:15.5px">${c.title}</h3><p style="color:var(--gold);font-size:12.5px;margin-bottom:6px">${c.dates}</p><p>${c.desc}</p></div>`
     ).join('');
   }
+
   let unsubBatallas = null;
   function renderBatallas(){
     const list = document.getElementById('batallasList');
-    if(unsubBatallas) unsubBatallas(); // evita listeners duplicados
+    if(unsubBatallas) unsubBatallas();
     unsubBatallas = db.collection('batallas').orderBy('createdAt','desc')
       .onSnapshot((snapshot) => {
         if(snapshot.empty){
@@ -1106,16 +1168,19 @@
     if(!confirm('¿Eliminar esta batalla?')) return;
     db.collection('batallas').doc(id).delete().catch(err => console.error(err));
   }
+
   function renderCalendario(){
     document.getElementById('calendarioList').innerHTML = calendario.map(c =>
       `<div class="article-row"><div><h4>${c.title}</h4><p>${c.excerpt}</p></div><div class="article-meta">${c.read}</div></div>`
     ).join('');
   }
+
   function renderEventos(){
     document.getElementById('eventosList').innerHTML = eventos.map(e =>
       `<div class="card"><h3 style="font-size:15.5px">${e.title}</h3><p style="color:var(--gold);font-size:12.5px;margin-bottom:6px">${e.info}</p><p>${e.desc}</p></div>`
     ).join('');
   }
+
   function renderVideos(){
     document.getElementById('tab-videos').innerHTML = videos.map((v,i) => {
       const thumbStyle = (v.embed && v.embed.type === 'youtube')
@@ -1132,6 +1197,7 @@
       </div>`;
     }).join('');
   }
+
   function renderArticles(){
     document.getElementById('tab-articulos').innerHTML = articles.map((a,i) => `
       <div class="article-row" tabindex="0" onclick="openArticle(${i})">
@@ -1147,10 +1213,12 @@
     document.getElementById('articleBody').innerHTML = a.body;
     document.getElementById('articleModal').classList.remove('hidden');
   }
+
   function closeArticle(){
     document.getElementById('articleModal').classList.add('hidden');
     document.getElementById('articleBody').innerHTML = '';
   }
+
   function closeArticleOnBackdrop(e){ if(e.target.id === 'articleModal') closeArticle(); }
 
   function setPanelTab(tab){
@@ -1177,10 +1245,12 @@
     }
     document.getElementById('playerModal').classList.remove('hidden');
   }
+
   function closePlayer(){
     document.getElementById('playerModal').classList.add('hidden');
     document.getElementById('playerFrame').innerHTML = '<div class="play-btn">▶</div><span>Vista previa — conecta tu proveedor de video</span>';
   }
+
   function closePlayerOnBackdrop(e){ if(e.target.id === 'playerModal') closePlayer(); }
 
   function setTab(tab){
@@ -1200,12 +1270,14 @@
     window.scrollTo({ top:0, behavior:'instant' });
     updatePanelGate();
   }
+
   function toggleMobileNav(){ document.getElementById('navLinks').classList.toggle('open'); }
 
   function updatePanelGate(){
     document.getElementById('panelLocked').classList.toggle('hidden', state.loggedIn);
     document.getElementById('panelContent').classList.toggle('hidden', !state.loggedIn);
   }
+
   function updateAuthUI(){
     document.getElementById('authButtons').classList.toggle('hidden', state.loggedIn);
     const ub = document.getElementById('userButtons');
@@ -1232,13 +1304,13 @@
   function showFieldError(fieldId, invalid){
     document.getElementById(fieldId).classList.toggle('invalid', invalid);
   }
+
   function showMsg(id, text, ok){
     const el = document.getElementById(id);
     el.textContent = text;
     el.className = 'form-msg ' + (ok ? 'ok' : 'err');
   }
 
-  // Olvidé mi contraseña — envía email de restablecimiento vía Firebase
   function handleForgotPassword(){
     const emailField = document.getElementById('loginEmail');
     const email = emailField.value.trim();
@@ -1277,7 +1349,6 @@
       });
   }
 
-  // Login real con Firebase
   document.getElementById('loginForm').addEventListener('submit', function(e){
     e.preventDefault();
     const email = document.getElementById('loginEmail').value.trim();
@@ -1314,7 +1385,6 @@
       });
   });
 
-  // Mantener sesión al recargar
   auth.onAuthStateChanged((user) => {
     if(user){
       state.loggedIn = true;
@@ -1328,7 +1398,6 @@
     renderBatallaAdminForm();
   });
 
-  // Contacto: validación + envío real (FormSubmit)
   document.getElementById('contactForm').addEventListener('submit', function(e){
     const name = document.getElementById('cName').value.trim();
     const email = document.getElementById('cEmail').value.trim();
@@ -1341,11 +1410,9 @@
       e.preventDefault();
       return;
     }
-    // Dejamos que el form haga POST a FormSubmit
     showMsg('contactMsg', 'Enviando mensaje...', true);
   });
 
-  // Sugerencias: solo si está logueado; FormSubmit envía el email
   document.getElementById('suggestionForm').addEventListener('submit', function(e){
     if(!state.loggedIn){
       e.preventDefault();
@@ -1363,7 +1430,6 @@
     showMsg('suggestionMsg', 'Enviando sugerencia...', true);
   });
 
-  // _next del contacto para volver a la misma página
   document.querySelector('#contactForm input[name="_next"]').value = window.location.href.split('#')[0] + '?enviado=1';
 
   if(new URLSearchParams(location.search).get('enviado') === '1'){
@@ -1372,12 +1438,11 @@
     history.replaceState({}, '', location.pathname);
   }
 
-  // Contador de diamantes del mockup del hero — el único elemento animado de la página.
   function startGiftCounter(){
     const el = document.getElementById('giftCounter');
     if(!el) return;
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if(reduceMotion) return; // se queda en el número fijo, sin animar
+    if(reduceMotion) return;
     let value = 12480;
     setInterval(() => {
       value += Math.floor(Math.random() * 40) + 5;
