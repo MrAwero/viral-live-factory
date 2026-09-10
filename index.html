@@ -6,14 +6,14 @@
     <title>Viral Live Factory — Agencia TikTok LIVE España</title>
     <meta name="description" content="Agencia oficial TikTok LIVE en España. Formación, soporte y comunidad para creadores. 100% de tus diamantes, sin comisiones.">
     
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <!-- Firebase SDK (Descomenta y configura cuando tengas tu proyecto) -->
+    <!-- <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script> -->
+    <!-- <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script> -->
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --bg-primary: #000000;
@@ -30,6 +30,9 @@
             --border-color: #1f1f1f;
             --border-hover: #2a2a2a;
             --success: #10B981;
+            --gold: #FFD700;
+            --silver: #C0C0C0;
+            --bronze: #CD7F32;
             --radius-sm: 8px;
             --radius-md: 12px;
             --radius-lg: 20px;
@@ -47,12 +50,8 @@
             overflow-x: hidden;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 5%;
-        }
-
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+        
         .gradient-text {
             background: var(--accent-gradient);
             -webkit-background-clip: text;
@@ -74,1033 +73,218 @@
             border-radius: 50px;
         }
 
-        .section-title {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 1rem;
-        }
-
-        .section-subtitle {
-            font-size: 1.15rem;
-            color: var(--text-secondary);
-            max-width: 700px;
-            margin: 0 auto 3rem auto;
-        }
+        .section-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; line-height: 1.2; margin-bottom: 1rem; }
+        .section-subtitle { font-size: 1.15rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto 3rem auto; }
 
         .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.9rem 1.8rem;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1rem;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-family: inherit;
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+            padding: 0.9rem 1.8rem; border-radius: 50px; font-weight: 600; font-size: 1rem;
+            text-decoration: none; border: none; cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-family: inherit;
         }
-
-        .btn-primary {
-            background: var(--tiktok-red);
-            color: white;
-            box-shadow: 0 4px 20px rgba(254, 44, 85, 0.3);
-        }
-
-        .btn-primary:hover {
-            background: var(--tiktok-red-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(254, 44, 85, 0.4);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-primary);
-            border: 1px solid var(--border-hover);
-        }
-
-        .btn-secondary:hover {
-            background: var(--bg-tertiary);
-            border-color: var(--tiktok-cyan);
-            color: var(--tiktok-cyan);
-        }
+        .btn-primary { background: var(--tiktok-red); color: white; box-shadow: 0 4px 20px rgba(254, 44, 85, 0.3); }
+        .btn-primary:hover { background: var(--tiktok-red-dark); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(254, 44, 85, 0.4); }
+        .btn-secondary { background: transparent; color: var(--text-primary); border: 1px solid var(--border-hover); }
+        .btn-secondary:hover { background: var(--bg-tertiary); border-color: var(--tiktok-cyan); color: var(--tiktok-cyan); }
+        .btn-ghost { background: transparent; color: var(--text-secondary); padding: 0.5rem 1rem; }
+        .btn-ghost:hover { color: var(--text-primary); }
 
         /* HEADER */
         header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            position: sticky; top: 0; z-index: 1000;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-color);
         }
-
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 5%;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-size: 1.3rem;
-            font-weight: 900;
-            letter-spacing: -0.5px;
-            text-decoration: none;
-            color: var(--text-primary);
-        }
-
-        .logo img {
-            width: 42px;
-            height: 42px;
-            object-fit: contain;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
+        .nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%; max-width: 1400px; margin: 0 auto; }
+        .logo { display: flex; align-items: center; gap: 0.8rem; font-size: 1.3rem; font-weight: 900; letter-spacing: -0.5px; text-decoration: none; color: var(--text-primary); }
+        .logo-icon { width: 36px; height: 36px; background: var(--accent-gradient); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        
+        .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
         .nav-links a:hover { color: var(--text-primary); }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
+        .nav-actions { display: flex; align-items: center; gap: 1rem; }
+        .mobile-menu-btn { display: none; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
 
         /* HERO */
-        .hero {
-            padding: 6rem 0 5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
+        .hero { padding: 6rem 0 5rem; position: relative; overflow: hidden; }
         .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, rgba(254, 44, 85, 0.08) 0%, transparent 70%);
-            pointer-events: none;
+            content: ''; position: absolute; top: -50%; left: 50%; transform: translateX(-50%);
+            width: 800px; height: 800px; background: radial-gradient(circle, rgba(254, 44, 85, 0.08) 0%, transparent 70%); pointer-events: none;
         }
-
-        .hero-content {
-            text-align: center;
-            max-width: 900px;
-            margin: 0 auto;
-            position: relative;
-        }
-
+        .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 4rem; align-items: center; position: relative; }
         .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(37, 244, 238, 0.08);
-            border: 1px solid rgba(37, 244, 238, 0.2);
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            color: var(--tiktok-cyan);
-            font-weight: 500;
-            margin-bottom: 1.5rem;
+            display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(37, 244, 238, 0.08);
+            border: 1px solid rgba(37, 244, 238, 0.2); padding: 0.5rem 1rem; border-radius: 50px;
+            font-size: 0.85rem; color: var(--tiktok-cyan); font-weight: 500; margin-bottom: 1.5rem;
         }
+        .hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; line-height: 1.05; letter-spacing: -1.5px; margin-bottom: 1.5rem; }
+        .hero-subtitle { font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 2rem; max-width: 520px; line-height: 1.6; }
+        .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+        .hero-trial { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: var(--text-muted); }
+        .hero-trial svg { color: var(--success); }
 
-        .hero h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 900;
-            line-height: 1.05;
-            letter-spacing: -1.5px;
-            margin-bottom: 1.5rem;
+        .live-mockup {
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d); border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl); padding: 1.5rem; position: relative;
+            box-shadow: 0 0 60px rgba(254, 44, 85, 0.15);
         }
+        .live-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); }
+        .live-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--tiktok-red); padding: 0.35rem 0.8rem; border-radius: 6px; font-size: 0.75rem; font-weight: 700; }
+        .live-badge .dot { width: 6px; height: 6px; background: white; border-radius: 50%; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.3); } }
+        .live-viewers { display: flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; color: var(--text-secondary); font-weight: 600; }
+        .live-content { background: linear-gradient(180deg, #1f1f1f 0%, #0f0f0f 100%); border-radius: var(--radius-md); padding: 1.5rem; min-height: 280px; display: flex; flex-direction: column; justify-content: space-between; }
+        .chat-feed { display: flex; flex-direction: column; gap: 0.8rem; }
+        .chat-msg { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.9rem; animation: slideIn 0.5s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+        .chat-user { color: var(--tiktok-cyan); font-weight: 600; white-space: nowrap; }
+        .chat-text { color: var(--text-primary); }
+        .chat-gift { color: var(--gold); font-weight: 600; }
+        .live-stats { display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid var(--border-color); margin-top: 1rem; }
+        .stat-diamonds { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 1.1rem; color: var(--tiktok-cyan); }
+        .stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
 
-        .hero-subtitle {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            margin-bottom: 2.5rem;
-            line-height: 1.7;
-        }
-
-        .hero-cta {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 2rem;
-        }
-
-        .hero-trial {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .hero-trial svg {
-            color: var(--success);
-        }
-
-        /* MISSION & VISION */
-        .mission-vision {
-            padding: 6rem 0;
-            background: var(--bg-secondary);
-        }
-
-        .mv-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-        }
-
-        .mv-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 3rem;
-        }
-
-        .mv-card h3 {
-            font-size: 1.8rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            color: var(--tiktok-cyan);
-        }
-
-        .mv-card p {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            font-size: 1.05rem;
-        }
-
-        .pillars {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .pillar {
-            background: rgba(37, 244, 238, 0.08);
-            border: 1px solid rgba(37, 244, 238, 0.2);
-            padding: 0.6rem 1.2rem;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        /* WHAT IS VLF */
-        .what-is {
-            padding: 6rem 0;
-            background: var(--bg-primary);
-        }
-
-        .what-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .what-content h2 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-        }
-
-        .what-content p {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            font-size: 1.05rem;
-            line-height: 1.8;
-        }
-
-        .price-highlight {
-            background: linear-gradient(135deg, rgba(37, 244, 238, 0.1) 0%, rgba(254, 44, 85, 0.1) 100%);
-            border: 1px solid rgba(37, 244, 238, 0.3);
-            border-radius: var(--radius-lg);
-            padding: 2rem;
-            margin-top: 2rem;
-        }
-
-        .price-highlight h3 {
-            font-size: 1.8rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-        }
-
-        .price-highlight p {
-            color: var(--text-secondary);
-            margin: 0;
-        }
+        /* SECTIONS GENERAL */
+        section { padding: 6rem 0; }
+        .bg-secondary { background: var(--bg-secondary); }
+        .text-center { text-align: center; }
 
         /* BENEFITS */
-        .benefits {
-            padding: 6rem 0;
-            background: var(--bg-secondary);
-        }
-
-        .benefits-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1.5rem;
-        }
-
+        .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
         .benefit-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 2rem;
-            transition: all 0.3s ease;
+            background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg);
+            padding: 2rem; transition: all 0.3s ease; position: relative; overflow: hidden;
         }
+        .benefit-card:hover { border-color: var(--tiktok-cyan); transform: translateY(-4px); }
+        .benefit-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .benefit-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.6rem; }
+        .benefit-card p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; }
 
-        .benefit-card:hover {
-            border-color: var(--tiktok-cyan);
-            transform: translateY(-4px);
+        /* LEAGUES */
+        .leagues-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+        .league-card {
+            background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg);
+            padding: 2.5rem 2rem; text-align: center; position: relative; overflow: hidden; transition: all 0.3s ease;
         }
+        .league-card:hover { transform: translateY(-6px); }
+        .league-card.gold { border-color: rgba(255, 215, 0, 0.3); }
+        .league-card.silver { border-color: rgba(192, 192, 192, 0.3); }
+        .league-card.bronze { border-color: rgba(205, 127, 50, 0.3); }
+        .league-card.gold::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at top, rgba(255, 215, 0, 0.08) 0%, transparent 60%); }
+        .league-card.silver::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at top, rgba(192, 192, 192, 0.06) 0%, transparent 60%); }
+        .league-card.bronze::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at top, rgba(205, 127, 50, 0.08) 0%, transparent 60%); }
+        .league-medal { font-size: 3rem; margin-bottom: 1rem; position: relative; z-index: 1; }
+        .league-card h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem; position: relative; z-index: 1; }
+        .league-card .league-desc { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem; position: relative; z-index: 1; }
+        .league-prize { display: inline-block; padding: 0.5rem 1.2rem; border-radius: 50px; font-weight: 700; font-size: 0.95rem; position: relative; z-index: 1; }
+        .league-card.gold .league-prize { background: rgba(255, 215, 0, 0.1); color: var(--gold); border: 1px solid rgba(255, 215, 0, 0.3); }
+        .league-card.silver .league-prize { background: rgba(192, 192, 192, 0.1); color: var(--silver); border: 1px solid rgba(192, 192, 192, 0.3); }
+        .league-card.bronze .league-prize { background: rgba(205, 127, 50, 0.1); color: var(--bronze); border: 1px solid rgba(205, 127, 50, 0.3); }
+        
+        .extra-prize { text-align: center; margin-top: 3rem; padding: 2rem; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-color); }
+        .extra-prize p { color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
 
-        .benefit-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
+        /* REQUIREMENTS & ROADMAP & PROCESS */
+        .req-grid, .roadmap-grid, .process-grid { display: grid; gap: 2rem; margin-top: 3rem; }
+        .req-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        .req-item { display: flex; align-items: flex-start; gap: 1rem; padding: 1.2rem; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); }
+        .req-check { flex-shrink: 0; width: 24px; height: 24px; background: rgba(16, 185, 129, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--success); font-size: 0.8rem; font-weight: bold; }
+        .req-item h4 { font-size: 1rem; font-weight: 600; margin-bottom: 0.2rem; }
+        .req-item p { font-size: 0.85rem; color: var(--text-secondary); }
 
-        .benefit-card h3 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 0.6rem;
-        }
+        .roadmap-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+        .roadmap-step { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 2rem 1.5rem; text-align: center; }
+        .roadmap-step .step-icon { font-size: 2rem; margin-bottom: 1rem; }
+        .roadmap-step h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+        .roadmap-step p { font-size: 0.85rem; color: var(--text-secondary); }
 
-        .benefit-card p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        /* COMMUNITY */
-        .community {
-            padding: 6rem 0;
-            background: var(--bg-primary);
-        }
-
-        .community-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .community-content h2 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-        }
-
-        .community-content p {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            font-size: 1.05rem;
-            line-height: 1.8;
-        }
-
-        .community-features {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .cf-item {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 1rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-        }
-
-        .cf-icon {
-            font-size: 1.5rem;
-        }
-
-        /* TRAINING */
-        .training {
-            padding: 6rem 0;
-            background: var(--bg-secondary);
-        }
-
-        .training-list {
-            max-width: 900px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .training-item {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 1.5rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-        }
-
-        .training-item svg {
-            flex-shrink: 0;
-            color: var(--tiktok-cyan);
-        }
-
-        /* SETUP */
-        .setup {
-            padding: 6rem 0;
-            background: var(--bg-primary);
-        }
-
-        .setup-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .setup-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 2.5rem 2rem;
-            text-align: center;
-            position: relative;
-        }
-
-        .setup-card.basic { border-top: 4px solid #10B981; }
-        .setup-card.intermediate { border-top: 4px solid #F59E0B; }
-        .setup-card.pro { border-top: 4px solid var(--tiktok-red); }
-
-        .setup-level {
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
-        }
-
-        .setup-card.basic .setup-level { color: #10B981; }
-        .setup-card.intermediate .setup-level { color: #F59E0B; }
-        .setup-card.pro .setup-level { color: var(--tiktok-red); }
-
-        .setup-card h3 {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-        }
-
-        .setup-card ul {
-            list-style: none;
-            text-align: left;
-            color: var(--text-secondary);
-        }
-
-        .setup-card li {
-            padding: 0.5rem 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .setup-card li:last-child { border-bottom: none; }
-
-        /* TRIAL */
-        .trial {
-            padding: 6rem 0;
-            background: linear-gradient(135deg, rgba(37, 244, 238, 0.05) 0%, rgba(254, 44, 85, 0.05) 100%);
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-            text-align: center;
-        }
-
-        .trial h2 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-        }
-
-        .trial-features {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin: 3rem 0;
-            flex-wrap: wrap;
-        }
-
-        .trial-feature {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .trial-feature .check {
-            width: 32px;
-            height: 32px;
-            background: rgba(16, 185, 129, 0.15);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--success);
-        }
-
-        /* REQUIREMENTS */
-        .requirements {
-            padding: 6rem 0;
-            background: var(--bg-secondary);
-        }
-
-        .req-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-        }
-
-        .req-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .req-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            padding: 1.2rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-        }
-
-        .req-check {
-            flex-shrink: 0;
-            width: 24px;
-            height: 24px;
-            background: rgba(16, 185, 129, 0.15);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--success);
-            font-size: 0.8rem;
-        }
-
-        .req-item h4 {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 0.2rem;
-        }
-
-        .req-item p {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-
-        .req-note {
-            background: rgba(254, 44, 85, 0.08);
-            border: 1px solid rgba(254, 44, 85, 0.2);
-            border-radius: var(--radius-md);
-            padding: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .req-note p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin: 0;
-        }
+        .process-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+        .process-step { position: relative; padding: 2rem; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); }
+        .process-number { width: 40px; height: 40px; background: var(--accent-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; margin-bottom: 1.2rem; }
+        .process-step h4 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .process-step p { font-size: 0.9rem; color: var(--text-secondary); }
 
         /* TRANSPARENCY */
-        .transparency {
-            padding: 5rem 0;
-            background: var(--bg-primary);
-            text-align: center;
-        }
+        .transparency { padding: 4rem 0; background: linear-gradient(135deg, rgba(37, 244, 238, 0.03) 0%, rgba(254, 44, 85, 0.03) 100%); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
+        .transparency-grid { display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; }
+        .transparency-item { display: flex; align-items: center; gap: 0.8rem; font-weight: 600; }
+        .transparency-item .check { width: 28px; height: 28px; background: rgba(16, 185, 129, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--success); }
 
-        .transparency h2 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            margin-bottom: 3rem;
+        /* CREATOR PANEL & LOGIN */
+        .creator-panel { background: var(--bg-secondary); }
+        .panel-box { max-width: 500px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 3rem 2.5rem; text-align: center; }
+        .panel-lock { width: 64px; height: 64px; background: rgba(37, 244, 238, 0.08); border: 1px solid rgba(37, 244, 238, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 1.5rem; }
+        .panel-box h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.8rem; }
+        .panel-box p { color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.95rem; }
+        
+        .form-group { margin-bottom: 1.3rem; text-align: left; }
+        .form-group label { display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-secondary); }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 0.9rem 1rem; background: var(--bg-primary); border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm); color: var(--text-primary); font-family: inherit; font-size: 0.95rem; transition: border-color 0.2s;
         }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--tiktok-cyan); }
+        .form-group textarea { resize: vertical; min-height: 100px; }
+        .forgot-link { display: block; text-align: right; font-size: 0.85rem; color: var(--tiktok-cyan); text-decoration: none; margin-top: 0.5rem; }
+        .panel-footer { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); font-size: 0.9rem; color: var(--text-secondary); }
+        .panel-footer a { color: var(--tiktok-cyan); text-decoration: none; font-weight: 500; }
+        .panel-footer a:hover { text-decoration: underline; }
 
-        .transparency-grid {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            flex-wrap: wrap;
+        /* DASHBOARD */
+        .panel-dashboard { display: none; max-width: 1000px; margin: 0 auto; }
+        .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); flex-wrap: wrap; gap: 1rem; }
+        .dashboard-user { display: flex; align-items: center; gap: 1rem; }
+        .user-avatar { width: 50px; height: 50px; background: var(--accent-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.2rem; }
+        .user-info h3 { font-size: 1.2rem; font-weight: 700; }
+        .user-info p { color: var(--text-secondary); font-size: 0.9rem; }
+        
+        .dashboard-tabs { display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .tab-btn {
+            padding: 0.8rem 1.2rem; background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: var(--radius-md); color: var(--text-secondary); cursor: pointer; font-weight: 600; transition: all 0.3s; font-size: 0.9rem;
         }
+        .tab-btn:hover { border-color: var(--tiktok-cyan); color: var(--text-primary); }
+        .tab-btn.active { background: var(--accent-gradient); color: white; border-color: transparent; }
+        
+        .tab-content { display: none; animation: fadeUp 0.4s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .dashboard-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 2rem; }
+        .dashboard-card h3 { font-size: 1.2rem; margin-bottom: 1rem; color: var(--tiktok-cyan); }
+        .dashboard-card p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; }
 
-        .transparency-item {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .transparency-item .check {
-            width: 28px;
-            height: 28px;
-            background: rgba(16, 185, 129, 0.15);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--success);
-        }
-
-        /* FAQ */
-        .faq {
-            padding: 6rem 0;
-            background: var(--bg-secondary);
-        }
-
-        .faq-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .faq-list {
-            max-width: 800px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .faq-item {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-        }
-
-        .faq-question {
-            padding: 1.3rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 1rem;
-            user-select: none;
-        }
-
-        .faq-toggle {
-            width: 28px;
-            height: 28px;
-            background: var(--bg-tertiary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            transition: transform 0.3s;
-            flex-shrink: 0;
-        }
-
-        .faq-item.active .faq-toggle {
-            transform: rotate(45deg);
-            background: var(--tiktok-red);
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .faq-item.active .faq-answer {
-            max-height: 300px;
-        }
-
-        .faq-answer-content {
-            padding: 0 1.5rem 1.3rem;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.7;
-        }
-
-        /* CTA FINAL */
-        .cta-final {
-            padding: 8rem 0;
-            background: var(--bg-primary);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-final::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(254, 44, 85, 0.1) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .cta-final h2 {
-            font-size: clamp(2.5rem, 4vw, 3.5rem);
-            font-weight: 900;
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-
-        .cta-final p {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto 2.5rem;
-            position: relative;
-        }
-
-        .cta-tagline {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-top: 3rem;
-            position: relative;
-        }
-
-        .cta-tagline span {
-            display: block;
-            font-size: 2rem;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        /* CONTACT */
+        .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: start; }
+        .contact-info h2 { font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 800; margin-bottom: 1rem; }
+        .contact-info > p { color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.05rem; }
+        .contact-methods { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
+        .contact-method { display: flex; align-items: center; gap: 1rem; padding: 1rem; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); }
+        .contact-method-icon { width: 40px; height: 40px; background: rgba(37, 244, 238, 0.08); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .contact-method-text strong { display: block; font-size: 0.95rem; margin-bottom: 0.1rem; }
+        .contact-method-text span { font-size: 0.85rem; color: var(--text-secondary); }
 
         /* FOOTER */
-        footer {
-            padding: 3rem 0 2rem;
-            background: var(--bg-primary);
-            border-top: 1px solid var(--border-color);
-            text-align: center;
-        }
-
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.8rem;
-            margin-bottom: 1rem;
-            font-weight: 900;
-            font-size: 1.2rem;
-        }
-
-        .footer-logo img {
-            width: 36px;
-            height: 36px;
-        }
-
-        .footer-desc {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .footer-legal {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .footer-legal a {
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
+        footer { padding: 3rem 0 2rem; background: var(--bg-primary); border-top: 1px solid var(--border-color); text-align: center; }
+        .footer-logo { display: flex; align-items: center; justify-content: center; gap: 0.8rem; margin-bottom: 1rem; font-weight: 900; font-size: 1.2rem; }
+        .footer-desc { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem; }
+        .footer-legal { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; font-size: 0.85rem; color: var(--text-muted); }
+        .footer-legal a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
         .footer-legal a:hover { color: var(--text-primary); }
-
-        /* CREATOR PANEL */
-        .creator-panel {
-            padding: 6rem 0;
-            background: var(--bg-secondary);
-        }
-
-        .panel-box {
-            max-width: 500px;
-            margin: 0 auto;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 3rem 2.5rem;
-            text-align: center;
-        }
-
-        .panel-lock {
-            width: 64px;
-            height: 64px;
-            background: rgba(37, 244, 238, 0.08);
-            border: 1px solid rgba(37, 244, 238, 0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            margin: 0 auto 1.5rem;
-        }
-
-        .panel-box h2 {
-            font-size: 1.8rem;
-            font-weight: 800;
-            margin-bottom: 0.8rem;
-        }
-
-        .panel-box p {
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            font-size: 0.95rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.3rem;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            color: var(--text-secondary);
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 0.9rem 1rem;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            color: var(--text-primary);
-            font-family: inherit;
-            font-size: 0.95rem;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--tiktok-cyan);
-        }
-
-        .forgot-link {
-            display: block;
-            text-align: right;
-            font-size: 0.85rem;
-            color: var(--tiktok-cyan);
-            text-decoration: none;
-            margin-top: 0.5rem;
-        }
-
-        .panel-footer {
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--border-color);
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .panel-footer a {
-            color: var(--tiktok-cyan);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        /* PANEL DASHBOARD (Logged in view) */
-        .panel-dashboard {
-            display: none;
-            padding: 6rem 0;
-            background: var(--bg-secondary);
-        }
-
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .dashboard-user {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .user-avatar {
-            width: 50px;
-            height: 50px;
-            background: var(--accent-gradient);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-
-        .user-info h3 {
-            font-size: 1.2rem;
-            font-weight: 700;
-        }
-
-        .user-info p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .dashboard-tabs {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .tab-btn {
-            padding: 0.8rem 1.5rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            color: var(--text-secondary);
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .tab-btn.active {
-            background: var(--accent-gradient);
-            color: white;
-            border-color: transparent;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .dashboard-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 2rem;
-        }
-
-        .dashboard-card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            color: var(--tiktok-cyan);
-        }
-
-        .error-message {
-            background: rgba(254, 44, 85, 0.1);
-            border: 1px solid var(--tiktok-red);
-            color: var(--tiktok-red);
-            padding: 0.8rem;
-            border-radius: var(--radius-sm);
-            margin-bottom: 1rem;
-            display: none;
-        }
-
-        .success-message {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid var(--success);
-            color: var(--success);
-            padding: 0.8rem;
-            border-radius: var(--radius-sm);
-            margin-bottom: 1rem;
-            display: none;
-        }
 
         /* RESPONSIVE */
         @media (max-width: 968px) {
-            .mv-grid,
-            .what-grid,
-            .community-grid,
-            .req-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .setup-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .training-list,
-            .community-features {
-                grid-template-columns: 1fr;
-            }
-
-            .nav-links { display: none; }
+            .hero-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(0, 0, 0, 0.95); flex-direction: column; padding: 1.5rem; gap: 1rem; border-bottom: 1px solid var(--border-color); }
+            .nav-links.active { display: flex; }
             .mobile-menu-btn { display: block; }
         }
-
         @media (max-width: 600px) {
             .hero { padding: 4rem 0 3rem; }
-            .section { padding: 4rem 0; }
-            
-            .trial-features,
-            .transparency-grid {
-                flex-direction: column;
-                gap: 1rem;
-            }
+            section { padding: 4rem 0; }
+            .transparency-grid { flex-direction: column; gap: 1rem; align-items: center; }
+            .panel-box { padding: 2rem 1.5rem; }
         }
     </style>
 </head>
@@ -1109,462 +293,248 @@
     <!-- HEADER -->
     <header>
         <nav class="nav">
-            <a href="#" class="logo">
-                <img src="logo.png" alt="Viral Live Factory">
+            <a href="#inicio" class="logo">
+                <span class="logo-icon">⚡</span>
                 <span>VIRAL LIVE <span class="gradient-text">FACTORY</span></span>
             </a>
-            <ul class="nav-links">
-                <li><a href="#mision">Misión</a></li>
-                <li><a href="#beneficios">Beneficios</a></li>
-                <li><a href="#comunidad">Comunidad</a></li>
-                <li><a href="#faq">FAQ</a></li>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#inicio">Inicio</a></li>
                 <li><a href="#panel">Panel</a></li>
+                <li><a href="#contacto">Contacto</a></li>
             </ul>
             <div class="nav-actions">
-                <button id="logoutBtn" class="btn btn-secondary" style="display: none;">Cerrar sesión</button>
-                <a href="#panel" class="btn btn-secondary" id="loginBtn">Iniciar sesión</a>
+                <button id="logoutBtn" class="btn btn-ghost" style="display: none;">Salir</button>
+                <button id="loginNavBtn" class="btn btn-secondary">Iniciar sesión</button>
                 <a href="https://www.tiktok.com/t/ZS4ovyLpG" class="btn btn-primary" target="_blank">Únete</a>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
             </div>
-            <button class="mobile-menu-btn">☰</button>
         </nav>
     </header>
 
     <!-- HERO -->
-    <section class="hero">
+    <section class="hero" id="inicio">
         <div class="container">
-            <div class="hero-content">
-                <div class="hero-badge">
-                    <span></span>
-                    Agencia Oficial TikTok LIVE · España
-                </div>
-                <h1>Convierte tus directos en una <span class="gradient-text">oportunidad real</span></h1>
-                <p class="hero-subtitle">
-                    En Viral Live Factory ayudamos a creadores de TikTok LIVE a mejorar sus directos, 
-                    construir una comunidad sólida y sacar el máximo partido a la plataforma. 
-                    <strong>Sin coste para ti. 100% de tus diamantes.</strong>
-                </p>
-                <div class="hero-cta">
-                    <a href="https://www.tiktok.com/t/ZS4ovyLpG" class="btn btn-primary" target="_blank">
-                        Quiero Unirme →
-                    </a>
-                    <a href="#panel" class="btn btn-secondary">Ver panel de creador</a>
-                </div>
-                <div class="hero-trial">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    Prueba la agencia 15 días gratis, sin compromiso
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- MISSION & VISION -->
-    <section class="mission-vision" id="mision">
-        <div class="container">
-            <div class="mv-grid">
-                <div class="mv-card">
-                    <h3>Nuestra Misión</h3>
-                    <p>
-                        Creemos que detrás de cada creador existe una oportunidad de crecimiento. 
-                        Nuestra misión es ayudarte a convertir esa oportunidad en una comunidad real 
-                        y sostenible dentro de TikTok LIVE.
-                    </p>
-                    <p style="margin-top: 1rem;">
-                        No buscamos que seas otra persona delante de la cámara. 
-                        <strong>Queremos ayudarte a potenciar lo que ya te hace diferente.</strong>
-                    </p>
-                </div>
-                <div class="mv-card">
-                    <h3>Nuestra Visión</h3>
-                    <p>
-                        Queremos construir una de las comunidades de creadores LIVE más sólidas de España. 
-                        Una comunidad basada en tres pilares:
-                    </p>
-                    <div class="pillars">
-                        <span class="pillar">CRECIMIENTO</span>
-                        <span class="pillar">FORMACIÓN</span>
-                        <span class="pillar">COMUNIDAD</span>
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <div class="hero-badge">Agencia Oficial TikTok LIVE · España</div>
+                    <h1>Convierte tus LIVE en <span class="gradient-text">ingresos reales</span></h1>
+                    <p class="hero-subtitle">Promoción de tus directos, formación semanal y soporte de agencia — sin coste para ti. Tus diamantes siguen siendo 100% tuyos.</p>
+                    <div class="hero-cta">
+                        <a href="https://www.tiktok.com/t/ZS4ovyLpG" class="btn btn-primary" target="_blank">Unirme a la agencia →</a>
+                        <button class="btn btn-secondary" onclick="document.getElementById('panel').scrollIntoView({behavior: 'smooth'})">Ver panel de creador</button>
                     </div>
-                    <p style="margin-top: 1.5rem;">
-                        Porque crecer en TikTok no consiste únicamente en hacer más horas de directo. 
-                        Consiste en aprender, mejorar y rodearte de personas que compartan tus objetivos.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- WHAT IS VLF -->
-    <section class="what-is">
-        <div class="container">
-            <div class="what-grid">
-                <div class="what-content">
-                    <span class="section-label">¿Qué es VLF?</span>
-                    <h2>Una agencia especializada en <span class="gradient-text">TikTok LIVE</span></h2>
-                    <p>
-                        Viral Live Factory es una agencia creada para acompañar a creadores que quieren 
-                        tomarse sus directos en serio. Ponemos a tu disposición un equipo que te acompaña 
-                        durante tu evolución como streamer.
-                    </p>
-                    <p>
-                        Desde resolver dudas y mejorar tu contenido hasta ayudarte a entender las herramientas 
-                        disponibles y aprovechar nuevas oportunidades dentro de TikTok LIVE.
-                    </p>
-                    <div class="price-highlight">
-                        <h3>Unirte no tiene coste para ti</h3>
-                        <p>
-                            Nuestro modelo está basado en la colaboración con TikTok. 
-                            <strong>No cobramos cuota por nuestros servicios.</strong> 
-                            Tú sigues generando tus ingresos desde tu propia cuenta.
-                        </p>
+                    <div class="hero-trial">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        🎟️ Prueba la agencia 15 días gratis, sin compromiso
                     </div>
                 </div>
-                <div style="display: flex; align-items: center; justify-content: center;">
-                    <img src="logo.png" alt="Viral Live Factory Logo" style="max-width: 400px; width: 100%; opacity: 0.9;">
+                <div class="live-mockup">
+                    <div class="live-header">
+                        <span class="live-badge"><span class="dot"></span> LIVE</span>
+                        <span class="live-viewers">👁 2.4K</span>
+                    </div>
+                    <div class="live-content">
+                        <div class="chat-feed">
+                            <div class="chat-msg"><span class="chat-user">@ana_ro</span><span class="chat-text">se unió al LIVE</span></div>
+                            <div class="chat-msg"><span class="chat-user">@marcos99</span><span class="chat-text">envió</span><span class="chat-gift">🌹 x5</span></div>
+                            <div class="chat-msg"><span class="chat-user">@lulu_tv</span><span class="chat-text">¡vamos que se puede! 🔥</span></div>
+                        </div>
+                        <div class="live-stats">
+                            <div>
+                                <div class="stat-label">Diamantes hoy</div>
+                                <div class="stat-diamonds">💎 12,480</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div class="stat-label">Comisión agencia</div>
+                                <div style="font-weight: 700; color: var(--success); font-size: 1.1rem;">0%</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- BENEFITS -->
-    <section class="benefits" id="beneficios">
+    <section class="bg-secondary" id="beneficios">
         <div class="container">
-            <div class="benefits-header">
+            <div class="text-center">
                 <span class="section-label">Beneficios</span>
-                <h2 class="section-title">¿Por qué Viral Live Factory?</h2>
-                <p class="section-subtitle">
-                    Crece con una estrategia, no a ciegas. Hacer directos constantemente no garantiza crecer.
-                </p>
+                <h2 class="section-title">Con Viral Live Factory detrás</h2>
+                <p class="section-subtitle">Esto es lo que recibes desde el primer día. Todo incluido, sin cuota de entrada y sin comisión sobre lo que ganas en tus directos.</p>
             </div>
             <div class="benefits-grid">
                 <div class="benefit-card">
-                    <div class="benefit-icon">🎯</div>
-                    <h3>Orientación Personalizada</h3>
-                    <p>Analizamos tu situación y te orientamos sobre contenido, interacción, dinámicas, horarios y estrategia de LIVE.</p>
-                </div>
-                <div class="benefit-card">
                     <div class="benefit-icon">📈</div>
-                    <h3>Enfoque en Crecimiento</h3>
-                    <p>Trabajamos para ayudarte a construir una comunidad y mejorar progresivamente tus resultados.</p>
+                    <h3>Promoción de tus LIVE</h3>
+                    <p>Te ayudamos a atraer más público a tus directos con visibilidad estratégica.</p>
                 </div>
                 <div class="benefit-card">
                     <div class="benefit-icon">🎓</div>
-                    <h3>Formación Continua</h3>
-                    <p>Aprende a utilizar mejor las herramientas de TikTok y descubre nuevas formas de mejorar tus transmisiones.</p>
+                    <h3>Formación semanal</h3>
+                    <p>Formación grupal en directo, una vez a la semana, para mejorar tus dinámicas de LIVE.</p>
                 </div>
                 <div class="benefit-card">
-                    <div class="benefit-icon">🤝</div>
-                    <h3>Comunidad de Creadores</h3>
-                    <p>Forma parte de una red de streamers con diferentes niveles y estilos de contenido.</p>
+                    <div class="benefit-icon">🧑‍🏫</div>
+                    <h3>Asesoría personalizada 1:1</h3>
+                    <p>Reuniones individuales para trabajar tu estrategia según tu perfil y nivel.</p>
                 </div>
                 <div class="benefit-card">
                     <div class="benefit-icon">🛡️</div>
-                    <h3>Soporte Técnico</h3>
-                    <p>Cuando tengas dudas o problemas relacionados con tus directos, tendrás un equipo al que acudir.</p>
+                    <h3>Soporte ante incidencias</h3>
+                    <p>Acompañamiento si sufres hackeo, baneo o restricciones en tu cuenta.</p>
                 </div>
                 <div class="benefit-card">
-                    <div class="benefit-icon">🚀</div>
-                    <h3>Nuevas Oportunidades</h3>
-                    <p>Te mantendremos informado sobre dinámicas, eventos, batallas y oportunidades disponibles.</p>
+                    <div class="benefit-icon">🎛️</div>
+                    <h3>Stream Key para OBS</h3>
+                    <p>Mejora la calidad de tus directos, con opción de multistreaming a otras plataformas.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">💎</div>
+                    <h3>100% de tus diamantes</h3>
+                    <p>Tus ingresos no cambian. La agencia se financia con incentivos de TikTok, no con tu comisión.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- COMMUNITY -->
-    <section class="community" id="comunidad">
+    <!-- LEAGUES -->
+    <section id="ligas">
         <div class="container">
-            <div class="community-grid">
-                <div class="community-content">
-                    <span class="section-label">Comunidad</span>
-                    <h2>Una red de <span class="gradient-text">creadores</span></h2>
-                    <p>
-                        Uno de los mayores problemas de muchos streamers es encontrar otros creadores 
-                        con los que hacer directos, batallas o colaboraciones.
-                    </p>
-                    <p>
-                        En Viral Live Factory estamos construyendo una red de creadores en España con 
-                        diferentes niveles y estilos. Esto nos permite ayudarte a encontrar 
-                        <strong>compañeros de LIVE que puedan encajar contigo</strong>.
-                    </p>
-                    <div class="community-features">
-                        <div class="cf-item">
-                            <span class="cf-icon">🔄</span>
-                            <span>Comparte</span>
-                        </div>
-                        <div class="cf-item">
-                            <span class="cf-icon">⚔️</span>
-                            <span>Compite</span>
-                        </div>
-                        <div class="cf-item">
-                            <span class="cf-icon"></span>
-                            <span>Conecta</span>
-                        </div>
-                        <div class="cf-item">
-                            <span class="cf-icon">📈</span>
-                            <span>Crece</span>
-                        </div>
-                    </div>
+            <div class="text-center">
+                <span class="section-label">Competición</span>
+                <h2 class="section-title">Competencias por ligas, <span class="gradient-text">premios en diamantes</span></h2>
+                <p class="section-subtitle">Cada mes organizamos eventos con premios de 1K a 30K diamantes, en 3 ligas para que la competencia sea justa.</p>
+            </div>
+            <div class="leagues-grid">
+                <div class="league-card gold">
+                    <div class="league-medal">🥇</div>
+                    <h3>Liga Oro</h3>
+                    <p class="league-desc">Creadores avanzados con mayor monetización</p>
+                    <span class="league-prize">15K – 30K 💎</span>
                 </div>
-                <div class="community-content">
-                    <h3 style="font-size: 1.8rem; margin-bottom: 1.5rem; color: var(--tiktok-cyan);">
-                        Más que una agencia. Somos una comunidad.
-                    </h3>
-                    <p style="margin-bottom: 2rem; line-height: 1.8;">
-                        Queremos que Viral Live Factory sea algo más que un nombre asociado a tu cuenta. 
-                        Queremos construir una comunidad en la que los creadores puedan:
-                    </p>
-                    <div class="community-features">
-                        <div class="cf-item">
-                            <span class="cf-icon">📚</span>
-                            <span><strong>Aprender</strong><br><small>Compartir conocimientos</small></span>
-                        </div>
-                        <div class="cf-item">
-                            <span class="cf-icon">🔗</span>
-                            <span><strong>Conectar</strong><br><small>Colaborar y competir</small></span>
-                        </div>
-                        <div class="cf-item">
-                            <span class="cf-icon">📈</span>
-                            <span><strong>Crecer</strong><br><small>Desarrollar tu comunidad</small></span>
-                        </div>
-                        <div class="cf-item">
-                            <span class="cf-icon">🎉</span>
-                            <span><strong>Disfrutar</strong><br><small>Hacer LIVE divertido</small></span>
-                        </div>
-                    </div>
+                <div class="league-card silver">
+                    <div class="league-medal">🥈</div>
+                    <h3>Liga Plata</h3>
+                    <p class="league-desc">Creadores intermedios con actividad constante</p>
+                    <span class="league-prize">5K – 15K 💎</span>
+                </div>
+                <div class="league-card bronze">
+                    <div class="league-medal">🥉</div>
+                    <h3>Liga Bronce</h3>
+                    <p class="league-desc">Creadores principiantes que están empezando en LIVE</p>
+                    <span class="league-prize">1K – 5K 💎</span>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- TRAINING -->
-    <section class="training">
-        <div class="container">
-            <div style="text-align: center; margin-bottom: 3rem;">
-                <span class="section-label">Formación</span>
-                <h2 class="section-title">Todo lo que aprenderás</h2>
-                <p class="section-subtitle">
-                    Organizamos sesiones y formaciones para ayudarte a mejorar todos los aspectos de tus LIVE.
-                </p>
+            <div class="extra-prize">
+                <h3 style="margin-bottom: 1rem; color: var(--tiktok-cyan);">Cumple objetivos, gana extra</h3>
+                <p>Al alcanzar las metas asignadas, recibes diamantes adicionales. Si lo prefieres, podemos transferirte el equivalente por PayPal.</p>
             </div>
-            <div class="training-list">
-                <div class="training-item">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    <div>
-                        <strong>Estrategias para TikTok LIVE</strong>
-                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Planificación y ejecución</p>
-                    </div>
-                </div>
-                <div class="training-item">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    <div>
-                        <strong>Interacción con espectadores</strong>
-                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Engagement y retención</p>
-                    </div>
-                </div>
-                <div class="training-item">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    <div>
-                        <strong>Dinámicas de comunidad</strong>
-                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Mantener activa tu audiencia</p>
-                    </div>
-                </div>
-                <div class="training-item">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    <div>
-                        <strong>Herramientas de TikTok</strong>
-                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Dominio de la plataforma</p>
-                    </div>
-                </div>
-                <div class="training-item">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    <div>
-                        <strong>Estadísticas y análisis</strong>
-                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Métricas y resultados</p>
-                    </div>
-                </div>
-                <div class="training-item">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    <div>
-                        <strong>Normas y políticas</strong>
-                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Cumplimiento y seguridad</p>
-                    </div>
-                </div>
-                <div class="training-item">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    <div>
-                        <strong>Calidad de transmisión</strong>
-                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Mejora técnica</p>
-                    </div>
-                </div>
-                <div class="training-item">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    <div>
-                        <strong>Batallas y eventos LIVE</strong>
-                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Dinámicas competitivas</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SETUP -->
-    <section class="setup">
-        <div class="container">
-            <div style="text-align: center; margin-bottom: 2rem;">
-                <span class="section-label">Equipamiento</span>
-                <h2 class="section-title">Lleva tu setup al <span class="gradient-text">siguiente nivel</span></h2>
-                <p class="section-subtitle">
-                    No necesitas un estudio profesional para empezar, pero podemos orientarte según tu presupuesto.
-                </p>
-            </div>
-            <div class="setup-grid">
-                <div class="setup-card basic">
-                    <div class="setup-level">Inicial</div>
-                    <h3>Setup Básico</h3>
-                    <ul>
-                        <li>Smartphone</li>
-                        <li>Iluminación natural</li>
-                        <li>Auriculares básicos</li>
-                        <li>Soporte móvil</li>
-                        <li>Conexión WiFi estable</li>
-                    </ul>
-                </div>
-                <div class="setup-card intermediate">
-                    <div class="setup-level">Intermedio</div>
-                    <h3>Setup Mejorado</h3>
-                    <ul>
-                        <li>Micrófono externo</li>
-                        <li>Aro de luz o panel LED</li>
-                        <li>Auriculares gaming</li>
-                        <li>Trípode o brazo articulado</li>
-                        <li>Fondo decorado</li>
-                    </ul>
-                </div>
-                <div class="setup-card pro">
-                    <div class="setup-level">Pro</div>
-                    <h3>Setup Profesional</h3>
-                    <ul>
-                        <li>Cámara DSLR/mirrorless</li>
-                        <li>Micrófono condensador</li>
-                        <li>Iluminación 3 puntos</li>
-                        <li>PC con OBS</li>
-                        <li>Stream Deck</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- TRIAL -->
-    <section class="trial">
-        <div class="container">
-            <h2>15 días para probarlo</h2>
-            <p style="font-size: 1.2rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto;">
-                ¿No estás seguro? Comienza con un periodo inicial sin compromiso para conocer nuestra forma de trabajar.
-            </p>
-            <div class="trial-features">
-                <div class="trial-feature">
-                    <div class="check">✓</div>
-                    <span>Sin pagar</span>
-                </div>
-                <div class="trial-feature">
-                    <div class="check">✓</div>
-                    <span>Sin complicaciones</span>
-                </div>
-                <div class="trial-feature">
-                    <div class="check">✓</div>
-                    <span>Sin promesas falsas</span>
-                </div>
-            </div>
-            <a href="https://www.tiktok.com/t/ZS4ovyLpG" class="btn btn-primary" target="_blank">
-                Quiero Probar VLF →
-            </a>
         </div>
     </section>
 
     <!-- REQUIREMENTS -->
-    <section class="requirements">
+    <section class="bg-secondary" id="requisitos">
         <div class="container">
+            <div class="text-center" style="margin-bottom: 3rem;">
+                <span class="section-label">Requisitos</span>
+                <h2 class="section-title">¿Puedes unirte a la agencia?</h2>
+            </div>
             <div class="req-grid">
-                <div>
-                    <span class="section-label">Requisitos</span>
-                    <h2 class="section-title">¿Quién puede <span class="gradient-text">unirse</span>?</h2>
-                    <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.05rem;">
-                        No buscamos simplemente acumular creadores. Queremos construir una comunidad activa y comprometida.
-                    </p>
-                    <a href="https://www.tiktok.com/t/ZS4ovyLpG" class="btn btn-primary" target="_blank">
-                        Comprobar si puedo unirme →
-                    </a>
+                <div class="req-item">
+                    <div class="req-check">✓</div>
+                    <div><h4>Mayor de edad 18 años o más.</h4></div>
                 </div>
-                <div class="req-list">
-                    <div class="req-item">
-                        <div class="req-check">✓</div>
-                        <div>
-                            <h4>Mayor de 18 años</h4>
-                            <p>Requisito legal indispensable</p>
-                        </div>
-                    </div>
-                    <div class="req-item">
-                        <div class="req-check">✓</div>
-                        <div>
-                            <h4>Ubicado en España</h4>
-                            <p>Cobertura nacional</p>
-                        </div>
-                    </div>
-                    <div class="req-item">
-                        <div class="req-check">✓</div>
-                        <div>
-                            <h4>Menos de 200K seguidores</h4>
-                            <p>Nos enfocamos en talento en crecimiento</p>
-                        </div>
-                    </div>
-                    <div class="req-item">
-                        <div class="req-check">✓</div>
-                        <div>
-                            <h4>Actividad en LIVE</h4>
-                            <p>Historial o intención real de comenzar</p>
-                        </div>
-                    </div>
-                    <div class="req-item">
-                        <div class="req-check">✓</div>
-                        <div>
-                            <h4>No estar en otra agencia</h4>
-                            <p>Solo una agencia a la vez</p>
-                        </div>
-                    </div>
-                    <div class="req-item">
-                        <div class="req-check">✓</div>
-                        <div>
-                            <h4>Cumplir normas TikTok</h4>
-                            <p>Contenido auténtico y合规</p>
-                        </div>
-                    </div>
+                <div class="req-item">
+                    <div class="req-check">✓</div>
+                    <div><h4>Menos de 200K seguidores</h4><p>Nos enfocamos en talento en crecimiento.</p></div>
+                </div>
+                <div class="req-item">
+                    <div class="req-check">✓</div>
+                    <div><h4>Menos de 80K diamantes acumulados</h4><p>En el histórico de la plataforma.</p></div>
+                </div>
+                <div class="req-item">
+                    <div class="req-check">✓</div>
+                    <div><h4>No estar en otra agencia</h4><p>Solo puedes pertenecer a una a la vez.</p></div>
+                </div>
+                <div class="req-item">
+                    <div class="req-check">✓</div>
+                    <div><h4>Actividad en LIVE</h4><p>Historial mínimo de transmisiones.</p></div>
+                </div>
+                <div class="req-item">
+                    <div class="req-check">✓</div>
+                    <div><h4>Mostrar el rostro (preferible)</h4><p>No es obligatorio, pero sí recomendable.</p></div>
                 </div>
             </div>
-            <div class="req-note">
-                <p>
-                    <strong>Nota:</strong> Los requisitos pueden modificarse en función de las condiciones de incorporación 
-                    y de las necesidades de Viral Live Factory. Buscamos principalmente creadores en etapa de crecimiento 
-                    donde nuestro acompañamiento pueda aportar valor real.
-                </p>
+        </div>
+    </section>
+
+    <!-- ROADMAP -->
+    <section id="evolucion">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-label">Evolución</span>
+                <h2 class="section-title">Así puede evolucionar tu carrera como creador</h2>
+                <p class="section-subtitle">Con formación semanal, asesoría personalizada y promoción constante, este es el camino que recorremos juntos.</p>
+            </div>
+            <div class="roadmap-grid">
+                <div class="roadmap-step">
+                    <div class="step-icon">🚀</div>
+                    <h4>Día 1</h4>
+                    <p>Te unes y empiezas con acompañamiento</p>
+                </div>
+                <div class="roadmap-step">
+                    <div class="step-icon">🌱</div>
+                    <h4>Principiante</h4>
+                    <p>Hasta 80K diamantes al mes</p>
+                </div>
+                <div class="roadmap-step">
+                    <div class="step-icon">📈</div>
+                    <h4>Maduro</h4>
+                    <p>Entre 80K y 500K diamantes al mes</p>
+                </div>
+                <div class="roadmap-step">
+                    <div class="step-icon">⭐</div>
+                    <h4>Pre Top & Top</h4>
+                    <p>Más de 500K diamantes al mes</p>
+                </div>
+                <div class="roadmap-step">
+                    <div class="step-icon">🏆</div>
+                    <h4>Tu ritmo</h4>
+                    <p>Sigues creciendo con nuestro apoyo</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="bg-secondary" id="proceso">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-label">Proceso</span>
+                <h2 class="section-title">El proceso para unirte, paso a paso</h2>
+            </div>
+            <div class="process-grid">
+                <div class="process-step">
+                    <div class="process-number">1</div>
+                    <h4>Nos escribes o aplicas por el enlace</h4>
+                    <p>A través del enlace oficial de reclutamiento de la agencia.</p>
+                </div>
+                <div class="process-step">
+                    <div class="process-number">2</div>
+                    <h4>Revisión y aceptación</h4>
+                    <p>Verificamos disponibilidad y enviamos la invitación oficial.</p>
+                </div>
+                <div class="process-step">
+                    <div class="process-number">3</div>
+                    <h4>Aceptas la invitación en TikTok</h4>
+                    <p>Confirmas tu incorporación directamente en la app.</p>
+                </div>
+                <div class="process-step">
+                    <div class="process-number">4</div>
+                    <h4>Empiezas con acompañamiento</h4>
+                    <p>Formación, promoción y soporte desde tu primer directo.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -1572,81 +542,338 @@
     <!-- TRANSPARENCY -->
     <section class="transparency">
         <div class="container">
-            <h2>No prometemos hacerte famoso</h2>
-            <p style="color: var(--text-secondary); max-width: 700px; margin: 0 auto 3rem; font-size: 1.1rem;">
-                Y precisamente por eso puedes confiar en nosotros. No podemos garantizarte seguidores ni diamantes, 
-                pero sí podemos darte las herramientas para que tú construyas tu éxito.
-            </p>
-            <div class="transparency-grid">
-                <div class="transparency-item">
-                    <div class="check">✓</div>
-                    <span>Sin cuota de inscripción</span>
-                </div>
-                <div class="transparency-item">
-                    <div class="check">✓</div>
-                    <span>Sin comisión sobre tus diamantes</span>
-                </div>
-                <div class="transparency-item">
-                    <div class="check">✓</div>
-                    <span>15 días de prueba sin compromiso</span>
-                </div>
+            <div class="text-center" style="margin-bottom: 2rem;">
+                <h2 class="section-title" style="font-size: 2rem;">Una agencia transparente, sin letra pequeña</h2>
             </div>
-            <p style="margin-top: 3rem; font-size: 1.2rem; color: var(--text-secondary);">
-                <strong style="color: var(--text-primary);">Nosotros ponemos las herramientas.</strong><br>
-                <strong style="color: var(--text-primary);">Tú pones el trabajo.</strong>
-            </p>
+            <div class="transparency-grid">
+                <div class="transparency-item"><div class="check">✓</div><span>Sin cuota de inscripción</span></div>
+                <div class="transparency-item"><div class="check">✓</div><span>Sin comisión sobre tus diamantes</span></div>
+                <div class="transparency-item"><div class="check">✓</div><span>15 días de prueba sin compromiso</span></div>
+            </div>
         </div>
     </section>
 
-    <!-- FAQ -->
-    <section class="faq" id="faq">
+    <!-- CREATOR PANEL (LOGIN & DASHBOARD) -->
+    <section class="creator-panel" id="panel">
         <div class="container">
-            <div class="faq-header">
-                <span class="section-label">FAQ</span>
-                <h2 class="section-title">Preguntas <span class="gradient-text">frecuentes</span></h2>
+            
+            <!-- LOGIN FORM -->
+            <div class="panel-box" id="loginPanel">
+                <div class="panel-lock">🔒</div>
+                <h2>Inicia sesión</h2>
+                <p>Accede a tu panel y al contenido de formación. Solo para creadores aceptados en la agencia.</p>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label>Correo electrónico</label>
+                        <input type="email" id="loginEmail" placeholder="Introduce un correo válido" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Contraseña</label>
+                        <input type="password" id="loginPassword" placeholder="La contraseña es obligatoria" required>
+                        <a href="#" class="forgot-link">¿Olvidaste tu contraseña?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 1rem;">Entrar</button>
+                </form>
+                <div class="panel-footer">
+                    ¿Aún no eres creador de la agencia? <a href="https://www.tiktok.com/t/ZS4ovyLpG" target="_blank">Únete aquí</a>
+                </div>
             </div>
-            <div class="faq-list">
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>¿Cuánto cuesta formar parte de Viral Live Factory?</span>
-                        <div class="faq-toggle">+</div>
+
+            <!-- DASHBOARD (Hidden by default) -->
+            <div class="panel-dashboard" id="dashboardPanel">
+                <div class="dashboard-header">
+                    <div class="dashboard-user">
+                        <div class="user-avatar" id="userAvatar">U</div>
+                        <div class="user-info">
+                            <h3 id="userName">Creador</h3>
+                            <p id="userEmail">usuario@email.com</p>
+                        </div>
                     </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            <strong>Nada.</strong> La incorporación y los servicios de acompañamiento de la agencia 
-                            no tienen coste para el creador. Nuestro modelo de negocio no consiste en cobrarte una 
-                            cuota por pertenecer a la agencia.
+                    <button id="logoutDashboardBtn" class="btn btn-secondary">Cerrar sesión</button>
+                </div>
+
+                <div class="dashboard-tabs">
+                    <button class="tab-btn active" data-tab="formacion">Formación</button>
+                    <button class="tab-btn" data-tab="campanas">Campañas</button>
+                    <button class="tab-btn" data-tab="batallas">Batallas</button>
+                    <button class="tab-btn" data-tab="calendario">Calendario</button>
+                    <button class="tab-btn" data-tab="eventos">Eventos exclusivos</button>
+                    <button class="tab-btn" data-tab="sugerencias">Sugerencias</button>
+                </div>
+
+                <div class="tab-content active" id="formacion">
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card">
+                            <h3>📹 Videos</h3>
+                            <p>Accede a nuestras masterclasses grabadas y tutoriales exclusivos.</p>
+                            <button class="btn btn-primary">Ver videos</button>
+                        </div>
+                        <div class="dashboard-card">
+                            <h3>📄 Artículos</h3>
+                            <p>Guías detalladas sobre algoritmo, dinámicas y configuración de OBS.</p>
+                            <button class="btn btn-secondary">Leer artículos</button>
                         </div>
                     </div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>¿Tengo que pagar una comisión?</span>
-                        <div class="faq-toggle">+</div>
-                    </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            No cobramos una cuota de membresía por nuestros servicios. Tus diamantes son 100% tuyos. 
-                            Nos financiamos a través de los incentivos oficiales de TikTok Creator Network.
+
+                <div class="tab-content" id="campanas">
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card">
+                            <h3>🎯 Campañas Activas</h3>
+                            <p>Participa en las campañas mensuales de la agencia y cumple tus objetivos para ganar premios extra.</p>
                         </div>
                     </div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>¿Necesito tener muchos seguidores?</span>
-                        <div class="faq-toggle">+</div>
-                    </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            No. De hecho, uno de nuestros objetivos es trabajar con creadores que todavía están 
-                            desarrollando su comunidad. Actualmente buscamos principalmente perfiles de 
-                            <strong>menos de 200.000 seguidores</strong>.
+
+                <div class="tab-content" id="batallas">
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card">
+                            <h3>⚔️ Próximas Batallas</h3>
+                            <p>Calendario de batallas internas y competiciones por ligas. ¡Prepárate!</p>
                         </div>
                     </div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>¿Puedo probar antes de comprometerme?</span>
-                        <div class="faq-toggle">+</div>
+
+                <div class="tab-content" id="calendario">
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card">
+                            <h3>📅 Calendario</h3>
+                            <p>Fechas de formaciones grupales, reuniones 1:1 y eventos especiales de la comunidad.</p>
+                        </div>
                     </div>
-                    <div class="faq-answer
+                </div>
+
+                <div class="tab-content" id="eventos">
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card">
+                            <h3>🎉 Eventos Exclusivos</h3>
+                            <p>Acceso prioritario a eventos de TikTok y actividades organizadas por Viral Live Factory.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="sugerencias">
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card" style="grid-column: 1 / -1;">
+                            <h3>💡 ¿Tienes una idea para mejorar la agencia? La leemos todas.</h3>
+                            <form onsubmit="event.preventDefault(); alert('¡Gracias por tu sugerencia! La revisaremos pronto.'); this.reset();">
+                                <div class="form-group">
+                                    <label>Título</label>
+                                    <input type="text" placeholder="Introduce un título" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Detalle</label>
+                                    <textarea placeholder="Escribe el detalle de tu idea..." required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Enviar sugerencia</button>
+                            </form>
+                            <div style="margin-top: 2rem; padding: 1rem; background: var(--bg-tertiary); border-radius: var(--radius-md); text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+                                ▶ Vista previa — conecta tu proveedor de video
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contacto">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <span class="section-label">Contacto</span>
+                    <h2>Hablemos</h2>
+                    <p>¿Tienes dudas antes de unirte? Escríbenos y te respondemos en menos de 24 horas. También puedes aplicar con el enlace oficial.</p>
+                    
+                    <div class="contact-methods">
+                        <div class="contact-method">
+                            <div class="contact-method-icon">📩</div>
+                            <div class="contact-method-text">
+                                <strong>Mensaje directo</strong>
+                                <span>@virallivefactory en TikTok</span>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <div class="contact-method-icon">🇪🇸</div>
+                            <div class="contact-method-text">
+                                <strong>Cobertura</strong>
+                                <span>España</span>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <div class="contact-method-icon">💬</div>
+                            <div class="contact-method-text">
+                                <strong>Respuesta</strong>
+                                <span>Normalmente en menos de 24h</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="https://www.tiktok.com/t/ZS4ovyLpG" class="btn btn-primary" target="_blank">Enlace oficial de la agencia: Aplicar ahora →</a>
+                </div>
+                
+                <form class="contact-form" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 2.5rem;" onsubmit="event.preventDefault(); alert('Mensaje enviado. Te responderemos en menos de 24h.'); this.reset();">
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input type="text" placeholder="Introduce tu nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Correo electrónico</label>
+                        <input type="email" placeholder="Introduce un correo válido" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Usuario de TikTok (opcional)</label>
+                        <input type="text" placeholder="@tu_usuario">
+                    </div>
+                    <div class="form-group">
+                        <label>Mensaje</label>
+                        <textarea placeholder="Escribe tu mensaje" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Enviar mensaje</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo">
+                <span class="logo-icon" style="width: 30px; height: 30px; font-size: 1rem;">⚡</span>
+                <span>VIRAL LIVE <span class="gradient-text">FACTORY</span></span>
+            </div>
+            <p class="footer-desc">Agencia oficial TikTok LIVE Creator Network · España</p>
+            <div class="footer-legal">
+                <a href="#">Aviso Legal</a>
+                <a href="#">Política de Privacidad</a>
+                <a href="#">Política de Cookies</a>
+                <a href="#">Términos y Condiciones</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT: LÓGICA COMPLETA Y FUNCIONAL -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // ==========================================
+            // 1. SISTEMA DE LOGIN / LOGOUT (Simulado con localStorage)
+            // ==========================================
+            const loginPanel = document.getElementById('loginPanel');
+            const dashboardPanel = document.getElementById('dashboardPanel');
+            const loginForm = document.getElementById('loginForm');
+            const loginNavBtn = document.getElementById('loginNavBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const logoutDashboardBtn = document.getElementById('logoutDashboardBtn');
+
+            // Función para actualizar la UI según el estado de sesión
+            function updateAuthUI(isLoggedIn, userData = null) {
+                if (isLoggedIn && userData) {
+                    loginPanel.style.display = 'none';
+                    dashboardPanel.style.display = 'block';
+                    loginNavBtn.style.display = 'none';
+                    logoutBtn.style.display = 'inline-flex';
+                    
+                    // Rellenar datos del usuario
+                    document.getElementById('userName').textContent = userData.name || 'Creador';
+                    document.getElementById('userEmail').textContent = userData.email;
+                    document.getElementById('userAvatar').textContent = (userData.name || userData.email).charAt(0).toUpperCase();
+                } else {
+                    loginPanel.style.display = 'block';
+                    dashboardPanel.style.display = 'none';
+                    loginNavBtn.style.display = 'inline-flex';
+                    logoutBtn.style.display = 'none';
+                }
+            }
+
+            // Comprobar sesión al cargar la página
+            const savedSession = localStorage.getItem('vlf_session');
+            if (savedSession) {
+                updateAuthUI(true, JSON.parse(savedSession));
+            } else {
+                updateAuthUI(false);
+            }
+
+            // Manejar el envío del formulario de login
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+
+                // VALIDACIÓN: Aquí es donde conectarías Firebase:
+                // firebase.auth().signInWithEmailAndPassword(email, password).then(...)
+                
+                // Simulación de login exitoso para que funcione YA:
+                if (email && password.length >= 4) {
+                    const userData = {
+                        email: email,
+                        name: email.split('@')[0] // Usa la parte antes del @ como nombre
+                    };
+                    localStorage.setItem('vlf_session', JSON.stringify(userData));
+                    updateAuthUI(true, userData);
+                    loginForm.reset();
+                    
+                    // Scroll suave al dashboard
+                    dashboardPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    alert('Por favor, introduce un email válido y una contraseña (mín. 4 caracteres para la demo).');
+                }
+            });
+
+            // Manejar Logout
+            function handleLogout() {
+                localStorage.removeItem('vlf_session');
+                updateAuthUI(false);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            logoutBtn.addEventListener('click', handleLogout);
+            logoutDashboardBtn.addEventListener('click', handleLogout);
+
+            // Botón "Iniciar sesión" en el menú navega al panel
+            loginNavBtn.addEventListener('click', () => {
+                document.getElementById('panel').scrollIntoView({ behavior: 'smooth' });
+            });
+
+            // ==========================================
+            // 2. TABS DEL DASHBOARD
+            // ==========================================
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetTab = btn.getAttribute('data-tab');
+                    
+                    // Desactivar todos
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Activar el seleccionado
+                    btn.classList.add('active');
+                    document.getElementById(targetTab).classList.add('active');
+                });
+            });
+
+            // ==========================================
+            // 3. MENÚ MÓVIL
+            // ==========================================
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navLinks = document.getElementById('navLinks');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+
+            // Cerrar menú móvil al hacer clic en un enlace
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
