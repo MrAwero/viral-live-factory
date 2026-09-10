@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Viral Live Factory — Agencia TikTok LIVE España</title>
     <meta name="description" content="Agencia oficial TikTok LIVE en España. Formación, soporte y comunidad para creadores. 100% de tus diamantes, sin comisiones.">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -948,6 +954,121 @@
             font-weight: 500;
         }
 
+        /* PANEL DASHBOARD (Logged in view) */
+        .panel-dashboard {
+            display: none;
+            padding: 6rem 0;
+            background: var(--bg-secondary);
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .dashboard-user {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .user-info h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .user-info p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .dashboard-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-gradient);
+            color: white;
+            border-color: transparent;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .dashboard-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+        }
+
+        .dashboard-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--tiktok-cyan);
+        }
+
+        .error-message {
+            background: rgba(254, 44, 85, 0.1);
+            border: 1px solid var(--tiktok-red);
+            color: var(--tiktok-red);
+            padding: 0.8rem;
+            border-radius: var(--radius-sm);
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .success-message {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+            padding: 0.8rem;
+            border-radius: var(--radius-sm);
+            margin-bottom: 1rem;
+            display: none;
+        }
+
         /* RESPONSIVE */
         @media (max-width: 968px) {
             .mv-grid,
@@ -1000,7 +1121,8 @@
                 <li><a href="#panel">Panel</a></li>
             </ul>
             <div class="nav-actions">
-                <a href="#panel" class="btn btn-secondary">Iniciar sesión</a>
+                <button id="logoutBtn" class="btn btn-secondary" style="display: none;">Cerrar sesión</button>
+                <a href="#panel" class="btn btn-secondary" id="loginBtn">Iniciar sesión</a>
                 <a href="https://www.tiktok.com/t/ZS4ovyLpG" class="btn btn-primary" target="_blank">Únete</a>
             </div>
             <button class="mobile-menu-btn">☰</button>
@@ -1115,7 +1237,8 @@
                     Crece con una estrategia, no a ciegas. Hacer directos constantemente no garantiza crecer.
                 </p>
             </div>
-                            <div class="benefit-card">
+            <div class="benefits-grid">
+                <div class="benefit-card">
                     <div class="benefit-icon">🎯</div>
                     <h3>Orientación Personalizada</h3>
                     <p>Analizamos tu situación y te orientamos sobre contenido, interacción, dinámicas, horarios y estrategia de LIVE.</p>
@@ -1526,158 +1649,4 @@
                         <span>¿Puedo probar antes de comprometerme?</span>
                         <div class="faq-toggle">+</div>
                     </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            Sí. Ofrecemos un <strong>periodo inicial de 15 días sin compromiso</strong> para que 
-                            conozcas nuestra forma de trabajar y compruebes si VLF encaja contigo.
-                        </div>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>¿Me vais a conseguir seguidores o diamantes?</span>
-                        <div class="faq-toggle">+</div>
-                    </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            No podemos garantizar cantidades determinadas. Nuestro trabajo consiste en ayudarte a 
-                            mejorar tus directos, estrategia, interacción y herramientas para aumentar tus 
-                            posibilidades de crecimiento. El resultado final dependerá de tu contenido, 
-                            constancia y capacidad de conectar con la audiencia.
-                        </div>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>¿Qué pasa si me bloquean la cuenta?</span>
-                        <div class="faq-toggle">+</div>
-                    </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            Te ayudaremos a entender la situación y a utilizar los canales de soporte disponibles. 
-                            Sin embargo, <strong>no podemos garantizar el desbloqueo de una cuenta</strong> ni 
-                            revertir decisiones de TikTok. La mejor protección es conocer y respetar las políticas.
-                        </div>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>¿Puedo utilizar OBS y hacer multistreaming?</span>
-                        <div class="faq-toggle">+</div>
-                    </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            Sí, cuando tu cuenta y configuración sean compatibles. Podemos orientarte sobre la 
-                            configuración y el uso de herramientas como OBS y la transmisión mediante clave de emisión.
-                        </div>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>¿Puedo participar en batallas y eventos?</span>
-                        <div class="faq-toggle">+</div>
-                    </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            Sí. Uno de los objetivos de nuestra comunidad es facilitar conexiones entre creadores 
-                            para batallas y colaboraciones. Te mantendremos informado sobre eventos y oportunidades 
-                            disponibles según tus criterios y rendimiento.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA FINAL -->
-    <section class="cta-final">
-        <div class="container">
-            <h2>¿Listo para dar el siguiente paso?</h2>
-            <p>
-                Tu próximo LIVE puede ser diferente. Únete a una comunidad de creadores 
-                que quiere aprender, mejorar y crecer.
-            </p>
-            <a href="https://www.tiktok.com/t/ZS4ovyLpG" class="btn btn-primary" target="_blank" style="font-size: 1.2rem; padding: 1.2rem 2.5rem;">
-                Únete a Viral Live Factory →
-            </a>
-            <div class="cta-tagline">
-                TU LIVE. NUESTRA FACTORY.
-                <span>VIRAL LIVE FACTORY</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- CREATOR PANEL -->
-    <section class="creator-panel" id="panel">
-        <div class="container">
-            <div class="panel-box">
-                <div class="panel-lock">🔒</div>
-                <h2>Panel de Creador</h2>
-                <p>Tu espacio privado en Viral Live Factory. Formación, campañas, batallas y eventos exclusivos.</p>
-                <form onsubmit="event.preventDefault(); alert('Acceso al panel de creador');">
-                    <div class="form-group">
-                        <label>Correo electrónico</label>
-                        <input type="email" placeholder="Introduce un correo válido" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Contraseña</label>
-                        <input type="password" placeholder="La contraseña es obligatoria" required>
-                        <a href="#" class="forgot-link">¿Olvidaste tu contraseña?</a>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 1rem;">
-                        Iniciar sesión
-                    </button>
-                </form>
-                <div class="panel-footer">
-                    ¿Aún no eres creador de la agencia? <a href="https://www.tiktok.com/t/ZS4ovyLpG" target="_blank">Únete aquí</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-        <div class="container">
-            <div class="footer-logo">
-                <img src="logo.png" alt="Viral Live Factory">
-                <span>VIRAL LIVE <span class="gradient-text">FACTORY</span></span>
-            </div>
-            <p class="footer-desc">
-                Agencia oficial TikTok LIVE Creator Network · España<br>
-                Más que una agencia. Una comunidad para crecer en TikTok LIVE.
-            </p>
-            <div class="footer-legal">
-                <a href="#">Aviso Legal</a>
-                <a href="#">Política de Privacidad</a>
-                <a href="#">Política de Cookies</a>
-                <a href="#">Términos y Condiciones</a>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // FAQ Accordion
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
-                const item = question.parentElement;
-                const isActive = item.classList.contains('active');
-                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
-                if (!isActive) {
-                    item.classList.add('active');
-                }
-            });
-        });
-
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    e.preventDefault();
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+                    <div class="faq-answer
