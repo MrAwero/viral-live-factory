@@ -223,7 +223,7 @@
         .panel-footer a:hover { text-decoration: underline; }
 
         /* DASHBOARD */
-        .panel-dashboard { display: none; max-width: 1000px; margin: 0 auto; }
+        .panel-dashboard { display: none; max-width: 1200px; margin: 0 auto; }
         .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); flex-wrap: wrap; gap: 1rem; }
         .dashboard-user { display: flex; align-items: center; gap: 1rem; }
         .user-avatar { width: 50px; height: 50px; background: var(--accent-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.2rem; }
@@ -242,48 +242,44 @@
         .tab-content.active { display: block; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
         .dashboard-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 2rem; }
-        .dashboard-card h3 { font-size: 1.2rem; margin-bottom: 1rem; color: var(--tiktok-cyan); }
+        .dashboard-card h3 { font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--tiktok-cyan); }
         .dashboard-card p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; }
 
-        /* VIDEO EMBED & ARTICLES */
-        .video-embed-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            border-radius: var(--radius-md);
-            margin-bottom: 1rem;
-            background: var(--bg-tertiary);
-        }
-        .video-embed-container iframe,
-        .video-embed-container video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        .article-content {
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-        }
-        .article-content h4 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--tiktok-cyan);
-        }
-        .article-content p {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            margin-bottom: 1rem;
-        }
+        /* VIDEOS & ARTICLES */
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; }
+        .video-item { background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; }
+        .video-embed-short { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
+        .video-embed-short iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .video-info { padding: 1.5rem; }
+        .video-info h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary); }
+        .video-meta { display: flex; gap: 1rem; margin-bottom: 0.5rem; font-size: 0.85rem; color: var(--text-muted); }
+        .video-category { color: var(--tiktok-cyan); font-weight: 600; }
+        .video-info p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
+
+        .articles-list { display: flex; flex-direction: column; gap: 1.5rem; }
+        .article-item { background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; }
+        .article-header { padding: 1.5rem; border-bottom: 1px solid var(--border-color); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .article-header:hover { background: rgba(37, 244, 238, 0.05); }
+        .article-header h4 { font-size: 1.2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; }
+        .article-excerpt { color: var(--text-secondary); font-size: 0.9rem; }
+        .article-meta { display: flex; align-items: center; gap: 1rem; font-size: 0.85rem; color: var(--text-muted); }
+        .article-toggle { font-size: 1.5rem; color: var(--tiktok-cyan); transition: transform 0.3s; }
+        .article-item.active .article-toggle { transform: rotate(45deg); }
+        .article-content { display: none; padding: 2rem; }
+        .article-item.active .article-content { display: block; }
+        .article-content h4 { font-size: 1.3rem; color: var(--tiktok-cyan); margin-bottom: 1rem; }
+        .article-content p { color: var(--text-secondary); line-height: 1.8; margin-bottom: 1rem; }
+        .article-content details { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 1rem; }
+        .article-content summary { padding: 1rem; cursor: pointer; font-weight: 600; color: var(--text-primary); }
+        .article-content summary:hover { color: var(--tiktok-cyan); }
+        .article-content details[open] summary { border-bottom: 1px solid var(--border-color); margin-bottom: 1rem; }
+        .article-content details > div, .article-content details > ul, .article-content details > ol { padding: 0 1rem 1rem; color: var(--text-secondary); }
+        .article-content ul, .article-content ol { margin-left: 1.5rem; }
+        .article-content li { margin-bottom: 0.5rem; }
+        .article-content a { color: var(--tiktok-cyan); text-decoration: none; }
+        .article-content a:hover { text-decoration: underline; }
 
         /* CONTACT */
         .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: start; }
@@ -309,6 +305,7 @@
             .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(0, 0, 0, 0.95); flex-direction: column; padding: 1.5rem; gap: 1rem; border-bottom: 1px solid var(--border-color); }
             .nav-links.active { display: flex; }
             .mobile-menu-btn { display: block; }
+            .video-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 600px) {
             .hero { padding: 4rem 0 3rem; }
@@ -395,7 +392,7 @@
             </div>
             <div class="benefits-grid">
                 <div class="benefit-card">
-                    <div class="benefit-icon">📈</div>
+                    <div class="benefit-icon"></div>
                     <h3>Promoción de tus LIVE</h3>
                     <p>Te ayudamos a atraer más público a tus directos con visibilidad estratégica.</p>
                 </div>
@@ -405,17 +402,17 @@
                     <p>Formación grupal en directo, una vez a la semana, para mejorar tus dinámicas de LIVE.</p>
                 </div>
                 <div class="benefit-card">
-                    <div class="benefit-icon">🧑🏫</div>
+                    <div class="benefit-icon">‍🏫</div>
                     <h3>Asesoría personalizada 1:1</h3>
                     <p>Reuniones individuales para trabajar tu estrategia según tu perfil y nivel.</p>
                 </div>
                 <div class="benefit-card">
-                    <div class="benefit-icon">️</div>
+                    <div class="benefit-icon">🛡️</div>
                     <h3>Soporte ante incidencias</h3>
                     <p>Acompañamiento si sufres hackeo, baneo o restricciones en tu cuenta.</p>
                 </div>
                 <div class="benefit-card">
-                    <div class="benefit-icon">️</div>
+                    <div class="benefit-icon">🎛️</div>
                     <h3>Stream Key para OBS</h3>
                     <p>Mejora la calidad de tus directos, con opción de multistreaming a otras plataformas.</p>
                 </div>
@@ -444,16 +441,16 @@
                     <span class="league-prize">15K – 30K 💎</span>
                 </div>
                 <div class="league-card silver">
-                    <div class="league-medal"></div>
+                    <div class="league-medal">🥈</div>
                     <h3>Liga Plata</h3>
                     <p class="league-desc">Creadores intermedios con actividad constante</p>
                     <span class="league-prize">5K – 15K 💎</span>
                 </div>
                 <div class="league-card bronze">
-                    <div class="league-medal">🥉</div>
+                    <div class="league-medal"></div>
                     <h3>Liga Bronce</h3>
                     <p class="league-desc">Creadores principiantes que están empezando en LIVE</p>
-                    <span class="league-prize">1K – 5K 💎</span>
+                    <span class="league-prize">1K – 5K </span>
                 </div>
             </div>
             <div class="extra-prize">
@@ -589,7 +586,7 @@
             
             <!-- LOGIN FORM -->
             <div class="panel-box" id="loginPanel">
-                <div class="panel-lock">🔒</div>
+                <div class="panel-lock"></div>
                 <h2>Inicia sesión</h2>
                 <p>Accede a tu panel y al contenido de formación. Solo para creadores aceptados en la agencia.</p>
                 
@@ -633,43 +630,13 @@
                 </div>
 
                 <div class="tab-content active" id="formacion">
-                    <div class="dashboard-grid">
-                        <div class="dashboard-card" style="grid-column: 1 / -1;">
-                            <h3>📹 Videos</h3>
-                            <div class="video-embed-container">
-                                <video controls poster="https://via.placeholder.com/800x450/161616/25F4EE?text=Video+Tutorial">
-                                    <source src="tu-video.mp4" type="video/mp4">
-                                    Tu navegador no soporta el elemento de video.
-                                </video>
-                            </div>
-                            <p>Accede a nuestras masterclasses grabadas y tutoriales exclusivos.</p>
-                        </div>
-                        <div class="dashboard-card" style="grid-column: 1 / -1;">
-                            <h3>📄 Artículos</h3>
-                            <div class="article-content">
-                                <h4>Guía completa: Cómo funciona el algoritmo de TikTok LIVE</h4>
-                                <p>Entiende cómo TikTok decide a quién mostrar tus directos y cómo puedes optimizar tu contenido para aparecer en el feed de más usuarios.</p>
-                                <p>El algoritmo de TikTok LIVE prioriza varios factores: tiempo de visualización, interacción en tiempo real, tasa de retención, y la calidad del contenido. Cuando inicias un LIVE, TikTok lo muestra primero a un pequeño grupo de tus seguidores y usuarios interesados en tu tipo de contenido.</p>
-                                <p><strong>Consejos clave:</strong></p>
-                                <ul style="color: var(--text-secondary); margin-left: 1.5rem; line-height: 2;">
-                                    <li>Mantén a los espectadores al menos 3-5 minutos</li>
-                                    <li>Fomenta la interacción constante (comentarios, regalos)</li>
-                                    <li>Usa títulos atractivos y relevantes</li>
-                                    <li>Programa tus directos en horarios consistentes</li>
-                                    <li>Colabora con otros creadores para ampliar alcance</li>
-                                </ul>
-                            </div>
-                            <div class="article-content">
-                                <h4>Las 10 mejores dinámicas para mantener activa tu comunidad</h4>
-                                <p>Lista de actividades y juegos que puedes hacer en directo para aumentar la interacción y el engagement de tu audiencia.</p>
-                                <p>Las dinámicas son esenciales para mantener a tu audiencia enganchada. Aquí te presentamos las más efectivas:</p>
-                                <p><strong>1. Preguntas y respuestas en vivo:</strong> Dedica 10-15 minutos a responder preguntas de tu comunidad.</p>
-                                <p><strong>2. Retos y desafíos:</strong> Propón retos divertidos que involucren a los espectadores.</p>
-                                <p><strong>3. Encuestas interactivas:</strong> Usa la función de encuestas o pide opiniones en chat.</p>
-                                <p><strong>4. Juegos de adivinanza:</strong> "Adivina qué estoy pensando" o "Verdad o reto".</p>
-                                <p><strong>5. Sorteos y giveaways:</strong> Premia la fidelidad de tu comunidad.</p>
-                            </div>
-                        </div>
+                    <div class="dashboard-card">
+                        <h3>📹 Videos de Formación</h3>
+                        <div class="video-grid" id="videosContainer"></div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>📄 Artículos</h3>
+                        <div class="articles-list" id="articlesContainer"></div>
                     </div>
                 </div>
 
@@ -750,7 +717,7 @@
                             </div>
                         </div>
                         <div class="contact-method">
-                            <div class="contact-method-icon">🇪🇸</div>
+                            <div class="contact-method-icon">🇸</div>
                             <div class="contact-method-text">
                                 <strong>Cobertura</strong>
                                 <span>España</span>
@@ -810,7 +777,253 @@
 
     <!-- JAVASCRIPT: LÓGICA COMPLETA Y FUNCIONAL -->
     <script>
+        // VIDEOS DATA
+        const videos = [
+            { title:'Optimización del LIVE: efectos de sonido y música de fondo', cat:'Audio', dur:'', desc:'Cómo usar efectos de sonido y música de fondo para hacer tu LIVE más envolvente.', embed:{ type:'youtube', id:'LIBIs_ygNhs' } },
+            { title:'Optimización del LIVE: configuración visual', cat:'Visual', dur:'', desc:'Ajustes de imagen y encuadre para que tu directo se vea más profesional.', embed:{ type:'youtube', id:'daesERwNvt0' } },
+            { title:'Configuración de la iluminación para LIVE individual', cat:'Iluminación', dur:'', desc:'Cómo iluminar correctamente tus transmisiones en solitario.', embed:{ type:'youtube', id:'fT7DVAALn78' } },
+            { title:'Cómo desarrollar un estilo propio como creador', cat:'Estilo', dur:'', desc:'Encuentra y define tu identidad como creador para diferenciarte.', embed:{ type:'youtube', id:'rmFlwY6iEe4' } },
+            { title:'Optimización de LIVE equipamiento y prácticas recomendadas', cat:'Visual', dur:'', desc:'Recomendaciones de equipamiento y buenas prácticas para mejorar la calidad de tus transmisiones en directo.', embed:{ type:'youtube', id:'YqpQcM36Nys' } },
+            { title:'4 habilidades clave para una interacción sólida', cat:'Interacción', dur:'', desc:'Las habilidades que más ayudan a conectar con tu audiencia en directo.', embed:{ type:'youtube', id:'t0rLJ5GvVcE' } },
+        ];
+
+        // ARTICLES DATA
+        const articles = [
+            {
+                title:'1. Guía Completa de Monetización y Programas de Creadores',
+                excerpt:'Todo sobre regalos, monedas, suscripciones, Programa de Socios, Series y Programa Creador de Efectos.',
+                read:'15 min',
+                body:`
+                    <h4>Guía Completa de Monetización en TikTok LIVE</h4>
+                    <p>TikTok ofrece múltiples vías para monetizar tu contenido en directo y vídeos. A continuación se desglosan los programas principales y sus requisitos.</p>
+                    
+                    <details>
+                        <summary>1. Regalos de LIVE y Monedas</summary>
+                        <p>Los espectadores compran Monedas virtuales para enviarte Regalos en tiempo real. Cada regalo se convierte en Diamantes en tu cuenta de creador, que posteriormente se pueden canjear por dinero real.</p>
+                        <ul>
+                            <li><strong>Mecanismo:</strong> Los espectadores compran paquetes de monedas en la app y las canjean por efectos visuales en tu directo.</li>
+                            <li><strong>Conversion:</strong> TikTok convierte automáticamente el valor de los regalos recibidos en Diamantes.</li>
+                            <li><strong>Retiro:</strong> Puedes retirar tus ingresos acumulados a través de PayPal o transferencia bancaria cuando alcances el mínimo requerido.</li>
+                        </ul>
+                    </details>
+
+                    <details>
+                        <summary>2. Suscripciones de LIVE</summary>
+                        <p>Permite a tus seguidores más fieles pagar una cuota mensual recurrente a cambio de ventajas exclusivas en tu canal.</p>
+                        <ul>
+                            <li><strong>Insignias de suscriptor:</strong> Iconos distintivos junto al nombre del usuario en el chat.</li>
+                            <li><strong>Emotes personalizados:</strong> Emojis exclusivos utilizables en tus directos.</li>
+                            <li><strong>Chat solo para suscriptores:</strong> Modo especial de chat para interactuar estrechamente con tu comunidad de pago.</li>
+                            <li><strong>Directos exclusivos:</strong> Transmisiones privadas dedicadas únicamente a suscriptores.</li>
+                        </ul>
+                    </details>
+
+                    <details>
+                        <summary>3. TikTok Rewards / Programa de Referidos</summary>
+                        <p>Gana recompensas invitando a nuevos usuarios o creadores a unirse a la plataforma e interactuar diariamente.</p>
+                    </details>
+
+                    <details>
+                        <summary>4. Programa de Socios de TikTok LIVE (Creator Network)</summary>
+                        <p>Formar parte de una agencia oficial como <strong>Viral Live Factory</strong> te da acceso a formación, soporte prioritario, protección de cuenta y promociones exclusivas sin alterar el 100% de tus ingresos por diamantes.</p>
+                    </details>
+
+                    <details>
+                        <summary>5. TikTok Series y Creadores de Efectos</summary>
+                        <p><strong>Series:</strong> Vende colecciones de contenido exclusivo detrás de un muro de pago.</p>
+                        <p><strong>Creador de Efectos:</strong> Recibe recompensas por diseñar filtros y efectos de realidad aumentada populares en Effect House.</p>
+                    </details>
+                `
+            },
+            {
+                title:'2. Requisitos y Configuración Técnica para Emitir',
+                excerpt:'Condiciones de elegibilidad, uso de TikTok LIVE Studio, Stream Key para OBS y ajustes de calidad.',
+                read:'12 min',
+                body:`
+                    <h4>Preparación Técnica y Requisitos para el Directo</h4>
+                    <p>Para garantizar transmisiones de alta calidad y cumplir con las normativas de TikTok, revisa los siguientes puntos clave:</p>
+                    
+                    <details>
+                        <summary>Requisitos de Elegibilidad para Emitir</summary>
+                        <ul>
+                            <li>Tener al menos 18 años cumplidos.</li>
+                            <li>Contar con un número mínimo de seguidores (generalmente 1.000, ampliable o eximido al unirte a la agencia).</li>
+                            <li>Mantener la cuenta en buen estado y cumplir las Normas de la Comunidad.</li>
+                        </ul>
+                    </details>
+
+                    <details>
+                        <summary>Emisión con TikTok LIVE Studio y OBS (Stream Key)</summary>
+                        <p><strong>TikTok LIVE Studio:</strong> Software oficial para PC con escenas personalizadas, alertas, widgets de meta y soporte multi-pantalla.</p>
+                        <p><strong>Clave de Transmisión (Stream Key):</strong> Al formar parte de la agencia, puedes solicitar acceso a la Stream Key para emitir directamente desde OBS Studio, Streamlabs o vMix, permitiendo producciones avanzadas y multistreaming.</p>
+                    </details>
+
+                    <details>
+                        <summary>Ajustes Recomendados para OBS</summary>
+                        <ul>
+                            <li><strong>Resolución:</strong> 1080x1920 (Formato vertical 9:16).</li>
+                            <li><strong>Bitrate de Vídeo:</strong> 4000 - 6000 kbps (CBR).</li>
+                            <li><strong>Framerate:</strong> 30 FPS o 60 FPS según la capacidad de tu equipo y conexión.</li>
+                            <li><strong>Audio:</strong> 160 kbps, 48kHz.</li>
+                        </ul>
+                    </details>
+                `
+            },
+            {
+                title:'3. Dinámicas de Partidas LIVE, PKs y Herramientas',
+                excerpt:'Guía sobre partidas 1v1, coanfitriones, potenciadores (guante, neblina, cronómetro) y Galería de Regalos.',
+                read:'10 min',
+                body:`
+                    <h4>Partidas LIVE y Mecánicas de Competición</h4>
+                    <p>Las partidas 1vs1 (PKs) son la herramienta principal para aumentar la interacción y acelerar la monetización en tus directos.</p>
+
+                    <h4>¿Qué es una partida LIVE?</h4>
+                    <p>Compite en directo con otro creador durante 5 minutos para ver quién acumula más puntos de regalos y me gustas, seguido de 3 minutos de victoria/derrota.</p>
+                    <div style="margin: 1rem 0;"><div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px;" src="https://www.youtube.com/embed/zV4I-nu_xjA" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
+                    <div style="margin: 1rem 0;"><div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px;" src="https://www.youtube.com/embed/uWBix47vB6g" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
+
+                    <h4>Potenciadores y Objetivos</h4>
+                    <details>
+                        <summary>Guante Potenciador, Neblina Mágica y Cronómetro</summary>
+                        <p>Herramientas que activan multiplicadores de puntos o mitigan el progreso del rival durante momentos críticos de la partida.</p>
+                        <div style="margin: 1rem 0;"><div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px;" src="https://www.youtube.com/embed/85nZ2aYFL34" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
+                        <div style="margin: 1rem 0;"><div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px;" src="https://www.youtube.com/embed/IWrH7f7BeLc" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
+                        <div style="margin: 1rem 0;"><div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px;" src="https://www.youtube.com/embed/FuV3SEq91Gk" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
+                    </details>
+
+                    <details>
+                        <summary>Galería de Regalos y Objetivo del LIVE</summary>
+                        <p>Define metas visibles en pantalla para motivar a tus espectadores a completar insignias o lograr objetivos colectivos en tiempo real.</p>
+                        <div style="margin: 1rem 0;"><div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px;" src="https://www.youtube.com/embed/V4ldRpgDMDg" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
+                        <div style="margin: 1rem 0;"><div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px;" src="https://www.youtube.com/embed/jxatH0qkMzg" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
+                    </details>
+                `
+            },
+            {
+                title:'4. Reglas de Comunidad, Seguridad e Identidad Visual',
+                excerpt:'Conductas prohibidas, infracciones de Health Score, moderación del chat e iluminación/sonido.',
+                read:'10 min',
+                body:`
+                    <h4>Seguridad, Cumplimiento Normativo y Formato del Creador</h4>
+                    
+                    <details>
+                        <summary>Las 5 Conductas Prohibidas en LIVE</summary>
+                        <p>Evita penalizaciones directas o baneos definitivos de cuenta cuidando estrictamente estos factores:</p>
+                        <ol>
+                            <li><strong>Comportamiento de odio:</strong> Comentarios discriminatorios, racistas o xenófobos.</li>
+                            <li><strong>Acoso e intimidación:</strong> Ataques personales a otros creadores o espectadores.</li>
+                            <li><strong>Acoso sexual:</strong> Lenguaje, vestimenta o insinuaciones inapropiadas.</li>
+                            <li><strong>Información personal:</strong> Revelar datos privados propios o de terceros (DNI, teléfonos, direcciones).</li>
+                            <li><strong>Actos peligrosos:</strong> Retos que pongan en riesgo la salud física o conducción imprudente.</li>
+                        </ol>
+                    </details>
+
+                    <details>
+                        <summary>Control del Health Score y Moderación</summary>
+                        <p>Mantén un equipo de moderadores activos durante tus directos para silenciar, bloquear o filtrar palabras clave prohibidas en el chat.</p>
+                    </details>
+
+                    <details>
+                        <summary>Optimización de Imagen, Audio e Iluminación</summary>
+                        <ul>
+                            <li><strong>Iluminación:</strong> Utiliza un aro de luz o foco frontal de luz suave a 45 grados. Evita contraluces marcados.</li>
+                            <li><strong>Audio:</strong> Prioriza la claridad de voz utilizando micrófono de solapa o condensador USB. Evita ecos o ruidos ambientales.</li>
+                            <li><strong>Encuadre:</strong> Mantén la mirada a la altura de la cámara y asegúrate de estar centrado.</li>
+                        </ul>
+                    </details>
+                `
+            },
+            {
+                title:'5. Estrategias de Retención, Fidelización y Ligas',
+                excerpt:'Cómo crear un Equipo del Creador sólido y escalar a través del sistema de 18 Ligas (D5 a A1).',
+                read:'8 min',
+                body:`
+                    <h4>Crecimiento y Fidelización a Largo Plazo</h4>
+
+                    <details>
+                        <summary>El Equipo del Creador (Comunidad)</summary>
+                        <p>Convierte visitantes ocasionales en fans recurrentes permitiendo que se unan a tu equipo con un regalo de bienvenida (Corazoncito). Fomenta el aumento de nivel dentro de la comunidad mediante beneficios exclusivos.</p>
+                        <div style="margin: 1rem 0;"><div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px;" src="https://www.youtube.com/embed/4KJxvQJFQ74" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
+                    </details>
+
+                    <details>
+                        <summary>Sistema de Ligas de Creadores</summary>
+                        <p>TikTok clasifica a los creadores en un ranking de 18 Ligas (desde D5 hasta A1). Cada día de emisión constante y recopilación de fragmentos te ayuda a ascender de categoría y ganar visibilidad adicional.</p>
+                        <div style="margin: 1rem 0;"><div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px;" src="https://www.youtube.com/embed/5Zx2AhxwqBI" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
+                    </details>
+                `
+            },
+            {
+                title:'6. LIVE Match: Dos y Don'ts',
+                excerpt:'Guía práctica con recomendaciones y aspectos a evitar durante los LIVE Match.',
+                read:'Documento PDF',
+                isPdf:true,
+                body:`
+                    <h4>LIVE Match: Dos y Don'ts</h4>
+                    <p>Consulta la guía completa para preparar y realizar tus LIVE Match de forma adecuada.</p>
+                    <p><a class="btn btn-primary" href="LIVE_Match_Dos_and_Donts_ES.pdf" target="_blank" rel="noopener">Abrir documento PDF</a></p>
+                `
+            }
+        ];
+
+        // Render videos
+        function renderVideos() {
+            const container = document.getElementById('videosContainer');
+            container.innerHTML = videos.map(video => `
+                <div class="video-item">
+                    <div class="video-embed-short">
+                        <iframe src="https://www.youtube.com/embed/${video.embed.id}" title="${video.title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-meta">
+                            <span class="video-category">${video.cat}</span>
+                        </div>
+                        <h4>${video.title}</h4>
+                        <p>${video.desc}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render articles
+        function renderArticles() {
+            const container = document.getElementById('articlesContainer');
+            container.innerHTML = articles.map((article, index) => `
+                <div class="article-item" data-index="${index}">
+                    <div class="article-header" onclick="toggleArticle(${index})">
+                        <div>
+                            <h4>${article.title}</h4>
+                            <p class="article-excerpt">${article.excerpt}</p>
+                            <div class="article-meta">
+                                <span> ${article.read}</span>
+                            </div>
+                        </div>
+                        <span class="article-toggle">+</span>
+                    </div>
+                    <div class="article-content">
+                        ${article.body}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Toggle article
+        function toggleArticle(index) {
+            const items = document.querySelectorAll('.article-item');
+            items.forEach((item, i) => {
+                if (i === index) {
+                    item.classList.toggle('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
+            // Render videos and articles
+            renderVideos();
+            renderArticles();
+
             // ==========================================
             // 1. SISTEMA DE LOGIN / LOGOUT
             // ==========================================
