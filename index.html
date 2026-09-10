@@ -5,11 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Viral Live Factory — Agencia TikTok LIVE España</title>
     <meta name="description" content="Agencia oficial TikTok LIVE en España. Formación, soporte y comunidad para creadores. 100% de tus diamantes, sin comisiones.">
-    
-    <!-- Firebase SDK (Descomenta y configura cuando tengas tu proyecto) -->
-    <!-- <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script> -->
-    <!-- <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script> -->
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -255,6 +250,89 @@
         .dashboard-card h3 { font-size: 1.2rem; margin-bottom: 1rem; color: var(--tiktok-cyan); }
         .dashboard-card p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; }
 
+        /* MODALS */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+        .modal.active { display: block; }
+        .modal-content {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 40px;
+            height: 40px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+        .modal-close:hover { background: var(--tiktok-red); border-color: var(--tiktok-red); }
+        .modal h2 { font-size: 2rem; font-weight: 800; margin-bottom: 1.5rem; color: var(--tiktok-cyan); }
+        
+        .video-list, .article-list { display: flex; flex-direction: column; gap: 1rem; }
+        .video-item, .article-item {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            transition: border-color 0.3s;
+        }
+        .video-item:hover, .article-item:hover { border-color: var(--tiktok-cyan); }
+        .video-icon, .article-icon {
+            flex-shrink: 0;
+            width: 50px;
+            height: 50px;
+            background: rgba(37, 244, 238, 0.1);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        .video-info h4, .article-info h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .video-info p, .article-info p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem; }
+        .video-meta, .article-meta { font-size: 0.8rem; color: var(--text-muted); }
+        .play-btn, .read-btn {
+            margin-top: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--tiktok-red);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .play-btn:hover, .read-btn:hover { background: var(--tiktok-red-dark); }
+
         /* CONTACT */
         .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: start; }
         .contact-info h2 { font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 800; margin-bottom: 1rem; }
@@ -279,12 +357,14 @@
             .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(0, 0, 0, 0.95); flex-direction: column; padding: 1.5rem; gap: 1rem; border-bottom: 1px solid var(--border-color); }
             .nav-links.active { display: flex; }
             .mobile-menu-btn { display: block; }
+            .modal-content { padding: 1.5rem; }
         }
         @media (max-width: 600px) {
             .hero { padding: 4rem 0 3rem; }
             section { padding: 4rem 0; }
             .transparency-grid { flex-direction: column; gap: 1rem; align-items: center; }
             .panel-box { padding: 2rem 1.5rem; }
+            .modal { padding: 1rem; }
         }
     </style>
 </head>
@@ -417,7 +497,7 @@
                     <div class="league-medal">🥈</div>
                     <h3>Liga Plata</h3>
                     <p class="league-desc">Creadores intermedios con actividad constante</p>
-                    <span class="league-prize">5K – 15K 💎</span>
+                    <span class="league-prize">5K – 15K </span>
                 </div>
                 <div class="league-card bronze">
                     <div class="league-medal">🥉</div>
@@ -607,12 +687,12 @@
                         <div class="dashboard-card">
                             <h3>📹 Videos</h3>
                             <p>Accede a nuestras masterclasses grabadas y tutoriales exclusivos.</p>
-                            <button class="btn btn-primary">Ver videos</button>
+                            <button class="btn btn-primary" id="verVideosBtn">Ver videos</button>
                         </div>
                         <div class="dashboard-card">
                             <h3>📄 Artículos</h3>
                             <p>Guías detalladas sobre algoritmo, dinámicas y configuración de OBS.</p>
-                            <button class="btn btn-secondary">Leer artículos</button>
+                            <button class="btn btn-secondary" id="leerArticulosBtn">Leer artículos</button>
                         </div>
                     </div>
                 </div>
@@ -668,9 +748,6 @@
                                 </div>
                                 <button type="submit" class="btn btn-primary">Enviar sugerencia</button>
                             </form>
-                            <div style="margin-top: 2rem; padding: 1rem; background: var(--bg-tertiary); border-radius: var(--radius-md); text-align: center; color: var(--text-muted); font-size: 0.9rem;">
-                                ▶ Vista previa — conecta tu proveedor de video
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -678,6 +755,148 @@
 
         </div>
     </section>
+
+    <!-- MODAL VIDEOS -->
+    <div class="modal" id="modalVideos">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('modalVideos')">✕</button>
+            <h2>📹 Biblioteca de Videos</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">Accede a todas nuestras masterclasses grabadas y tutoriales exclusivos para creadores de TikTok LIVE.</p>
+            
+            <div class="video-list">
+                <div class="video-item">
+                    <div class="video-icon">🎥</div>
+                    <div class="video-info">
+                        <h4>Masterclass: Cómo retener audiencia en tus LIVE</h4>
+                        <p>Aprende las técnicas que usan los top creadores para mantener a los espectadores conectados durante más tiempo.</p>
+                        <div class="video-meta">⏱ 45 min · 📊 Nivel: Principiante</div>
+                        <button class="play-btn">▶ Reproducir</button>
+                    </div>
+                </div>
+                
+                <div class="video-item">
+                    <div class="video-icon">🎥</div>
+                    <div class="video-info">
+                        <h4>Tutorial: Configuración de OBS para TikTok LIVE</h4>
+                        <p>Guía paso a paso para configurar OBS Studio con tu stream key de TikTok y mejorar la calidad de tus directos.</p>
+                        <div class="video-meta">⏱ 30 min · 📊 Nivel: Intermedio</div>
+                        <button class="play-btn">▶ Reproducir</button>
+                    </div>
+                </div>
+                
+                <div class="video-item">
+                    <div class="video-icon">🎥</div>
+                    <div class="video-info">
+                        <h4>Masterclass: Dinámicas para aumentar regalos en LIVE</h4>
+                        <p>Descubre las estrategias probadas para incentivar a tu audiencia a enviar más regalos durante tus transmisiones.</p>
+                        <div class="video-meta"> 50 min · 📊 Nivel: Avanzado</div>
+                        <button class="play-btn">▶ Reproducir</button>
+                    </div>
+                </div>
+                
+                <div class="video-item">
+                    <div class="video-icon">🎥</div>
+                    <div class="video-info">
+                        <h4>Tutorial: Cómo usar el Stream Key de TikTok</h4>
+                        <p>Todo lo que necesitas saber sobre la clave de emisión de TikTok: cómo obtenerla, configurarla y sacarle el máximo partido.</p>
+                        <div class="video-meta"> 25 min · 📊 Nivel: Principiante</div>
+                        <button class="play-btn">▶ Reproducir</button>
+                    </div>
+                </div>
+                
+                <div class="video-item">
+                    <div class="video-icon">🎥</div>
+                    <div class="video-info">
+                        <h4>Masterclass: Psicología del espectador en LIVE</h4>
+                        <p>Entiende qué motiva a los espectadores a quedarse, interactuar y enviar regalos en tus directos.</p>
+                        <div class="video-meta">⏱ 55 min · 📊 Nivel: Intermedio</div>
+                        <button class="play-btn">▶ Reproducir</button>
+                    </div>
+                </div>
+                
+                <div class="video-item">
+                    <div class="video-icon">🎥</div>
+                    <div class="video-info">
+                        <h4>Tutorial: Equipamiento básico para mejorar tus LIVE</h4>
+                        <p>Recomendaciones de micrófonos, luces y accesorios según tu presupuesto para profesionalizar tus transmisiones.</p>
+                        <div class="video-meta">⏱ 20 min · 📊 Nivel: Principiante</div>
+                        <button class="play-btn">▶ Reproducir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL ARTÍCULOS -->
+    <div class="modal" id="modalArticulos">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('modalArticulos')">✕</button>
+            <h2>📄 Biblioteca de Artículos</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">Guías detalladas y recursos escritos para dominar TikTok LIVE.</p>
+            
+            <div class="article-list">
+                <div class="article-item">
+                    <div class="article-icon"></div>
+                    <div class="article-info">
+                        <h4>Guía completa: Cómo funciona el algoritmo de TikTok LIVE</h4>
+                        <p>Entiende cómo TikTok decide a quién mostrar tus directos y cómo puedes optimizar tu contenido para aparecer en el feed de más usuarios.</p>
+                        <div class="article-meta">📖 15 min de lectura · 📊 Nivel: Principiante</div>
+                        <button class="read-btn">Leer artículo</button>
+                    </div>
+                </div>
+                
+                <div class="article-item">
+                    <div class="article-icon">📄</div>
+                    <div class="article-info">
+                        <h4>Las 10 mejores dinámicas para mantener activa tu comunidad</h4>
+                        <p>Lista de actividades y juegos que puedes hacer en directo para aumentar la interacción y el engagement de tu audiencia.</p>
+                        <div class="article-meta">📖 10 min de lectura · 📊 Nivel: Intermedio</div>
+                        <button class="read-btn">Leer artículo</button>
+                    </div>
+                </div>
+                
+                <div class="article-item">
+                    <div class="article-icon">📄</div>
+                    <div class="article-info">
+                        <h4>Configuración perfecta de OBS para TikTok LIVE</h4>
+                        <p>Todos los ajustes recomendados para OBS Studio: bitrate, resolución, FPS y configuración de audio para una transmisión profesional.</p>
+                        <div class="article-meta">📖 12 min de lectura · 📊 Nivel: Intermedio</div>
+                        <button class="read-btn">Leer artículo</button>
+                    </div>
+                </div>
+                
+                <div class="article-item">
+                    <div class="article-icon">📄</div>
+                    <div class="article-info">
+                        <h4>Normas de la comunidad de TikTok: Lo que debes saber</h4>
+                        <p>Guía completa sobre las políticas de TikTok LIVE para evitar baneos, restricciones y shadowbans en tu cuenta.</p>
+                        <div class="article-meta">📖 20 min de lectura · 📊 Nivel: Principiante</div>
+                        <button class="read-btn">Leer artículo</button>
+                    </div>
+                </div>
+                
+                <div class="article-item">
+                    <div class="article-icon"></div>
+                    <div class="article-info">
+                        <h4>Cómo hacer batallas LIVE efectivas</h4>
+                        <p>Estrategias para organizar y participar en batallas de TikTok que generen engagement y atraigan nuevos seguidores.</p>
+                        <div class="article-meta">📖 8 min de lectura · 📊 Nivel: Avanzado</div>
+                        <button class="read-btn">Leer artículo</button>
+                    </div>
+                </div>
+                
+                <div class="article-item">
+                    <div class="article-icon"></div>
+                    <div class="article-info">
+                        <h4>Monetización en TikTok LIVE: Todas las formas de ganar diamantes</h4>
+                        <p>Descubre todas las maneras de monetizar tus directos: regalos, suscripciones, eventos especiales y más.</p>
+                        <div class="article-meta">📖 18 min de lectura ·  Nivel: Principiante</div>
+                        <button class="read-btn">Leer artículo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- CONTACT -->
     <section id="contacto">
@@ -759,7 +978,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // ==========================================
-            // 1. SISTEMA DE LOGIN / LOGOUT (Simulado con localStorage)
+            // 1. SISTEMA DE LOGIN / LOGOUT
             // ==========================================
             const loginPanel = document.getElementById('loginPanel');
             const dashboardPanel = document.getElementById('dashboardPanel');
@@ -768,7 +987,6 @@
             const logoutBtn = document.getElementById('logoutBtn');
             const logoutDashboardBtn = document.getElementById('logoutDashboardBtn');
 
-            // Función para actualizar la UI según el estado de sesión
             function updateAuthUI(isLoggedIn, userData = null) {
                 if (isLoggedIn && userData) {
                     loginPanel.style.display = 'none';
@@ -776,7 +994,6 @@
                     loginNavBtn.style.display = 'none';
                     logoutBtn.style.display = 'inline-flex';
                     
-                    // Rellenar datos del usuario
                     document.getElementById('userName').textContent = userData.name || 'Creador';
                     document.getElementById('userEmail').textContent = userData.email;
                     document.getElementById('userAvatar').textContent = (userData.name || userData.email).charAt(0).toUpperCase();
@@ -788,7 +1005,6 @@
                 }
             }
 
-            // Comprobar sesión al cargar la página
             const savedSession = localStorage.getItem('vlf_session');
             if (savedSession) {
                 updateAuthUI(true, JSON.parse(savedSession));
@@ -796,33 +1012,25 @@
                 updateAuthUI(false);
             }
 
-            // Manejar el envío del formulario de login
             loginForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 const email = document.getElementById('loginEmail').value;
                 const password = document.getElementById('loginPassword').value;
 
-                // VALIDACIÓN: Aquí es donde conectarías Firebase:
-                // firebase.auth().signInWithEmailAndPassword(email, password).then(...)
-                
-                // Simulación de login exitoso para que funcione YA:
                 if (email && password.length >= 4) {
                     const userData = {
                         email: email,
-                        name: email.split('@')[0] // Usa la parte antes del @ como nombre
+                        name: email.split('@')[0]
                     };
                     localStorage.setItem('vlf_session', JSON.stringify(userData));
                     updateAuthUI(true, userData);
                     loginForm.reset();
-                    
-                    // Scroll suave al dashboard
                     dashboardPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 } else {
-                    alert('Por favor, introduce un email válido y una contraseña (mín. 4 caracteres para la demo).');
+                    alert('Por favor, introduce un email válido y una contraseña (mín. 4 caracteres).');
                 }
             });
 
-            // Manejar Logout
             function handleLogout() {
                 localStorage.removeItem('vlf_session');
                 updateAuthUI(false);
@@ -832,7 +1040,6 @@
             logoutBtn.addEventListener('click', handleLogout);
             logoutDashboardBtn.addEventListener('click', handleLogout);
 
-            // Botón "Iniciar sesión" en el menú navega al panel
             loginNavBtn.addEventListener('click', () => {
                 document.getElementById('panel').scrollIntoView({ behavior: 'smooth' });
             });
@@ -846,19 +1053,67 @@
             tabBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     const targetTab = btn.getAttribute('data-tab');
-                    
-                    // Desactivar todos
                     tabBtns.forEach(b => b.classList.remove('active'));
                     tabContents.forEach(c => c.classList.remove('active'));
-                    
-                    // Activar el seleccionado
                     btn.classList.add('active');
                     document.getElementById(targetTab).classList.add('active');
                 });
             });
 
             // ==========================================
-            // 3. MENÚ MÓVIL
+            // 3. MODALES DE VIDEOS Y ARTÍCULOS
+            // ==========================================
+            const verVideosBtn = document.getElementById('verVideosBtn');
+            const leerArticulosBtn = document.getElementById('leerArticulosBtn');
+            const modalVideos = document.getElementById('modalVideos');
+            const modalArticulos = document.getElementById('modalArticulos');
+
+            verVideosBtn.addEventListener('click', () => {
+                modalVideos.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+
+            leerArticulosBtn.addEventListener('click', () => {
+                modalArticulos.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+
+            // Cerrar modales al hacer clic en el fondo
+            modalVideos.addEventListener('click', (e) => {
+                if (e.target === modalVideos) {
+                    closeModal('modalVideos');
+                }
+            });
+
+            modalArticulos.addEventListener('click', (e) => {
+                if (e.target === modalArticulos) {
+                    closeModal('modalArticulos');
+                }
+            });
+
+            // Cerrar modales con tecla ESC
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeModal('modalVideos');
+                    closeModal('modalArticulos');
+                }
+            });
+
+            // Botones de reproducir/leer dentro de los modales
+            document.querySelectorAll('.play-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    alert('🎬 Aquí se reproduciría el video. Conecta tu proveedor de video (Vimeo, YouTube privado, etc.)');
+                });
+            });
+
+            document.querySelectorAll('.read-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    alert('📖 Aquí se abriría el artículo completo. Conecta tu CMS o base de datos de contenido.');
+                });
+            });
+
+            // ==========================================
+            // 4. MENÚ MÓVIL
             // ==========================================
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
             const navLinks = document.getElementById('navLinks');
@@ -867,13 +1122,19 @@
                 navLinks.classList.toggle('active');
             });
 
-            // Cerrar menú móvil al hacer clic en un enlace
             navLinks.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', () => {
                     navLinks.classList.remove('active');
                 });
             });
         });
+
+        // Función global para cerrar modales
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
     </script>
 </body>
 </html>
