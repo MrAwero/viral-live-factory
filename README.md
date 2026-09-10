@@ -4,7 +4,7 @@ Sitio web oficial de **Viral Live Factory**, agencia especializada en el crecimi
 
 La web incluye una landing page de alta conversión, un panel de creador privado y un **panel de administración (CMS) integrado** para gestionar el contenido sin necesidad de tocar código.
 
-🔗 **[Ver sitio en vivo (GitHub Pages)](https://mrawero.github.io/viral-live-factory/)** *(Recuerda cambiar este enlace por el de tu repositorio)*
+🔗 **[Ver sitio en vivo (GitHub Pages)](https://mrawero.github.io/viral-live-factory/)
 
 ---
 
