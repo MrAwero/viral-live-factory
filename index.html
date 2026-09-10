@@ -223,7 +223,7 @@
         .panel-footer a:hover { text-decoration: underline; }
 
         /* DASHBOARD */
-        .panel-dashboard { display: none; max-width: 1200px; margin: 0 auto; }
+        .panel-dashboard { max-width: 1200px; margin: 0 auto; }
         .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); flex-wrap: wrap; gap: 1rem; }
         .dashboard-user { display: flex; align-items: center; gap: 1rem; }
         .user-avatar { width: 50px; height: 50px; background: var(--accent-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.2rem; }
@@ -358,7 +358,7 @@
                 <div class="live-mockup">
                     <div class="live-header">
                         <span class="live-badge"><span class="dot"></span> LIVE</span>
-                        <span class="live-viewers">👁 2.4K</span>
+                        <span class="live-viewers"> 2.4K</span>
                     </div>
                     <div class="live-content">
                         <div class="chat-feed">
@@ -392,7 +392,7 @@
             </div>
             <div class="benefits-grid">
                 <div class="benefit-card">
-                    <div class="benefit-icon"></div>
+                    <div class="benefit-icon">📈</div>
                     <h3>Promoción de tus LIVE</h3>
                     <p>Te ayudamos a atraer más público a tus directos con visibilidad estratégica.</p>
                 </div>
@@ -402,7 +402,7 @@
                     <p>Formación grupal en directo, una vez a la semana, para mejorar tus dinámicas de LIVE.</p>
                 </div>
                 <div class="benefit-card">
-                    <div class="benefit-icon">‍🏫</div>
+                    <div class="benefit-icon">🧑🏫</div>
                     <h3>Asesoría personalizada 1:1</h3>
                     <p>Reuniones individuales para trabajar tu estrategia según tu perfil y nivel.</p>
                 </div>
@@ -450,7 +450,7 @@
                     <div class="league-medal"></div>
                     <h3>Liga Bronce</h3>
                     <p class="league-desc">Creadores principiantes que están empezando en LIVE</p>
-                    <span class="league-prize">1K – 5K </span>
+                    <span class="league-prize">1K – 5K 💎</span>
                 </div>
             </div>
             <div class="extra-prize">
@@ -608,7 +608,7 @@
             </div>
 
             <!-- DASHBOARD (Hidden by default) -->
-            <div class="panel-dashboard" id="dashboardPanel">
+            <div class="panel-dashboard" id="dashboardPanel" style="display: none;">
                 <div class="dashboard-header">
                     <div class="dashboard-user">
                         <div class="user-avatar" id="userAvatar">U</div>
@@ -643,7 +643,7 @@
                 <div class="tab-content" id="campanas">
                     <div class="dashboard-grid">
                         <div class="dashboard-card">
-                            <h3> Campañas Activas</h3>
+                            <h3>🎯 Campañas Activas</h3>
                             <p>Participa en las campañas mensuales de la agencia y cumple tus objetivos para ganar premios extra.</p>
                         </div>
                     </div>
@@ -652,7 +652,7 @@
                 <div class="tab-content" id="batallas">
                     <div class="dashboard-grid">
                         <div class="dashboard-card">
-                            <h3>⚔️ Próximas Batallas</h3>
+                            <h3>️ Próximas Batallas</h3>
                             <p>Calendario de batallas internas y competiciones por ligas. ¡Prepárate!</p>
                         </div>
                     </div>
@@ -710,7 +710,7 @@
                     
                     <div class="contact-methods">
                         <div class="contact-method">
-                            <div class="contact-method-icon"></div>
+                            <div class="contact-method-icon">📩</div>
                             <div class="contact-method-text">
                                 <strong>Mensaje directo</strong>
                                 <span>@virallivefactory en TikTok</span>
@@ -724,7 +724,7 @@
                             </div>
                         </div>
                         <div class="contact-method">
-                            <div class="contact-method-icon"></div>
+                            <div class="contact-method-icon">💬</div>
                             <div class="contact-method-text">
                                 <strong>Respuesta</strong>
                                 <span>Normalmente en menos de 24h</span>
@@ -954,12 +954,12 @@
                 `
             },
             {
-                title:'6. LIVE Match: Dos y Don'ts',
+                title:'6. LIVE Match: Dos y Don\'ts',
                 excerpt:'Guía práctica con recomendaciones y aspectos a evitar durante los LIVE Match.',
                 read:'Documento PDF',
                 isPdf:true,
                 body:`
-                    <h4>LIVE Match: Dos y Don'ts</h4>
+                    <h4>LIVE Match: Dos y Don\'ts</h4>
                     <p>Consulta la guía completa para preparar y realizar tus LIVE Match de forma adecuada.</p>
                     <p><a class="btn btn-primary" href="LIVE_Match_Dos_and_Donts_ES.pdf" target="_blank" rel="noopener">Abrir documento PDF</a></p>
                 `
@@ -995,7 +995,7 @@
                             <h4>${article.title}</h4>
                             <p class="article-excerpt">${article.excerpt}</p>
                             <div class="article-meta">
-                                <span> ${article.read}</span>
+                                <span>📖 ${article.read}</span>
                             </div>
                         </div>
                         <span class="article-toggle">+</span>
