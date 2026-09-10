@@ -313,6 +313,373 @@
             .transparency-grid { flex-direction: column; gap: 1rem; align-items: center; }
             .panel-box { padding: 2rem 1.5rem; }
         }
+
+        /* ============================================ */
+        /* ADMIN PANEL STYLES */
+        /* ============================================ */
+        #adminToolbar {
+            display: none;
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 9999;
+            background: var(--bg-card);
+            border: 2px solid var(--tiktok-cyan);
+            border-radius: var(--radius-lg);
+            padding: 1rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            max-width: 320px;
+            animation: slideInRight 0.3s ease;
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        #adminToolbar.active { display: block; }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .admin-header h3 {
+            font-size: 1rem;
+            color: var(--tiktok-cyan);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .admin-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+        }
+        .admin-close:hover { color: var(--tiktok-red); }
+        
+        .admin-section {
+            margin-bottom: 1rem;
+        }
+        .admin-section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .admin-btn {
+            display: block;
+            width: 100%;
+            padding: 0.7rem 1rem;
+            margin-bottom: 0.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .admin-btn:hover {
+            background: var(--bg-secondary);
+            border-color: var(--tiktok-cyan);
+        }
+        .admin-btn.danger {
+            border-color: rgba(254, 44, 85, 0.3);
+        }
+        .admin-btn.danger:hover {
+            background: rgba(254, 44, 85, 0.1);
+            border-color: var(--tiktok-red);
+            color: var(--tiktok-red);
+        }
+        .admin-btn.primary {
+            background: var(--tiktok-red);
+            border-color: var(--tiktok-red);
+        }
+        .admin-btn.primary:hover {
+            background: var(--tiktok-red-dark);
+        }
+        
+        .admin-status {
+            padding: 0.6rem;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            color: var(--success);
+            text-align: center;
+            display: none;
+        }
+        .admin-status.show { display: block; }
+        
+        .edit-mode-indicator {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            z-index: 9998;
+            background: var(--tiktok-red);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(254, 44, 85, 0.4);
+            animation: pulse 2s infinite;
+        }
+        .edit-mode-indicator.active { display: flex; align-items: center; gap: 0.5rem; }
+        
+        /* Editable elements highlight */
+        body.edit-mode [data-editable] {
+            outline: 2px dashed var(--tiktok-cyan);
+            outline-offset: 4px;
+            cursor: text;
+            transition: outline 0.2s;
+        }
+        body.edit-mode [data-editable]:hover {
+            outline-color: var(--tiktok-red);
+            background: rgba(37, 244, 238, 0.05);
+        }
+        body.edit-mode [data-editable]:focus {
+            outline: 2px solid var(--tiktok-red);
+            background: rgba(37, 244, 238, 0.08);
+        }
+        
+        /* Admin Login Modal */
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .admin-modal.active { display: flex; }
+        .admin-modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        .admin-modal-content h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--tiktok-cyan);
+        }
+        .admin-modal-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+        .admin-modal-content .form-group {
+            margin-bottom: 1rem;
+        }
+        .admin-modal-content input {
+            width: 100%;
+            padding: 0.9rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+        .admin-modal-content input:focus {
+            outline: none;
+            border-color: var(--tiktok-cyan);
+        }
+        .admin-modal-content .error-msg {
+            color: var(--tiktok-red);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        .admin-modal-content .error-msg.show { display: block; }
+        
+        /* Video/Article Manager Modal */
+        .manager-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 10000;
+            overflow-y: auto;
+            padding: 2rem 1rem;
+        }
+        .manager-modal.active { display: block; }
+        .manager-content {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+        }
+        .manager-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .manager-header h2 {
+            font-size: 1.5rem;
+            color: var(--tiktok-cyan);
+        }
+        .manager-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        .manager-item {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+        .manager-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .manager-item-info h4 {
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .manager-item-info p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .manager-item-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+        .manager-item-actions button {
+            padding: 0.4rem 0.8rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .manager-item-actions button:hover {
+            border-color: var(--tiktok-cyan);
+        }
+        .manager-item-actions button.delete:hover {
+            border-color: var(--tiktok-red);
+            color: var(--tiktok-red);
+        }
+        .manager-add-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-tertiary);
+            border: 2px dashed var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            font-family: inherit;
+        }
+        .manager-add-btn:hover {
+            border-color: var(--tiktok-cyan);
+            color: var(--tiktok-cyan);
+        }
+        
+        /* Edit Form */
+        .edit-form {
+            display: none;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+        .edit-form.active { display: block; }
+        .edit-form .form-group {
+            margin-bottom: 1rem;
+        }
+        .edit-form label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.4rem;
+        }
+        .edit-form input, .edit-form textarea {
+            width: 100%;
+            padding: 0.7rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+        .edit-form textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .edit-form input:focus, .edit-form textarea:focus {
+            outline: none;
+            border-color: var(--tiktok-cyan);
+        }
+        .edit-form-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            margin-top: 1rem;
+        }
+        .edit-form-actions button {
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--radius-sm);
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .edit-form-actions .cancel-btn {
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+        .edit-form-actions .save-btn {
+            background: var(--tiktok-red);
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -343,16 +710,16 @@
         <div class="container">
             <div class="hero-grid">
                 <div class="hero-content">
-                    <div class="hero-badge">Agencia Oficial TikTok LIVE · España</div>
-                    <h1>Convierte tus LIVE en <span class="gradient-text">ingresos reales</span></h1>
-                    <p class="hero-subtitle">Promoción de tus directos, formación semanal y soporte de agencia — sin coste para ti. Tus diamantes siguen siendo 100% tuyos.</p>
+                    <div class="hero-badge" data-editable="hero-badge">Agencia Oficial TikTok LIVE · España</div>
+                    <h1 data-editable="hero-title">Convierte tus LIVE en <span class="gradient-text">ingresos reales</span></h1>
+                    <p class="hero-subtitle" data-editable="hero-subtitle">Promoción de tus directos, formación semanal y soporte de agencia — sin coste para ti. Tus diamantes siguen siendo 100% tuyos.</p>
                     <div class="hero-cta">
                         <a href="https://www.tiktok.com/t/ZS4ovyLpG" class="btn btn-primary" target="_blank">Unirme a la agencia →</a>
                         <button class="btn btn-secondary" onclick="document.getElementById('panel').scrollIntoView({behavior: 'smooth'})">Ver panel de creador</button>
                     </div>
                     <div class="hero-trial">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        🎟️ Prueba la agencia 15 días gratis, sin compromiso
+                        <span data-editable="hero-trial">🎟️ Prueba la agencia 15 días gratis, sin compromiso</span>
                     </div>
                 </div>
                 <div class="live-mockup">
@@ -386,40 +753,40 @@
     <section class="bg-secondary" id="beneficios">
         <div class="container">
             <div class="text-center">
-                <span class="section-label">Beneficios</span>
-                <h2 class="section-title">Con Viral Live Factory detrás</h2>
-                <p class="section-subtitle">Esto es lo que recibes desde el primer día. Todo incluido, sin cuota de entrada y sin comisión sobre lo que ganas en tus directos.</p>
+                <span class="section-label" data-editable="benefits-label">Beneficios</span>
+                <h2 class="section-title" data-editable="benefits-title">Con Viral Live Factory detrás</h2>
+                <p class="section-subtitle" data-editable="benefits-subtitle">Esto es lo que recibes desde el primer día. Todo incluido, sin cuota de entrada y sin comisión sobre lo que ganas en tus directos.</p>
             </div>
-            <div class="benefits-grid">
+            <div class="benefits-grid" id="benefitsGrid">
                 <div class="benefit-card">
                     <div class="benefit-icon">📈</div>
-                    <h3>Promoción de tus LIVE</h3>
-                    <p>Te ayudamos a atraer más público a tus directos con visibilidad estratégica.</p>
+                    <h3 data-editable="benefit-1-title">Promoción de tus LIVE</h3>
+                    <p data-editable="benefit-1-desc">Te ayudamos a atraer más público a tus directos con visibilidad estratégica.</p>
                 </div>
                 <div class="benefit-card">
-                    <div class="benefit-icon">🎓</div>
-                    <h3>Formación semanal</h3>
-                    <p>Formación grupal en directo, una vez a la semana, para mejorar tus dinámicas de LIVE.</p>
+                    <div class="benefit-icon"></div>
+                    <h3 data-editable="benefit-2-title">Formación semanal</h3>
+                    <p data-editable="benefit-2-desc">Formación grupal en directo, una vez a la semana, para mejorar tus dinámicas de LIVE.</p>
                 </div>
                 <div class="benefit-card">
-                    <div class="benefit-icon">🧑🏫</div>
-                    <h3>Asesoría personalizada 1:1</h3>
-                    <p>Reuniones individuales para trabajar tu estrategia según tu perfil y nivel.</p>
+                    <div class="benefit-icon">🧑‍</div>
+                    <h3 data-editable="benefit-3-title">Asesoría personalizada 1:1</h3>
+                    <p data-editable="benefit-3-desc">Reuniones individuales para trabajar tu estrategia según tu perfil y nivel.</p>
                 </div>
                 <div class="benefit-card">
                     <div class="benefit-icon">🛡️</div>
-                    <h3>Soporte ante incidencias</h3>
-                    <p>Acompañamiento si sufres hackeo, baneo o restricciones en tu cuenta.</p>
+                    <h3 data-editable="benefit-4-title">Soporte ante incidencias</h3>
+                    <p data-editable="benefit-4-desc">Acompañamiento si sufres hackeo, baneo o restricciones en tu cuenta.</p>
                 </div>
                 <div class="benefit-card">
-                    <div class="benefit-icon">🎛️</div>
-                    <h3>Stream Key para OBS</h3>
-                    <p>Mejora la calidad de tus directos, con opción de multistreaming a otras plataformas.</p>
+                    <div class="benefit-icon">️</div>
+                    <h3 data-editable="benefit-5-title">Stream Key para OBS</h3>
+                    <p data-editable="benefit-5-desc">Mejora la calidad de tus directos, con opción de multistreaming a otras plataformas.</p>
                 </div>
                 <div class="benefit-card">
                     <div class="benefit-icon">💎</div>
-                    <h3>100% de tus diamantes</h3>
-                    <p>Tus ingresos no cambian. La agencia se financia con incentivos de TikTok, no con tu comisión.</p>
+                    <h3 data-editable="benefit-6-title">100% de tus diamantes</h3>
+                    <p data-editable="benefit-6-desc">Tus ingresos no cambian. La agencia se financia con incentivos de TikTok, no con tu comisión.</p>
                 </div>
             </div>
         </div>
@@ -429,33 +796,33 @@
     <section id="ligas">
         <div class="container">
             <div class="text-center">
-                <span class="section-label">Competición</span>
-                <h2 class="section-title">Competencias por ligas, <span class="gradient-text">premios en diamantes</span></h2>
-                <p class="section-subtitle">Cada mes organizamos eventos con premios de 1K a 30K diamantes, en 3 ligas para que la competencia sea justa.</p>
+                <span class="section-label" data-editable="leagues-label">Competición</span>
+                <h2 class="section-title" data-editable="leagues-title">Competencias por ligas, <span class="gradient-text">premios en diamantes</span></h2>
+                <p class="section-subtitle" data-editable="leagues-subtitle">Cada mes organizamos eventos con premios de 1K a 30K diamantes, en 3 ligas para que la competencia sea justa.</p>
             </div>
             <div class="leagues-grid">
                 <div class="league-card gold">
                     <div class="league-medal">🥇</div>
-                    <h3>Liga Oro</h3>
-                    <p class="league-desc">Creadores avanzados con mayor monetización</p>
-                    <span class="league-prize">15K – 30K 💎</span>
+                    <h3 data-editable="league-gold-title">Liga Oro</h3>
+                    <p class="league-desc" data-editable="league-gold-desc">Creadores avanzados con mayor monetización</p>
+                    <span class="league-prize" data-editable="league-gold-prize">15K – 30K 💎</span>
                 </div>
                 <div class="league-card silver">
                     <div class="league-medal">🥈</div>
-                    <h3>Liga Plata</h3>
-                    <p class="league-desc">Creadores intermedios con actividad constante</p>
-                    <span class="league-prize">5K – 15K 💎</span>
+                    <h3 data-editable="league-silver-title">Liga Plata</h3>
+                    <p class="league-desc" data-editable="league-silver-desc">Creadores intermedios con actividad constante</p>
+                    <span class="league-prize" data-editable="league-silver-prize">5K – 15K 💎</span>
                 </div>
                 <div class="league-card bronze">
-                    <div class="league-medal"></div>
-                    <h3>Liga Bronce</h3>
-                    <p class="league-desc">Creadores principiantes que están empezando en LIVE</p>
-                    <span class="league-prize">1K – 5K 💎</span>
+                    <div class="league-medal">🥉</div>
+                    <h3 data-editable="league-bronze-title">Liga Bronce</h3>
+                    <p class="league-desc" data-editable="league-bronze-desc">Creadores principiantes que están empezando en LIVE</p>
+                    <span class="league-prize" data-editable="league-bronze-prize">1K – 5K 💎</span>
                 </div>
             </div>
             <div class="extra-prize">
-                <h3 style="margin-bottom: 1rem; color: var(--tiktok-cyan);">Cumple objetivos, gana extra</h3>
-                <p>Al alcanzar las metas asignadas, recibes diamantes adicionales. Si lo prefieres, podemos transferirte el equivalente por PayPal.</p>
+                <h3 style="margin-bottom: 1rem; color: var(--tiktok-cyan);" data-editable="extra-prize-title">Cumple objetivos, gana extra</h3>
+                <p data-editable="extra-prize-desc">Al alcanzar las metas asignadas, recibes diamantes adicionales. Si lo prefieres, podemos transferirte el equivalente por PayPal.</p>
             </div>
         </div>
     </section>
@@ -464,33 +831,33 @@
     <section class="bg-secondary" id="requisitos">
         <div class="container">
             <div class="text-center" style="margin-bottom: 3rem;">
-                <span class="section-label">Requisitos</span>
-                <h2 class="section-title">¿Puedes unirte a la agencia?</h2>
+                <span class="section-label" data-editable="req-label">Requisitos</span>
+                <h2 class="section-title" data-editable="req-title">¿Puedes unirte a la agencia?</h2>
             </div>
             <div class="req-grid">
                 <div class="req-item">
                     <div class="req-check">✓</div>
-                    <div><h4>Mayor de edad 18 años o más.</h4></div>
+                    <div><h4 data-editable="req-1">Mayor de edad 18 años o más.</h4></div>
                 </div>
                 <div class="req-item">
                     <div class="req-check">✓</div>
-                    <div><h4>Menos de 200K seguidores</h4><p>Nos enfocamos en talento en crecimiento.</p></div>
+                    <div><h4 data-editable="req-2-title">Menos de 200K seguidores</h4><p data-editable="req-2-desc">Nos enfocamos en talento en crecimiento.</p></div>
                 </div>
                 <div class="req-item">
                     <div class="req-check">✓</div>
-                    <div><h4>Menos de 80K diamantes acumulados</h4><p>En el histórico de la plataforma.</p></div>
+                    <div><h4 data-editable="req-3-title">Menos de 80K diamantes acumulados</h4><p data-editable="req-3-desc">En el histórico de la plataforma.</p></div>
                 </div>
                 <div class="req-item">
                     <div class="req-check">✓</div>
-                    <div><h4>No estar en otra agencia</h4><p>Solo puedes pertenecer a una a la vez.</p></div>
+                    <div><h4 data-editable="req-4-title">No estar en otra agencia</h4><p data-editable="req-4-desc">Solo puedes pertenecer a una a la vez.</p></div>
                 </div>
                 <div class="req-item">
                     <div class="req-check">✓</div>
-                    <div><h4>Actividad en LIVE</h4><p>Historial mínimo de transmisiones.</p></div>
+                    <div><h4 data-editable="req-5-title">Actividad en LIVE</h4><p data-editable="req-5-desc">Historial mínimo de transmisiones.</p></div>
                 </div>
                 <div class="req-item">
                     <div class="req-check">✓</div>
-                    <div><h4>Mostrar el rostro (preferible)</h4><p>No es obligatorio, pero sí recomendable.</p></div>
+                    <div><h4 data-editable="req-6-title">Mostrar el rostro (preferible)</h4><p data-editable="req-6-desc">No es obligatorio, pero sí recomendable.</p></div>
                 </div>
             </div>
         </div>
@@ -500,35 +867,35 @@
     <section id="evolucion">
         <div class="container">
             <div class="text-center">
-                <span class="section-label">Evolución</span>
-                <h2 class="section-title">Así puede evolucionar tu carrera como creador</h2>
-                <p class="section-subtitle">Con formación semanal, asesoría personalizada y promoción constante, este es el camino que recorremos juntos.</p>
+                <span class="section-label" data-editable="roadmap-label">Evolución</span>
+                <h2 class="section-title" data-editable="roadmap-title">Así puede evolucionar tu carrera como creador</h2>
+                <p class="section-subtitle" data-editable="roadmap-subtitle">Con formación semanal, asesoría personalizada y promoción constante, este es el camino que recorremos juntos.</p>
             </div>
             <div class="roadmap-grid">
                 <div class="roadmap-step">
                     <div class="step-icon">🚀</div>
-                    <h4>Día 1</h4>
-                    <p>Te unes y empiezas con acompañamiento</p>
+                    <h4 data-editable="roadmap-1-title">Día 1</h4>
+                    <p data-editable="roadmap-1-desc">Te unes y empiezas con acompañamiento</p>
                 </div>
                 <div class="roadmap-step">
-                    <div class="step-icon">🌱</div>
-                    <h4>Principiante</h4>
-                    <p>Hasta 80K diamantes al mes</p>
+                    <div class="step-icon"></div>
+                    <h4 data-editable="roadmap-2-title">Principiante</h4>
+                    <p data-editable="roadmap-2-desc">Hasta 80K diamantes al mes</p>
                 </div>
                 <div class="roadmap-step">
                     <div class="step-icon">📈</div>
-                    <h4>Maduro</h4>
-                    <p>Entre 80K y 500K diamantes al mes</p>
+                    <h4 data-editable="roadmap-3-title">Maduro</h4>
+                    <p data-editable="roadmap-3-desc">Entre 80K y 500K diamantes al mes</p>
                 </div>
                 <div class="roadmap-step">
                     <div class="step-icon">⭐</div>
-                    <h4>Pre Top & Top</h4>
-                    <p>Más de 500K diamantes al mes</p>
+                    <h4 data-editable="roadmap-4-title">Pre Top & Top</h4>
+                    <p data-editable="roadmap-4-desc">Más de 500K diamantes al mes</p>
                 </div>
                 <div class="roadmap-step">
                     <div class="step-icon">🏆</div>
-                    <h4>Tu ritmo</h4>
-                    <p>Sigues creciendo con nuestro apoyo</p>
+                    <h4 data-editable="roadmap-5-title">Tu ritmo</h4>
+                    <p data-editable="roadmap-5-desc">Sigues creciendo con nuestro apoyo</p>
                 </div>
             </div>
         </div>
@@ -538,29 +905,29 @@
     <section class="bg-secondary" id="proceso">
         <div class="container">
             <div class="text-center">
-                <span class="section-label">Proceso</span>
-                <h2 class="section-title">El proceso para unirte, paso a paso</h2>
+                <span class="section-label" data-editable="process-label">Proceso</span>
+                <h2 class="section-title" data-editable="process-title">El proceso para unirte, paso a paso</h2>
             </div>
             <div class="process-grid">
                 <div class="process-step">
                     <div class="process-number">1</div>
-                    <h4>Nos escribes o aplicas por el enlace</h4>
-                    <p>A través del enlace oficial de reclutamiento de la agencia.</p>
+                    <h4 data-editable="process-1-title">Nos escribes o aplicas por el enlace</h4>
+                    <p data-editable="process-1-desc">A través del enlace oficial de reclutamiento de la agencia.</p>
                 </div>
                 <div class="process-step">
                     <div class="process-number">2</div>
-                    <h4>Revisión y aceptación</h4>
-                    <p>Verificamos disponibilidad y enviamos la invitación oficial.</p>
+                    <h4 data-editable="process-2-title">Revisión y aceptación</h4>
+                    <p data-editable="process-2-desc">Verificamos disponibilidad y enviamos la invitación oficial.</p>
                 </div>
                 <div class="process-step">
                     <div class="process-number">3</div>
-                    <h4>Aceptas la invitación en TikTok</h4>
-                    <p>Confirmas tu incorporación directamente en la app.</p>
+                    <h4 data-editable="process-3-title">Aceptas la invitación en TikTok</h4>
+                    <p data-editable="process-3-desc">Confirmas tu incorporación directamente en la app.</p>
                 </div>
                 <div class="process-step">
                     <div class="process-number">4</div>
-                    <h4>Empiezas con acompañamiento</h4>
-                    <p>Formación, promoción y soporte desde tu primer directo.</p>
+                    <h4 data-editable="process-4-title">Empiezas con acompañamiento</h4>
+                    <p data-editable="process-4-desc">Formación, promoción y soporte desde tu primer directo.</p>
                 </div>
             </div>
         </div>
@@ -570,12 +937,12 @@
     <section class="transparency">
         <div class="container">
             <div class="text-center" style="margin-bottom: 2rem;">
-                <h2 class="section-title" style="font-size: 2rem;">Una agencia transparente, sin letra pequeña</h2>
+                <h2 class="section-title" style="font-size: 2rem;" data-editable="transparency-title">Una agencia transparente, sin letra pequeña</h2>
             </div>
             <div class="transparency-grid">
-                <div class="transparency-item"><div class="check">✓</div><span>Sin cuota de inscripción</span></div>
-                <div class="transparency-item"><div class="check">✓</div><span>Sin comisión sobre tus diamantes</span></div>
-                <div class="transparency-item"><div class="check">✓</div><span>15 días de prueba sin compromiso</span></div>
+                <div class="transparency-item"><div class="check">✓</div><span data-editable="transparency-1">Sin cuota de inscripción</span></div>
+                <div class="transparency-item"><div class="check">✓</div><span data-editable="transparency-2">Sin comisión sobre tus diamantes</span></div>
+                <div class="transparency-item"><div class="check">✓</div><span data-editable="transparency-3">15 días de prueba sin compromiso</span></div>
             </div>
         </div>
     </section>
@@ -586,9 +953,9 @@
             
             <!-- LOGIN FORM -->
             <div class="panel-box" id="loginPanel">
-                <div class="panel-lock"></div>
-                <h2>Inicia sesión</h2>
-                <p>Accede a tu panel y al contenido de formación. Solo para creadores aceptados en la agencia.</p>
+                <div class="panel-lock">🔒</div>
+                <h2 data-editable="login-title">Inicia sesión</h2>
+                <p data-editable="login-desc">Accede a tu panel y al contenido de formación. Solo para creadores aceptados en la agencia.</p>
                 
                 <form id="loginForm">
                     <div class="form-group">
@@ -607,7 +974,7 @@
                 </div>
             </div>
 
-            <!-- DASHBOARD (Hidden by default) -->
+            <!-- DASHBOARD -->
             <div class="panel-dashboard" id="dashboardPanel" style="display: none;">
                 <div class="dashboard-header">
                     <div class="dashboard-user">
@@ -652,7 +1019,7 @@
                 <div class="tab-content" id="batallas">
                     <div class="dashboard-grid">
                         <div class="dashboard-card">
-                            <h3>️ Próximas Batallas</h3>
+                            <h3>⚔️ Próximas Batallas</h3>
                             <p>Calendario de batallas internas y competiciones por ligas. ¡Prepárate!</p>
                         </div>
                     </div>
@@ -704,30 +1071,30 @@
         <div class="container">
             <div class="contact-grid">
                 <div class="contact-info">
-                    <span class="section-label">Contacto</span>
-                    <h2>Hablemos</h2>
-                    <p>¿Tienes dudas antes de unirte? Escríbenos y te respondemos en menos de 24 horas. También puedes aplicar con el enlace oficial.</p>
+                    <span class="section-label" data-editable="contact-label">Contacto</span>
+                    <h2 data-editable="contact-title">Hablemos</h2>
+                    <p data-editable="contact-desc">¿Tienes dudas antes de unirte? Escríbenos y te respondemos en menos de 24 horas. También puedes aplicar con el enlace oficial.</p>
                     
                     <div class="contact-methods">
                         <div class="contact-method">
                             <div class="contact-method-icon">📩</div>
                             <div class="contact-method-text">
                                 <strong>Mensaje directo</strong>
-                                <span>@virallivefactory en TikTok</span>
+                                <span data-editable="contact-method-1">@virallivefactory en TikTok</span>
                             </div>
                         </div>
                         <div class="contact-method">
-                            <div class="contact-method-icon">🇸</div>
+                            <div class="contact-method-icon">🇪🇸</div>
                             <div class="contact-method-text">
                                 <strong>Cobertura</strong>
-                                <span>España</span>
+                                <span data-editable="contact-method-2">España</span>
                             </div>
                         </div>
                         <div class="contact-method">
                             <div class="contact-method-icon">💬</div>
                             <div class="contact-method-text">
                                 <strong>Respuesta</strong>
-                                <span>Normalmente en menos de 24h</span>
+                                <span data-editable="contact-method-3">Normalmente en menos de 24h</span>
                             </div>
                         </div>
                     </div>
@@ -765,7 +1132,7 @@
                 <span class="logo-icon" style="width: 30px; height: 30px; font-size: 1rem;">⚡</span>
                 <span>VIRAL LIVE <span class="gradient-text">FACTORY</span></span>
             </div>
-            <p class="footer-desc">Agencia oficial TikTok LIVE Creator Network · España</p>
+            <p class="footer-desc" data-editable="footer-desc">Agencia oficial TikTok LIVE Creator Network · España</p>
             <div class="footer-legal">
                 <a href="#">Aviso Legal</a>
                 <a href="#">Política de Privacidad</a>
@@ -775,10 +1142,141 @@
         </div>
     </footer>
 
-    <!-- JAVASCRIPT: LÓGICA COMPLETA Y FUNCIONAL -->
+    <!-- ============================================ -->
+    <!-- ADMIN PANEL UI -->
+    <!-- ============================================ -->
+    
+    <!-- Edit Mode Indicator -->
+    <div class="edit-mode-indicator" id="editModeIndicator">
+        <span>✏️</span>
+        <span>Modo Edición Activo</span>
+    </div>
+    
+    <!-- Admin Toolbar -->
+    <div id="adminToolbar">
+        <div class="admin-header">
+            <h3>⚙️ Panel Admin</h3>
+            <button class="admin-close" onclick="toggleAdminToolbar()">✕</button>
+        </div>
+        
+        <div class="admin-section">
+            <div class="admin-section-title">Edición de contenido</div>
+            <button class="admin-btn" onclick="toggleEditMode()" id="editModeBtn">✏️ Activar modo edición</button>
+            <button class="admin-btn" onclick="saveEdits()">💾 Guardar cambios</button>
+        </div>
+        
+        <div class="admin-section">
+            <div class="admin-section-title">Gestión de contenido</div>
+            <button class="admin-btn" onclick="openVideoManager()">🎬 Gestionar videos</button>
+            <button class="admin-btn" onclick="openArticleManager()">📄 Gestionar artículos</button>
+        </div>
+        
+        <div class="admin-section">
+            <div class="admin-section-title">Datos</div>
+            <button class="admin-btn" onclick="exportHTML()">📥 Descargar HTML</button>
+            <button class="admin-btn" onclick="exportData()">📤 Exportar datos</button>
+            <button class="admin-btn" onclick="document.getElementById('importFile').click()"> Importar datos</button>
+            <input type="file" id="importFile" style="display:none" accept=".json" onchange="importData(event)">
+            <button class="admin-btn danger" onclick="resetAll()">🔄 Resetear todo</button>
+        </div>
+        
+        <div class="admin-section">
+            <div class="admin-section-title">Seguridad</div>
+            <button class="admin-btn" onclick="changeAdminPassword()">🔑 Cambiar contraseña</button>
+            <button class="admin-btn danger" onclick="adminLogout()">🚪 Cerrar sesión admin</button>
+        </div>
+        
+        <div class="admin-status" id="adminStatus"></div>
+    </div>
+    
+    <!-- Admin Login Modal -->
+    <div class="admin-modal" id="adminModal">
+        <div class="admin-modal-content">
+            <h2>🔐 Acceso Admin</h2>
+            <p>Introduce la contraseña de administrador</p>
+            <div class="form-group">
+                <input type="password" id="adminPasswordInput" placeholder="Contraseña" onkeypress="if(event.key==='Enter')adminLogin()">
+            </div>
+            <button class="btn btn-primary" style="width:100%" onclick="adminLogin()">Entrar</button>
+            <button class="btn btn-ghost" style="width:100%; margin-top:0.5rem" onclick="closeAdminModal()">Cancelar</button>
+            <div class="error-msg" id="adminError">Contraseña incorrecta</div>
+        </div>
+    </div>
+    
+    <!-- Video Manager Modal -->
+    <div class="manager-modal" id="videoManagerModal">
+        <div class="manager-content">
+            <div class="manager-header">
+                <h2>🎬 Gestionar Videos</h2>
+                <button class="admin-close" onclick="closeVideoManager()">✕</button>
+            </div>
+            <div class="manager-list" id="videoManagerList"></div>
+            <button class="manager-add-btn" onclick="showAddVideoForm()">+ Añadir nuevo video</button>
+            <div class="edit-form" id="videoEditForm">
+                <div class="form-group">
+                    <label>Título</label>
+                    <input type="text" id="videoTitle">
+                </div>
+                <div class="form-group">
+                    <label>Categoría</label>
+                    <input type="text" id="videoCat" placeholder="Audio, Visual, Iluminación...">
+                </div>
+                <div class="form-group">
+                    <label>ID de YouTube</label>
+                    <input type="text" id="videoId" placeholder="Ej: LIBIs_ygNhs">
+                </div>
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea id="videoDesc"></textarea>
+                </div>
+                <div class="edit-form-actions">
+                    <button class="cancel-btn" onclick="hideVideoForm()">Cancelar</button>
+                    <button class="save-btn" onclick="saveVideo()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Article Manager Modal -->
+    <div class="manager-modal" id="articleManagerModal">
+        <div class="manager-content">
+            <div class="manager-header">
+                <h2>📄 Gestionar Artículos</h2>
+                <button class="admin-close" onclick="closeArticleManager()"></button>
+            </div>
+            <div class="manager-list" id="articleManagerList"></div>
+            <button class="manager-add-btn" onclick="showAddArticleForm()">+ Añadir nuevo artículo</button>
+            <div class="edit-form" id="articleEditForm">
+                <div class="form-group">
+                    <label>Título</label>
+                    <input type="text" id="articleTitle">
+                </div>
+                <div class="form-group">
+                    <label>Extracto</label>
+                    <textarea id="articleExcerpt"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Tiempo de lectura</label>
+                    <input type="text" id="articleRead" placeholder="15 min">
+                </div>
+                <div class="form-group">
+                    <label>Contenido (HTML)</label>
+                    <textarea id="articleBody" style="min-height: 200px; font-family: monospace; font-size: 0.85rem;"></textarea>
+                </div>
+                <div class="edit-form-actions">
+                    <button class="cancel-btn" onclick="hideArticleForm()">Cancelar</button>
+                    <button class="save-btn" onclick="saveArticle()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
     <script>
-        // VIDEOS DATA
-        const videos = [
+        // ============================================
+        // DEFAULT DATA
+        // ============================================
+        const defaultVideos = [
             { title:'Optimización del LIVE: efectos de sonido y música de fondo', cat:'Audio', dur:'', desc:'Cómo usar efectos de sonido y música de fondo para hacer tu LIVE más envolvente.', embed:{ type:'youtube', id:'LIBIs_ygNhs' } },
             { title:'Optimización del LIVE: configuración visual', cat:'Visual', dur:'', desc:'Ajustes de imagen y encuadre para que tu directo se vea más profesional.', embed:{ type:'youtube', id:'daesERwNvt0' } },
             { title:'Configuración de la iluminación para LIVE individual', cat:'Iluminación', dur:'', desc:'Cómo iluminar correctamente tus transmisiones en solitario.', embed:{ type:'youtube', id:'fT7DVAALn78' } },
@@ -787,197 +1285,80 @@
             { title:'4 habilidades clave para una interacción sólida', cat:'Interacción', dur:'', desc:'Las habilidades que más ayudan a conectar con tu audiencia en directo.', embed:{ type:'youtube', id:'t0rLJ5GvVcE' } },
         ];
 
-        // ARTICLES DATA
-        const articles = [
+        const defaultArticles = [
             {
                 title:'1. Guía Completa de Monetización y Programas de Creadores',
                 excerpt:'Todo sobre regalos, monedas, suscripciones, Programa de Socios, Series y Programa Creador de Efectos.',
                 read:'15 min',
-                body:`
-                    <h4>Guía Completa de Monetización en TikTok LIVE</h4>
-                    <p>TikTok ofrece múltiples vías para monetizar tu contenido en directo y vídeos. A continuación se desglosan los programas principales y sus requisitos.</p>
-                    
-                    <details>
-                        <summary>1. Regalos de LIVE y Monedas</summary>
-                        <p>Los espectadores compran Monedas virtuales para enviarte Regalos en tiempo real. Cada regalo se convierte en Diamantes en tu cuenta de creador, que posteriormente se pueden canjear por dinero real.</p>
-                        <ul>
-                            <li><strong>Mecanismo:</strong> Los espectadores compran paquetes de monedas en la app y las canjean por efectos visuales en tu directo.</li>
-                            <li><strong>Conversion:</strong> TikTok convierte automáticamente el valor de los regalos recibidos en Diamantes.</li>
-                            <li><strong>Retiro:</strong> Puedes retirar tus ingresos acumulados a través de PayPal o transferencia bancaria cuando alcances el mínimo requerido.</li>
-                        </ul>
-                    </details>
-
-                    <details>
-                        <summary>2. Suscripciones de LIVE</summary>
-                        <p>Permite a tus seguidores más fieles pagar una cuota mensual recurrente a cambio de ventajas exclusivas en tu canal.</p>
-                        <ul>
-                            <li><strong>Insignias de suscriptor:</strong> Iconos distintivos junto al nombre del usuario en el chat.</li>
-                            <li><strong>Emotes personalizados:</strong> Emojis exclusivos utilizables en tus directos.</li>
-                            <li><strong>Chat solo para suscriptores:</strong> Modo especial de chat para interactuar estrechamente con tu comunidad de pago.</li>
-                            <li><strong>Directos exclusivos:</strong> Transmisiones privadas dedicadas únicamente a suscriptores.</li>
-                        </ul>
-                    </details>
-
-                    <details>
-                        <summary>3. TikTok Rewards / Programa de Referidos</summary>
-                        <p>Gana recompensas invitando a nuevos usuarios o creadores a unirse a la plataforma e interactuar diariamente.</p>
-                    </details>
-
-                    <details>
-                        <summary>4. Programa de Socios de TikTok LIVE (Creator Network)</summary>
-                        <p>Formar parte de una agencia oficial como <strong>Viral Live Factory</strong> te da acceso a formación, soporte prioritario, protección de cuenta y promociones exclusivas sin alterar el 100% de tus ingresos por diamantes.</p>
-                    </details>
-
-                    <details>
-                        <summary>5. TikTok Series y Creadores de Efectos</summary>
-                        <p><strong>Series:</strong> Vende colecciones de contenido exclusivo detrás de un muro de pago.</p>
-                        <p><strong>Creador de Efectos:</strong> Recibe recompensas por diseñar filtros y efectos de realidad aumentada populares en Effect House.</p>
-                    </details>
-                `
+                body:`<h4>Guía Completa de Monetización en TikTok LIVE</h4><p>TikTok ofrece múltiples vías para monetizar tu contenido en directo y vídeos.</p><details><summary>1. Regalos de LIVE y Monedas</summary><p>Los espectadores compran Monedas virtuales para enviarte Regalos en tiempo real.</p></details><details><summary>2. Suscripciones de LIVE</summary><p>Permite a tus seguidores más fieles pagar una cuota mensual recurrente.</p></details>`
             },
             {
                 title:'2. Requisitos y Configuración Técnica para Emitir',
                 excerpt:'Condiciones de elegibilidad, uso de TikTok LIVE Studio, Stream Key para OBS y ajustes de calidad.',
                 read:'12 min',
-                body:`
-                    <h4>Preparación Técnica y Requisitos para el Directo</h4>
-                    <p>Para garantizar transmisiones de alta calidad y cumplir con las normativas de TikTok, revisa los siguientes puntos clave:</p>
-                    
-                    <details>
-                        <summary>Requisitos de Elegibilidad para Emitir</summary>
-                        <ul>
-                            <li>Tener al menos 18 años cumplidos.</li>
-                            <li>Contar con un número mínimo de seguidores (generalmente 1.000, ampliable o eximido al unirte a la agencia).</li>
-                            <li>Mantener la cuenta en buen estado y cumplir las Normas de la Comunidad.</li>
-                        </ul>
-                    </details>
-
-                    <details>
-                        <summary>Emisión con TikTok LIVE Studio y OBS (Stream Key)</summary>
-                        <p><strong>TikTok LIVE Studio:</strong> Software oficial para PC con escenas personalizadas, alertas, widgets de meta y soporte multi-pantalla.</p>
-                        <p><strong>Clave de Transmisión (Stream Key):</strong> Al formar parte de la agencia, puedes solicitar acceso a la Stream Key para emitir directamente desde OBS Studio, Streamlabs o vMix, permitiendo producciones avanzadas y multistreaming.</p>
-                    </details>
-
-                    <details>
-                        <summary>Ajustes Recomendados para OBS</summary>
-                        <ul>
-                            <li><strong>Resolución:</strong> 1080x1920 (Formato vertical 9:16).</li>
-                            <li><strong>Bitrate de Vídeo:</strong> 4000 - 6000 kbps (CBR).</li>
-                            <li><strong>Framerate:</strong> 30 FPS o 60 FPS según la capacidad de tu equipo y conexión.</li>
-                            <li><strong>Audio:</strong> 160 kbps, 48kHz.</li>
-                        </ul>
-                    </details>
-                `
+                body:`<h4>Preparación Técnica y Requisitos para el Directo</h4><details><summary>Requisitos de Elegibilidad</summary><ul><li>Tener al menos 18 años cumplidos.</li><li>Contar con un número mínimo de seguidores.</li></ul></details>`
             },
             {
                 title:'3. Dinámicas de Partidas LIVE, PKs y Herramientas',
-                excerpt:'Guía sobre partidas 1v1, coanfitriones, potenciadores (guante, neblina, cronómetro) y Galería de Regalos.',
+                excerpt:'Guía sobre partidas 1v1, coanfitriones, potenciadores y Galería de Regalos.',
                 read:'10 min',
-                body:`
-                    <h4>Partidas LIVE y Mecánicas de Competición</h4>
-                    <p>Las partidas 1vs1 (PKs) son la herramienta principal para aumentar la interacción y acelerar la monetización en tus directos.</p>
-
-                    <h4>¿Qué es una partida LIVE?</h4>
-                    <p>Compite en directo con otro creador durante 5 minutos para ver quién acumula más puntos de regalos y me gustas, seguido de 3 minutos de victoria/derrota.</p>
-                    <div style="margin: 1rem 0;"><div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px;" src="https://www.youtube.com/embed/zV4I-nu_xjA" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
-                    <div style="margin: 1rem 0;"><div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px;" src="https://www.youtube.com/embed/uWBix47vB6g" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
-
-                    <h4>Potenciadores y Objetivos</h4>
-                    <details>
-                        <summary>Guante Potenciador, Neblina Mágica y Cronómetro</summary>
-                        <p>Herramientas que activan multiplicadores de puntos o mitigan el progreso del rival durante momentos críticos de la partida.</p>
-                        <div style="margin: 1rem 0;"><div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px;" src="https://www.youtube.com/embed/85nZ2aYFL34" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
-                        <div style="margin: 1rem 0;"><div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px;" src="https://www.youtube.com/embed/IWrH7f7BeLc" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
-                        <div style="margin: 1rem 0;"><div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px;" src="https://www.youtube.com/embed/FuV3SEq91Gk" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
-                    </details>
-
-                    <details>
-                        <summary>Galería de Regalos y Objetivo del LIVE</summary>
-                        <p>Define metas visibles en pantalla para motivar a tus espectadores a completar insignias o lograr objetivos colectivos en tiempo real.</p>
-                        <div style="margin: 1rem 0;"><div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px;" src="https://www.youtube.com/embed/V4ldRpgDMDg" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
-                        <div style="margin: 1rem 0;"><div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px;" src="https://www.youtube.com/embed/jxatH0qkMzg" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
-                    </details>
-                `
+                body:`<h4>Partidas LIVE y Mecánicas de Competición</h4><p>Las partidas 1vs1 (PKs) son la herramienta principal para aumentar la interacción.</p>`
             },
             {
                 title:'4. Reglas de Comunidad, Seguridad e Identidad Visual',
-                excerpt:'Conductas prohibidas, infracciones de Health Score, moderación del chat e iluminación/sonido.',
+                excerpt:'Conductas prohibidas, infracciones de Health Score, moderación del chat.',
                 read:'10 min',
-                body:`
-                    <h4>Seguridad, Cumplimiento Normativo y Formato del Creador</h4>
-                    
-                    <details>
-                        <summary>Las 5 Conductas Prohibidas en LIVE</summary>
-                        <p>Evita penalizaciones directas o baneos definitivos de cuenta cuidando estrictamente estos factores:</p>
-                        <ol>
-                            <li><strong>Comportamiento de odio:</strong> Comentarios discriminatorios, racistas o xenófobos.</li>
-                            <li><strong>Acoso e intimidación:</strong> Ataques personales a otros creadores o espectadores.</li>
-                            <li><strong>Acoso sexual:</strong> Lenguaje, vestimenta o insinuaciones inapropiadas.</li>
-                            <li><strong>Información personal:</strong> Revelar datos privados propios o de terceros (DNI, teléfonos, direcciones).</li>
-                            <li><strong>Actos peligrosos:</strong> Retos que pongan en riesgo la salud física o conducción imprudente.</li>
-                        </ol>
-                    </details>
-
-                    <details>
-                        <summary>Control del Health Score y Moderación</summary>
-                        <p>Mantén un equipo de moderadores activos durante tus directos para silenciar, bloquear o filtrar palabras clave prohibidas en el chat.</p>
-                    </details>
-
-                    <details>
-                        <summary>Optimización de Imagen, Audio e Iluminación</summary>
-                        <ul>
-                            <li><strong>Iluminación:</strong> Utiliza un aro de luz o foco frontal de luz suave a 45 grados. Evita contraluces marcados.</li>
-                            <li><strong>Audio:</strong> Prioriza la claridad de voz utilizando micrófono de solapa o condensador USB. Evita ecos o ruidos ambientales.</li>
-                            <li><strong>Encuadre:</strong> Mantén la mirada a la altura de la cámara y asegúrate de estar centrado.</li>
-                        </ul>
-                    </details>
-                `
+                body:`<h4>Seguridad y Cumplimiento Normativo</h4><details><summary>Las 5 Conductas Prohibidas</summary><ol><li>Comportamiento de odio</li><li>Acoso e intimidación</li><li>Información personal</li></ol></details>`
             },
             {
                 title:'5. Estrategias de Retención, Fidelización y Ligas',
-                excerpt:'Cómo crear un Equipo del Creador sólido y escalar a través del sistema de 18 Ligas (D5 a A1).',
+                excerpt:'Cómo crear un Equipo del Creador sólido y escalar a través del sistema de 18 Ligas.',
                 read:'8 min',
-                body:`
-                    <h4>Crecimiento y Fidelización a Largo Plazo</h4>
-
-                    <details>
-                        <summary>El Equipo del Creador (Comunidad)</summary>
-                        <p>Convierte visitantes ocasionales en fans recurrentes permitiendo que se unan a tu equipo con un regalo de bienvenida (Corazoncito). Fomenta el aumento de nivel dentro de la comunidad mediante beneficios exclusivos.</p>
-                        <div style="margin: 1rem 0;"><div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px;" src="https://www.youtube.com/embed/4KJxvQJFQ74" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
-                    </details>
-
-                    <details>
-                        <summary>Sistema de Ligas de Creadores</summary>
-                        <p>TikTok clasifica a los creadores en un ranking de 18 Ligas (desde D5 hasta A1). Cada día de emisión constante y recopilación de fragmentos te ayuda a ascender de categoría y ganar visibilidad adicional.</p>
-                        <div style="margin: 1rem 0;"><div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px;" src="https://www.youtube.com/embed/5Zx2AhxwqBI" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
-                    </details>
-                `
+                body:`<h4>Crecimiento y Fidelización a Largo Plazo</h4><p>Convierte visitantes ocasionales en fans recurrentes.</p>`
             },
             {
                 title:'6. LIVE Match: Dos y Don\'ts',
                 excerpt:'Guía práctica con recomendaciones y aspectos a evitar durante los LIVE Match.',
                 read:'Documento PDF',
                 isPdf:true,
-                body:`
-                    <h4>LIVE Match: Dos y Don\'ts</h4>
-                    <p>Consulta la guía completa para preparar y realizar tus LIVE Match de forma adecuada.</p>
-                    <p><a class="btn btn-primary" href="LIVE_Match_Dos_and_Donts_ES.pdf" target="_blank" rel="noopener">Abrir documento PDF</a></p>
-                `
+                body:`<h4>LIVE Match: Dos y Don\'ts</h4><p>Consulta la guía completa para preparar tus LIVE Match.</p><p><a class="btn btn-primary" href="LIVE_Match_Dos_and_Donts_ES.pdf" target="_blank">Abrir documento PDF</a></p>`
             }
         ];
 
-        // Render videos
+        // ============================================
+        // DATA MANAGEMENT
+        // ============================================
+        function loadData(key, defaultValue) {
+            const stored = localStorage.getItem(key);
+            if (stored) {
+                try { return JSON.parse(stored); } catch(e) { return defaultValue; }
+            }
+            return defaultValue;
+        }
+
+        function saveData(key, value) {
+            localStorage.setItem(key, JSON.stringify(value));
+        }
+
+        let videos = loadData('vlf_videos', defaultVideos);
+        let articles = loadData('vlf_articles', defaultArticles);
+        let editableTexts = loadData('vlf_editable_texts', {});
+        let adminPassword = localStorage.getItem('vlf_admin_password') || 'admin123';
+        let isAdminLoggedIn = sessionStorage.getItem('vlf_admin_logged') === 'true';
+
+        // ============================================
+        // RENDER FUNCTIONS
+        // ============================================
         function renderVideos() {
             const container = document.getElementById('videosContainer');
+            if (!container) return;
             container.innerHTML = videos.map(video => `
                 <div class="video-item">
                     <div class="video-embed-short">
                         <iframe src="https://www.youtube.com/embed/${video.embed.id}" title="${video.title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                     </div>
                     <div class="video-info">
-                        <div class="video-meta">
-                            <span class="video-category">${video.cat}</span>
-                        </div>
+                        <div class="video-meta"><span class="video-category">${video.cat}</span></div>
                         <h4>${video.title}</h4>
                         <p>${video.desc}</p>
                     </div>
@@ -985,72 +1366,449 @@
             `).join('');
         }
 
-        // Render articles
         function renderArticles() {
             const container = document.getElementById('articlesContainer');
+            if (!container) return;
             container.innerHTML = articles.map((article, index) => `
                 <div class="article-item" data-index="${index}">
                     <div class="article-header" onclick="toggleArticle(${index})">
                         <div>
                             <h4>${article.title}</h4>
                             <p class="article-excerpt">${article.excerpt}</p>
-                            <div class="article-meta">
-                                <span>📖 ${article.read}</span>
-                            </div>
+                            <div class="article-meta"><span>📖 ${article.read}</span></div>
                         </div>
                         <span class="article-toggle">+</span>
                     </div>
-                    <div class="article-content">
-                        ${article.body}
+                    <div class="article-content">${article.body}</div>
+                </div>
+            `).join('');
+        }
+
+        function toggleArticle(index) {
+            const items = document.querySelectorAll('.article-item');
+            items.forEach((item, i) => {
+                if (i === index) item.classList.toggle('active');
+                else item.classList.remove('active');
+            });
+        }
+
+        function applyEditableTexts() {
+            document.querySelectorAll('[data-editable]').forEach(el => {
+                const key = el.getAttribute('data-editable');
+                if (editableTexts[key] !== undefined) {
+                    el.innerHTML = editableTexts[key];
+                }
+            });
+        }
+
+        // ============================================
+        // CREATOR LOGIN SYSTEM
+        // ============================================
+        function updateAuthUI(isLoggedIn, userData = null) {
+            const loginPanel = document.getElementById('loginPanel');
+            const dashboardPanel = document.getElementById('dashboardPanel');
+            const loginNavBtn = document.getElementById('loginNavBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            
+            if (isLoggedIn && userData) {
+                loginPanel.style.display = 'none';
+                dashboardPanel.style.display = 'block';
+                loginNavBtn.style.display = 'none';
+                logoutBtn.style.display = 'inline-flex';
+                document.getElementById('userName').textContent = userData.name || 'Creador';
+                document.getElementById('userEmail').textContent = userData.email;
+                document.getElementById('userAvatar').textContent = (userData.name || userData.email).charAt(0).toUpperCase();
+            } else {
+                loginPanel.style.display = 'block';
+                dashboardPanel.style.display = 'none';
+                loginNavBtn.style.display = 'inline-flex';
+                logoutBtn.style.display = 'none';
+            }
+        }
+
+        // ============================================
+        // ADMIN SYSTEM
+        // ============================================
+        function showAdminStatus(msg, isError = false) {
+            const status = document.getElementById('adminStatus');
+            status.textContent = msg;
+            status.style.background = isError ? 'rgba(254, 44, 85, 0.1)' : 'rgba(16, 185, 129, 0.1)';
+            status.style.borderColor = isError ? 'var(--tiktok-red)' : 'var(--success)';
+            status.style.color = isError ? 'var(--tiktok-red)' : 'var(--success)';
+            status.classList.add('show');
+            setTimeout(() => status.classList.remove('show'), 3000);
+        }
+
+        function openAdminModal() {
+            document.getElementById('adminModal').classList.add('active');
+            document.getElementById('adminPasswordInput').value = '';
+            document.getElementById('adminError').classList.remove('show');
+            setTimeout(() => document.getElementById('adminPasswordInput').focus(), 100);
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.remove('active');
+        }
+
+        function adminLogin() {
+            const input = document.getElementById('adminPasswordInput').value;
+            if (input === adminPassword) {
+                isAdminLoggedIn = true;
+                sessionStorage.setItem('vlf_admin_logged', 'true');
+                closeAdminModal();
+                document.getElementById('adminToolbar').classList.add('active');
+                showAdminStatus('✓ Sesión admin iniciada');
+            } else {
+                document.getElementById('adminError').classList.add('show');
+            }
+        }
+
+        function adminLogout() {
+            isAdminLoggedIn = false;
+            sessionStorage.removeItem('vlf_admin_logged');
+            document.getElementById('adminToolbar').classList.remove('active');
+            if (document.body.classList.contains('edit-mode')) {
+                toggleEditMode();
+            }
+            showAdminStatus('Sesión admin cerrada');
+        }
+
+        function toggleAdminToolbar() {
+            document.getElementById('adminToolbar').classList.toggle('active');
+        }
+
+        function changeAdminPassword() {
+            const newPass = prompt('Introduce la nueva contraseña de admin (mín. 6 caracteres):');
+            if (newPass && newPass.length >= 6) {
+                const confirm = prompt('Confirma la nueva contraseña:');
+                if (confirm === newPass) {
+                    adminPassword = newPass;
+                    localStorage.setItem('vlf_admin_password', newPass);
+                    showAdminStatus('✓ Contraseña actualizada');
+                } else {
+                    showAdminStatus('✗ Las contraseñas no coinciden', true);
+                }
+            } else if (newPass) {
+                showAdminStatus(' Mínimo 6 caracteres', true);
+            }
+        }
+
+        // Edit Mode
+        function toggleEditMode() {
+            const body = document.body;
+            const btn = document.getElementById('editModeBtn');
+            const indicator = document.getElementById('editModeIndicator');
+            
+            if (body.classList.contains('edit-mode')) {
+                body.classList.remove('edit-mode');
+                document.querySelectorAll('[data-editable]').forEach(el => {
+                    el.contentEditable = 'false';
+                });
+                btn.textContent = '️ Activar modo edición';
+                indicator.classList.remove('active');
+                showAdminStatus('Modo edición desactivado');
+            } else {
+                body.classList.add('edit-mode');
+                document.querySelectorAll('[data-editable]').forEach(el => {
+                    el.contentEditable = 'true';
+                });
+                btn.textContent = '🔒 Desactivar modo edición';
+                indicator.classList.add('active');
+                showAdminStatus('Modo edición activado - Haz clic en cualquier texto para editarlo');
+            }
+        }
+
+        function saveEdits() {
+            const texts = {};
+            document.querySelectorAll('[data-editable]').forEach(el => {
+                const key = el.getAttribute('data-editable');
+                texts[key] = el.innerHTML;
+            });
+            editableTexts = texts;
+            saveData('vlf_editable_texts', texts);
+            showAdminStatus('✓ Cambios guardados correctamente');
+        }
+
+        // Video Manager
+        let editingVideoIndex = -1;
+
+        function openVideoManager() {
+            if (!isAdminLoggedIn) { openAdminModal(); return; }
+            renderVideoManagerList();
+            document.getElementById('videoManagerModal').classList.add('active');
+        }
+
+        function closeVideoManager() {
+            document.getElementById('videoManagerModal').classList.remove('active');
+            hideVideoForm();
+        }
+
+        function renderVideoManagerList() {
+            const list = document.getElementById('videoManagerList');
+            list.innerHTML = videos.map((v, i) => `
+                <div class="manager-item">
+                    <div class="manager-item-info">
+                        <h4>${v.title}</h4>
+                        <p>${v.cat} · YouTube ID: ${v.embed.id}</p>
+                    </div>
+                    <div class="manager-item-actions">
+                        <button onclick="editVideo(${i})">✏️ Editar</button>
+                        <button class="delete" onclick="deleteVideo(${i})">🗑️ Eliminar</button>
                     </div>
                 </div>
             `).join('');
         }
 
-        // Toggle article
-        function toggleArticle(index) {
-            const items = document.querySelectorAll('.article-item');
-            items.forEach((item, i) => {
-                if (i === index) {
-                    item.classList.toggle('active');
-                } else {
-                    item.classList.remove('active');
-                }
-            });
+        function showAddVideoForm() {
+            editingVideoIndex = -1;
+            document.getElementById('videoTitle').value = '';
+            document.getElementById('videoCat').value = '';
+            document.getElementById('videoId').value = '';
+            document.getElementById('videoDesc').value = '';
+            document.getElementById('videoEditForm').classList.add('active');
         }
 
+        function editVideo(index) {
+            editingVideoIndex = index;
+            const v = videos[index];
+            document.getElementById('videoTitle').value = v.title;
+            document.getElementById('videoCat').value = v.cat;
+            document.getElementById('videoId').value = v.embed.id;
+            document.getElementById('videoDesc').value = v.desc;
+            document.getElementById('videoEditForm').classList.add('active');
+        }
+
+        function hideVideoForm() {
+            document.getElementById('videoEditForm').classList.remove('active');
+        }
+
+        function saveVideo() {
+            const title = document.getElementById('videoTitle').value.trim();
+            const cat = document.getElementById('videoCat').value.trim();
+            const id = document.getElementById('videoId').value.trim();
+            const desc = document.getElementById('videoDesc').value.trim();
+            
+            if (!title || !cat || !id || !desc) {
+                showAdminStatus('✗ Completa todos los campos', true);
+                return;
+            }
+            
+            const video = { title, cat, dur: '', desc, embed: { type: 'youtube', id } };
+            
+            if (editingVideoIndex === -1) {
+                videos.push(video);
+            } else {
+                videos[editingVideoIndex] = video;
+            }
+            
+            saveData('vlf_videos', videos);
+            renderVideos();
+            renderVideoManagerList();
+            hideVideoForm();
+            showAdminStatus('✓ Video guardado');
+        }
+
+        function deleteVideo(index) {
+            if (confirm('¿Eliminar este video?')) {
+                videos.splice(index, 1);
+                saveData('vlf_videos', videos);
+                renderVideos();
+                renderVideoManagerList();
+                showAdminStatus('✓ Video eliminado');
+            }
+        }
+
+        // Article Manager
+        let editingArticleIndex = -1;
+
+        function openArticleManager() {
+            if (!isAdminLoggedIn) { openAdminModal(); return; }
+            renderArticleManagerList();
+            document.getElementById('articleManagerModal').classList.add('active');
+        }
+
+        function closeArticleManager() {
+            document.getElementById('articleManagerModal').classList.remove('active');
+            hideArticleForm();
+        }
+
+        function renderArticleManagerList() {
+            const list = document.getElementById('articleManagerList');
+            list.innerHTML = articles.map((a, i) => `
+                <div class="manager-item">
+                    <div class="manager-item-info">
+                        <h4>${a.title}</h4>
+                        <p>📖 ${a.read}</p>
+                    </div>
+                    <div class="manager-item-actions">
+                        <button onclick="editArticle(${i})">✏️ Editar</button>
+                        <button class="delete" onclick="deleteArticle(${i})">🗑️ Eliminar</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function showAddArticleForm() {
+            editingArticleIndex = -1;
+            document.getElementById('articleTitle').value = '';
+            document.getElementById('articleExcerpt').value = '';
+            document.getElementById('articleRead').value = '';
+            document.getElementById('articleBody').value = '';
+            document.getElementById('articleEditForm').classList.add('active');
+        }
+
+        function editArticle(index) {
+            editingArticleIndex = index;
+            const a = articles[index];
+            document.getElementById('articleTitle').value = a.title;
+            document.getElementById('articleExcerpt').value = a.excerpt;
+            document.getElementById('articleRead').value = a.read;
+            document.getElementById('articleBody').value = a.body;
+            document.getElementById('articleEditForm').classList.add('active');
+        }
+
+        function hideArticleForm() {
+            document.getElementById('articleEditForm').classList.remove('active');
+        }
+
+        function saveArticle() {
+            const title = document.getElementById('articleTitle').value.trim();
+            const excerpt = document.getElementById('articleExcerpt').value.trim();
+            const read = document.getElementById('articleRead').value.trim();
+            const body = document.getElementById('articleBody').value.trim();
+            
+            if (!title || !excerpt || !read || !body) {
+                showAdminStatus('✗ Completa todos los campos', true);
+                return;
+            }
+            
+            const article = { title, excerpt, read, body };
+            
+            if (editingArticleIndex === -1) {
+                articles.push(article);
+            } else {
+                articles[editingArticleIndex] = article;
+            }
+            
+            saveData('vlf_articles', articles);
+            renderArticles();
+            renderArticleManagerList();
+            hideArticleForm();
+            showAdminStatus('✓ Artículo guardado');
+        }
+
+        function deleteArticle(index) {
+            if (confirm('¿Eliminar este artículo?')) {
+                articles.splice(index, 1);
+                saveData('vlf_articles', articles);
+                renderArticles();
+                renderArticleManagerList();
+                showAdminStatus('✓ Artículo eliminado');
+            }
+        }
+
+        // Export/Import
+        function exportHTML() {
+            // Temporarily disable edit mode to get clean HTML
+            const wasEditMode = document.body.classList.contains('edit-mode');
+            if (wasEditMode) toggleEditMode();
+            
+            const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'index.html';
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            showAdminStatus('✓ HTML descargado');
+        }
+
+        function exportData() {
+            const data = {
+                videos,
+                articles,
+                editableTexts,
+                exportDate: new Date().toISOString()
+            };
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'vlf-backup-' + Date.now() + '.json';
+            a.click();
+            URL.revokeObjectURL(url);
+            showAdminStatus('✓ Datos exportados');
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (data.videos) {
+                        videos = data.videos;
+                        saveData('vlf_videos', videos);
+                        renderVideos();
+                    }
+                    if (data.articles) {
+                        articles = data.articles;
+                        saveData('vlf_articles', articles);
+                        renderArticles();
+                    }
+                    if (data.editableTexts) {
+                        editableTexts = data.editableTexts;
+                        saveData('vlf_editable_texts', editableTexts);
+                        applyEditableTexts();
+                    }
+                    showAdminStatus('✓ Datos importados correctamente');
+                } catch (err) {
+                    showAdminStatus('✗ Error al importar: archivo inválido', true);
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        function resetAll() {
+            if (confirm('️ ¿Restablecer TODOS los cambios? Se perderán las ediciones de texto, videos y artículos personalizados.')) {
+                if (confirm('Esta acción no se puede deshacer. ¿Continuar?')) {
+                    localStorage.removeItem('vlf_videos');
+                    localStorage.removeItem('vlf_articles');
+                    localStorage.removeItem('vlf_editable_texts');
+                    videos = [...defaultVideos];
+                    articles = [...defaultArticles];
+                    editableTexts = {};
+                    renderVideos();
+                    renderArticles();
+                    applyEditableTexts();
+                    showAdminStatus('✓ Todo restablecido a valores originales');
+                }
+            }
+        }
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
         document.addEventListener('DOMContentLoaded', () => {
-            // Render videos and articles
+            // Apply saved texts
+            applyEditableTexts();
+            
+            // Render content
             renderVideos();
             renderArticles();
 
-            // ==========================================
-            // 1. SISTEMA DE LOGIN / LOGOUT
-            // ==========================================
+            // Creator login
             const loginPanel = document.getElementById('loginPanel');
             const dashboardPanel = document.getElementById('dashboardPanel');
             const loginForm = document.getElementById('loginForm');
             const loginNavBtn = document.getElementById('loginNavBtn');
             const logoutBtn = document.getElementById('logoutBtn');
             const logoutDashboardBtn = document.getElementById('logoutDashboardBtn');
-
-            function updateAuthUI(isLoggedIn, userData = null) {
-                if (isLoggedIn && userData) {
-                    loginPanel.style.display = 'none';
-                    dashboardPanel.style.display = 'block';
-                    loginNavBtn.style.display = 'none';
-                    logoutBtn.style.display = 'inline-flex';
-                    
-                    document.getElementById('userName').textContent = userData.name || 'Creador';
-                    document.getElementById('userEmail').textContent = userData.email;
-                    document.getElementById('userAvatar').textContent = (userData.name || userData.email).charAt(0).toUpperCase();
-                } else {
-                    loginPanel.style.display = 'block';
-                    dashboardPanel.style.display = 'none';
-                    loginNavBtn.style.display = 'inline-flex';
-                    logoutBtn.style.display = 'none';
-                }
-            }
 
             const savedSession = localStorage.getItem('vlf_session');
             if (savedSession) {
@@ -1065,16 +1823,13 @@
                 const password = document.getElementById('loginPassword').value;
 
                 if (email && password.length >= 4) {
-                    const userData = {
-                        email: email,
-                        name: email.split('@')[0]
-                    };
+                    const userData = { email, name: email.split('@')[0] };
                     localStorage.setItem('vlf_session', JSON.stringify(userData));
                     updateAuthUI(true, userData);
                     loginForm.reset();
                     dashboardPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 } else {
-                    alert('Por favor, introduce un email válido y una contraseña (mín. 4 caracteres).');
+                    alert('Introduce un email válido y una contraseña (mín. 4 caracteres).');
                 }
             });
 
@@ -1091,37 +1846,59 @@
                 document.getElementById('panel').scrollIntoView({ behavior: 'smooth' });
             });
 
-            // ==========================================
-            // 2. TABS DEL DASHBOARD
-            // ==========================================
-            const tabBtns = document.querySelectorAll('.tab-btn');
-            const tabContents = document.querySelectorAll('.tab-content');
-
-            tabBtns.forEach(btn => {
+            // Dashboard tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const targetTab = btn.getAttribute('data-tab');
-                    tabBtns.forEach(b => b.classList.remove('active'));
-                    tabContents.forEach(c => c.classList.remove('active'));
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
                     btn.classList.add('active');
                     document.getElementById(targetTab).classList.add('active');
                 });
             });
 
-            // ==========================================
-            // 3. MENÚ MÓVIL
-            // ==========================================
-            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-            const navLinks = document.getElementById('navLinks');
-
-            mobileMenuBtn.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
+            // Mobile menu
+            document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+                document.getElementById('navLinks').classList.toggle('active');
             });
 
-            navLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    navLinks.classList.remove('active');
-                });
+            // ============================================
+            // ADMIN SHORTCUTS
+            // ============================================
+            
+            // Ctrl+Shift+A to open admin
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+                    e.preventDefault();
+                    if (isAdminLoggedIn) {
+                        toggleAdminToolbar();
+                    } else {
+                        openAdminModal();
+                    }
+                }
+                // Escape to close modals
+                if (e.key === 'Escape') {
+                    closeAdminModal();
+                    closeVideoManager();
+                    closeArticleManager();
+                }
             });
+
+            // Check URL hash for admin
+            if (window.location.hash === '#admin') {
+                setTimeout(() => {
+                    if (isAdminLoggedIn) {
+                        document.getElementById('adminToolbar').classList.add('active');
+                    } else {
+                        openAdminModal();
+                    }
+                }, 500);
+            }
+
+            // Restore admin session
+            if (isAdminLoggedIn) {
+                // Session already active
+            }
         });
     </script>
 </body>
