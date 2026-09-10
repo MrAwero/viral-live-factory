@@ -59,7 +59,7 @@ El CMS está integrado directamente en la web para que puedas mantenerla actuali
 
 ### 1. Acceder al Panel
 * **Atajo de teclado:** Pulsa `Ctrl + Shift + A` (Windows) o `Cmd + Shift + A` (Mac).
-* **Contraseña por defecto:** `admin123` *(Se recomienda cambiarla desde el panel)*.
+* **Contraseña por defecto:** `` *(Se recomienda cambiarla desde el panel)*.
 
 ### 2. Editar Textos
 1. Abre el panel admin.
